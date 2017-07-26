@@ -1,0 +1,7 @@
+D:\Vacation\VacationTracking\App.Common.Core\bin\Debug\netcoreapp1.1\App.Common.Core.deps.json
+D:\Vacation\VacationTracking\App.Common.Core\bin\Debug\netcoreapp1.1\App.Common.Core.dll
+D:\Vacation\VacationTracking\App.Common.Core\obj\Debug\netcoreapp1.1\App.Common.Core.AssemblyInfo.cs
+D:\Vacation\VacationTracking\App.Common.Core\bin\Debug\netcoreapp1.1\App.Common.Core.pdb
+D:\Vacation\VacationTracking\App.Common.Core\obj\Debug\netcoreapp1.1\App.Common.Core.dll
+D:\Vacation\VacationTracking\App.Common.Core\obj\Debug\netcoreapp1.1\App.Common.Core.pdb
+D:\Vacation\VacationTracking\App.Common.Core\obj\Debug\netcoreapp1.1\App.Common.Core.csprojResolveAssemblyReference.cache

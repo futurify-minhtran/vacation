@@ -1,0 +1,13 @@
+D:\Vacation\VacationTracking\AuthenticationServer\bin\Debug\netcoreapp1.1\AuthenticationServer.deps.json
+D:\Vacation\VacationTracking\AuthenticationServer\bin\Debug\netcoreapp1.1\AuthenticationServer.runtimeconfig.json
+D:\Vacation\VacationTracking\AuthenticationServer\bin\Debug\netcoreapp1.1\AuthenticationServer.runtimeconfig.dev.json
+D:\Vacation\VacationTracking\AuthenticationServer\bin\Debug\netcoreapp1.1\AuthenticationServer.dll
+D:\Vacation\VacationTracking\AuthenticationServer\bin\Debug\netcoreapp1.1\AuthenticationServer.pdb
+D:\Vacation\VacationTracking\AuthenticationServer\obj\Debug\netcoreapp1.1\AuthenticationServer.csprojResolveAssemblyReference.cache
+D:\Vacation\VacationTracking\AuthenticationServer\obj\Debug\netcoreapp1.1\AuthenticationServer.AssemblyInfo.cs
+D:\Vacation\VacationTracking\AuthenticationServer\obj\Debug\netcoreapp1.1\AuthenticationServer.dll
+D:\Vacation\VacationTracking\AuthenticationServer\obj\Debug\netcoreapp1.1\AuthenticationServer.pdb
+D:\Vacation\VacationTracking\AuthenticationServer\obj\Debug\netcoreapp1.1\AuthenticationServer.Resources.Errors.resources
+D:\Vacation\VacationTracking\AuthenticationServer\obj\Debug\netcoreapp1.1\AuthenticationServer.csproj.GenerateResource.Cache
+D:\Vacation\VacationTracking\AuthenticationServer\bin\Debug\netcoreapp1.1\App.Common.Core.dll
+D:\Vacation\VacationTracking\AuthenticationServer\bin\Debug\netcoreapp1.1\App.Common.Core.pdb
