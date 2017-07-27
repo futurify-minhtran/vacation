@@ -21,6 +21,10 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task<Account> FindByIdAsync(int id);
 
+        Task<List<Account>> GetAllAsync();
+
+        Task DeleteAsync(int id);
+
         Task<IEnumerable<string>> GetPermissionsOfAccountAsync(int accountId);
 
         Task<List<Role>> GetRolesOfAccountAsync(int accountId);

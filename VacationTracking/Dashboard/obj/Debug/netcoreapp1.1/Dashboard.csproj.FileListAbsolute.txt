@@ -1,9 +1,0 @@
-D:\Vacation\VacationTracking\Dashboard\bin\Debug\netcoreapp1.1\Dashboard.deps.json
-D:\Vacation\VacationTracking\Dashboard\bin\Debug\netcoreapp1.1\Dashboard.runtimeconfig.json
-D:\Vacation\VacationTracking\Dashboard\bin\Debug\netcoreapp1.1\Dashboard.runtimeconfig.dev.json
-D:\Vacation\VacationTracking\Dashboard\bin\Debug\netcoreapp1.1\Dashboard.dll
-D:\Vacation\VacationTracking\Dashboard\bin\Debug\netcoreapp1.1\Dashboard.pdb
-D:\Vacation\VacationTracking\Dashboard\obj\Debug\netcoreapp1.1\Dashboard.csprojResolveAssemblyReference.cache
-D:\Vacation\VacationTracking\Dashboard\obj\Debug\netcoreapp1.1\Dashboard.AssemblyInfo.cs
-D:\Vacation\VacationTracking\Dashboard\obj\Debug\netcoreapp1.1\Dashboard.dll
-D:\Vacation\VacationTracking\Dashboard\obj\Debug\netcoreapp1.1\Dashboard.pdb

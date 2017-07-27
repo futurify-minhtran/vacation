@@ -1,0 +1,72 @@
+﻿<h2>Add User</h2>
+<form method="post" ng-controller="UsersController" ng-submit="addUser();">
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" class="form-control" ng-model="firstName">
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" class="form-control" ng-model="lastName">
+    </div>
+    <div class="form-group">
+        <label for="selectedPosition">Position:</label>
+        <select ng-model="selectedPosition" ng-options="x for x in positions"></select>
+    </div>
+    <div class="form-group">
+        <label for="selectedGender">Gender:</label>
+        <select ng-model="selectedGender" ng-options="x for x in genders"></select>
+    </div>
+    <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" class="form-control" ng-model="phoneNumber">
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" ng-model="email">
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" ng-model="password">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+    <br/>
+
+    <div class="alert alert-danger" ng-show="error">
+        <strong>Error! </strong>{{message}}
+    </div>
+
+    <div class="alert alert-success" ng-show="user.email">
+        <strong>Success! </strong>Hello {{user.email}}
+    </div>
+
+    <!--List all user information-->
+    <table class="table table-striped table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th class="text-center">Update</th>
+                <th class="text-center">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.email}}</td>
+                <td class="text-center">
+                    <a ng-click="editUser(user,$index)">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a ng-click="deleteUser(user,$index)">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+

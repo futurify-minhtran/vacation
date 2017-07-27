@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "e98b2c6e72d527e34d6b2ed78fd3c382768485f0"
+    "signature": "40cc8af8964ec22355dce227a4bf3ca1ed4fa6cf"
   },
   "compilationOptions": {
     "defines": [
@@ -37,6 +37,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer.Design": "1.1.2",
           "Microsoft.EntityFrameworkCore.Tools": "1.1.1",
           "Microsoft.Extensions.Logging.Debug": "1.1.2",
+          "Microsoft.IdentityModel.Tokens": "5.1.4",
           "Microsoft.NETCore.App": "1.1.2",
           "Microsoft.VisualStudio.Web.BrowserLink": "1.1.2",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "1.1.1"
@@ -1327,6 +1328,44 @@
         },
         "compile": {
           "lib/netstandard1.0/Microsoft.Extensions.WebEncoders.dll": {}
+        }
+      },
+      "microsoft.identitymodel.logging/1.1.4": {
+        "dependencies": {
+          "System.Diagnostics.Tracing": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.IO.FileSystem": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.IdentityModel.Logging.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.IdentityModel.Logging.dll": {}
+        }
+      },
+      "microsoft.identitymodel.tokens/5.1.4": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Logging": "1.1.4",
+          "Newtonsoft.Json": "10.0.3",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Tools": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+          "System.Security.Claims": "4.3.0",
+          "System.Security.Cryptography.Algorithms": "4.3.0",
+          "System.Security.Cryptography.X509Certificates": "4.3.0",
+          "System.Text.RegularExpressions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.IdentityModel.Tokens.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
       "microsoft.net.http.headers/1.1.2": {
@@ -4140,6 +4179,20 @@
       "sha512": "sha512-ra3BKA+pkMsc2FFAKEZHp18r0N5PGxidn0ujTsfiN3GP16eFRPaiKrXU3xRUHOJtV/zK8HE0GMcOKLNK6XLYqw==",
       "path": "microsoft.extensions.webencoders/1.1.2",
       "hashPath": "microsoft.extensions.webencoders.1.1.2.nupkg.sha512"
+    },
+    "microsoft.identitymodel.logging/1.1.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-j7t22EsDOuo0IXqAbp6ijdB1GuaY8cu3YoPNZpymOhUMTVC+wRTV0IHqxL31HacCnJHU/igsqe70fDKZgZu3oA==",
+      "path": "microsoft.identitymodel.logging/1.1.4",
+      "hashPath": "microsoft.identitymodel.logging.1.1.4.nupkg.sha512"
+    },
+    "microsoft.identitymodel.tokens/5.1.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SsJbZVPvjSlKFDAQmR2wpL6ZD/vCFlIsf0jxRlBJwyzKXZy3Wi/Xo+fE2MzAerLsJgG1UCdtplRwqDyq1euayw==",
+      "path": "microsoft.identitymodel.tokens/5.1.4",
+      "hashPath": "microsoft.identitymodel.tokens.5.1.4.nupkg.sha512"
     },
     "microsoft.net.http.headers/1.1.2": {
       "type": "package",

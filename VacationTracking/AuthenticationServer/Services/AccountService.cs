@@ -170,6 +170,23 @@ namespace AuthenticationServer.Services
             return await _context.Accounts.FirstOrDefaultAsync(t => t.Id == id);
         }
 
+        public async Task<List<Account>> GetAllAsync()
+        {
+            return await _context.Accounts.ToListAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var existingAccount = await this.FindByIdAsync(id);
+            if(existingAccount == null)
+            {
+                throw new CustomException(Errors.ACCOUNT_NOT_FOUND, Errors.ACCOUNT_NOT_FOUND_MSG);
+            }
+
+            _context.Accounts.Remove(existingAccount);
+            await _context.SaveChangesAsync();
+        }
+
         // check
         public async Task<IEnumerable<string>> GetPermissionsOfAccountAsync(int accountId)
         {

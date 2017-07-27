@@ -31,30 +31,62 @@ namespace AuthenticationServer.Controllers
 
         [AllowAnonymous]
         [HttpPost, Route("register")]
-        public async Task<AccountViewModel> Register([FromBody]RegisterModel model)
+        public async Task<ActionResult> Register([FromBody]RegisterModel model)
         {
-            var account = model.RegisterModelToModel();
-            if(account == null || !ModelState.IsValid)
+            try
             {
-                throw new CustomException(Errors.INVALID_REGISTRATION_DATA, Errors.INVALID_REGISTRATION_DATA_MSG);
-            }
-
-            account.AccountPermissions = new List<AccountPermission>()
-            {
-                new AccountPermission
+                var account = model.RegisterModelToModel();
+                if (account == null || !ModelState.IsValid)
                 {
-                    PermissionId = PermissionsList.USER_PERMISSION
+                    throw new CustomException(Errors.INVALID_REGISTRATION_DATA, Errors.INVALID_REGISTRATION_DATA_MSG);
                 }
-            };
 
-            account = await _accountService.CreateAsync(account);
+                account.AccountPermissions = new List<AccountPermission>()
+                {
+                    new AccountPermission
+                    {
+                        PermissionId = PermissionsList.USER_PERMISSION
+                    }
+                };
 
-            // check
-            //await _rawRabbitBus.PublishAsync(new AccountCreated { Id = account.Id, PhoneNumber = account.PhoneNumber, Status = account.Status, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email });
+                account = await _accountService.CreateAsync(account);
 
-            var viewModel = account.ToViewModel();
+                // check
+                //await _rawRabbitBus.PublishAsync(new AccountCreated { Id = account.Id, PhoneNumber = account.PhoneNumber, Status = account.Status, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email });
 
-            return viewModel;
+                var viewModel = account.ToViewModel();
+                //return viewModel;
+                return Json(new { error = false, user = viewModel });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = true, message = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet, Route("{id:int}")]
+        public async Task<AccountViewModel> Get(int id)
+        {
+            var account = await _accountService.FindByIdAsync(id);
+
+            return account.ToViewModel();
+        }
+
+        [AllowAnonymous]
+        [HttpGet, Route("me")]
+        public async Task<List<AccountViewModel>> GetAll()
+        {
+            var accounts = await _accountService.GetAllAsync();
+
+            return accounts.Select(a => a.ToViewModel()).ToList();
+        }
+
+        [AllowAnonymous]
+        [HttpDelete,Route("{id:int}")]
+        public async Task Delete(int id)
+        {
+            await _accountService.DeleteAsync(id);
         }
     }
 }

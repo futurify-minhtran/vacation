@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using AuthenticationServer.ServicesInterfaces;
 using AuthenticationServer.Services;
 using AuthenticationServer.Setup;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace AuthenticationServer
 {
@@ -39,6 +41,17 @@ namespace AuthenticationServer
             // 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IPermissionService, PermissionService>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            });
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigins"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +62,8 @@ namespace AuthenticationServer
 
             AuthDbContext.UpdateDatabase(app);
             app.ConfigurePermissions();
+
+            app.UseCors("AllowAllOrigins");
 
             app.UseMvc();
         }
