@@ -5,14 +5,7 @@ using System.Threading.Tasks;
 
 namespace AuthenticationServer.Models.BindingModels
 {
-    public class PhoneNumberResetPassword
-    {
-        public string PhoneNumber { get; set; }
-        public string PIN { get; set; }
-        public string NewPassword { get; set; }
-    }
-
-    public class EmailResetPassword
+    public class ResetPassword
     {
         public string Email { get; set; }
         public string Token { get; set; }

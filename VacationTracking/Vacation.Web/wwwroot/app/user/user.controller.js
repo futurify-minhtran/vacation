@@ -2,8 +2,6 @@
 
 function UsersController($scope, UserService) {
 
-    
-
     $scope.users = [];
 
     $scope.clearMessage = function () {
@@ -53,6 +51,11 @@ function UsersController($scope, UserService) {
         })
     }
 
-  
+    $scope.detailUser = function (user) {
+        //debugger;
+       // UserService.Detail(user.Id).then(function (data) {
+        $scope.user = user;
+      //  })
+    }
     
 }

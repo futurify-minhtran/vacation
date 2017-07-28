@@ -103,6 +103,32 @@ namespace AuthenticationServer.Services
             return account;
         }
 
+        public async Task<Account> UpdateAsync(Account account)
+        {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
+
+            var existingAccount = await FindByIdAsync(account.Id);
+            if(existingAccount == null)
+            {
+                throw new CustomException(Errors.ACCOUNT_NOT_FOUND, Errors.ACCOUNT_NOT_FOUND_MSG);
+            }
+
+            existingAccount.FirstName = account.FirstName;
+            existingAccount.LastName = account.LastName;
+            existingAccount.Gender = account.Gender;
+            existingAccount.Position = account.Position;
+            existingAccount.PhoneNumber = account.PhoneNumber;
+            existingAccount.ModifiedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            return existingAccount;
+
+        }
+
         public async Task<Account> UpdatePasswordAsync(int accountId, string password)
         {
             if (String.IsNullOrEmpty(password))
@@ -252,7 +278,7 @@ namespace AuthenticationServer.Services
             return request;
         }
 
-        public async Task ResetPasswordByEmail(EmailResetPassword model)
+        public async Task ResetPasswordAsync(ResetPassword model)
         {
             var account = await this.CheckExistByEmailAsync(model.Email);
             if(account == null)

@@ -35,7 +35,7 @@ namespace AuthenticationServer.Controllers
         {
             try
             {
-                var account = model.RegisterModelToModel();
+                var account = model.ToModel();
                 if (account == null || !ModelState.IsValid)
                 {
                     throw new CustomException(Errors.INVALID_REGISTRATION_DATA, Errors.INVALID_REGISTRATION_DATA_MSG);
@@ -63,6 +63,22 @@ namespace AuthenticationServer.Controllers
                 return Json(new { Error = true, Message = ex.Message });
             }
         }
+        
+        [AllowAnonymous]
+        [HttpPut,Route("{id:int}")]
+        public async Task<Account> Update(int id, [FromBody]RegisterModel registerModel)
+        {
+            if(registerModel == null || !ModelState.IsValid)
+            {
+                throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
+            }
+
+            var model = registerModel.ToModel();
+
+            var updatedUser = await _accountService.UpdateAsync(model);
+
+            return updatedUser;
+        }
 
         [AllowAnonymous]
         [HttpGet, Route("{id:int}")]
@@ -87,6 +103,35 @@ namespace AuthenticationServer.Controllers
         public async Task Delete(int id)
         {
             await _accountService.DeleteAsync(id);
+        }
+
+        [HttpGet, Route("request-reset-password")]
+            public async Task RequestResetPasswordAsync()
+        {
+
+        }
+
+        [HttpPut, Route("reset-password")]
+        public async Task ResetPasswordAsync([FromBody] ResetPassword model)
+        {
+            if(model == null)
+            {
+                throw new CustomException(Errors.REQUEST_NOT_NULL, Errors.REQUEST_NOT_NULL_MSG);
+            }
+            else if (String.IsNullOrEmpty(model.Email))
+            {
+                throw new CustomException(Errors.EMAIL_NOT_NULL, Errors.EMAIL_NOT_NULL_MSG);
+            }
+            else if (String.IsNullOrEmpty(model.Token))
+            {
+                throw new CustomException(Errors.TOKEN_NOT_NULL, Errors.TOKEN_NOT_NULL_MSG);
+            }
+            else if (String.IsNullOrEmpty(model.NewPassword))
+            {
+                throw new CustomException(Errors.PASSWORD_NOT_NULL, Errors.PASSWORD_NOT_NULL_MSG);
+            }
+
+            await _accountService.ResetPasswordAsync(model);
         }
     }
 }

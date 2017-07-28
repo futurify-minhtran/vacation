@@ -14,7 +14,11 @@ namespace AuthenticationServer.ServicesInterfaces
         Task<Account> CheckAsync(string email, string password);
 
         Task<Account> CreateAsync(Account account);
+
+        Task<Account> UpdateAsync(Account account);
+
         Task<Account> UpdatePasswordAsync(int accountId, string password);
+
         Task ChangePasswordAsync(int accountId, string oldPassword, string newPassword);
 
         Task<Account> FindByEmailAsync(string email);
@@ -35,6 +39,6 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task<RequestResetPassword> CreateRequestResetPassword(RequestResetPassword request);
 
-        Task ResetPasswordByEmail(EmailResetPassword model);
+        Task ResetPasswordAsync(ResetPassword model);
     }
 }

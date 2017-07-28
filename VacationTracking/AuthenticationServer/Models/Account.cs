@@ -46,6 +46,8 @@ namespace AuthenticationServer.Models
         public virtual List<AccountRole> AccountRoles { get; set; }
 
         public virtual List<AccountPermission> AccountPermissions { get; set; }
+
+        public bool Status { get; set; }
     }
 
     public enum Position { Staff }

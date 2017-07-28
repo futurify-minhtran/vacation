@@ -10,7 +10,7 @@ namespace AuthenticationServer.Adapters
 {
     public static class AccountAdapter
     {
-        public static Account RegisterModelToModel(this RegisterModel model)
+        public static Account ToModel(this RegisterModel model)
         {
             if (model == null)
             {

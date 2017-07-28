@@ -7,7 +7,9 @@ function UserService($http, $q) {
     var service = {
         GetUsers: GetUsers,
         Create: Create,
-        Delete: Delete
+        Update: Update,
+        Delete: Delete,
+        Detail: Detail
     };
 
     return service;
@@ -38,6 +40,17 @@ function UserService($http, $q) {
         return deferer.promise;
     }
 
+    function Update(id,model) {
+        var derferer = $q.defer();
+
+        $http.put(authServer + 'api/account/' + id)
+            .then(function (response) {
+                deferer.resolve(response.data);
+            }, function (responseErrors) {
+                deferer.reject(responseErrors.data);
+            });
+    } 
+
     function Delete(id) {
         var deferer = $q.defer();
 
@@ -49,5 +62,16 @@ function UserService($http, $q) {
             });
 
         return deferer.promise;
+    }
+
+    function Detail(id) {
+        var deferer = $q.defer();
+
+        $http.get(authServer + '/api/account/' + id)
+            .then(function (response) {
+                deferer.resolve(response.data);
+            }, function (responseErrors) {
+                deferer.reject(responseErrors.data);
+            });
     }
 };

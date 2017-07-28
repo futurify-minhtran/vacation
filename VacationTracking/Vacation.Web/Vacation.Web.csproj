@@ -22,6 +22,7 @@
     <Content Include="wwwroot\app\user\route.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\app\user\user-detail.html" />
     <Content Include="wwwroot\app\user\user-form.html" />
     <Content Include="wwwroot\app\user\userForm.html" />
     <Content Include="wwwroot\app\user\user.controller.js" />
