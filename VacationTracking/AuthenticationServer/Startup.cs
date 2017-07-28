@@ -14,6 +14,7 @@ using AuthenticationServer.Services;
 using AuthenticationServer.Setup;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Newtonsoft.Json.Serialization;
 
 namespace AuthenticationServer
 {
@@ -35,7 +36,8 @@ namespace AuthenticationServer
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             // 

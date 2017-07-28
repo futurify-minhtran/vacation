@@ -56,11 +56,11 @@ namespace AuthenticationServer.Controllers
 
                 var viewModel = account.ToViewModel();
                 //return viewModel;
-                return Json(new { error = false, user = viewModel });
+                return Json(new { Error = false, User = viewModel });
             }
             catch (Exception ex)
             {
-                return Json(new { error = true, message = ex.Message });
+                return Json(new { Error = true, Message = ex.Message });
             }
         }
 
