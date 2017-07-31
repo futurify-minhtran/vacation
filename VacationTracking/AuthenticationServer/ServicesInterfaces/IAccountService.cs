@@ -40,5 +40,7 @@ namespace AuthenticationServer.ServicesInterfaces
         Task<RequestResetPassword> CreateRequestResetPassword(RequestResetPassword request);
 
         Task ResetPasswordAsync(ResetPassword model);
+
+        Task<Account> SetStatusAccountAsync(Account account, bool status);
     }
 }

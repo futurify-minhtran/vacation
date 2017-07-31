@@ -299,6 +299,27 @@ namespace AuthenticationServer.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Account> SetStatusAccountAsync(Account account, bool status)
+        {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
+
+            var existingAccount = await FindByIdAsync(account.Id);
+            if (existingAccount == null)
+            {
+                throw new CustomException(Errors.ACCOUNT_NOT_FOUND, Errors.ACCOUNT_NOT_FOUND_MSG);
+            }
+
+            existingAccount.Status = status;
+
+            await _context.SaveChangesAsync();
+
+            return existingAccount;
+        }
+
+
         private static string GenerateSecurityStamp()
         {
             return Guid.NewGuid().ToString("D");

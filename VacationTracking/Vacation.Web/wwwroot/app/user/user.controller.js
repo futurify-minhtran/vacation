@@ -57,5 +57,14 @@ function UsersController($scope, UserService) {
         $scope.user = user;
       //  })
     }
-    
+
+    $scope.setStatusUser = function (user, status, index) {
+        UserService.SetStatus(user.Id,status).then(function (settedSatusUser) {
+            $scope.users[index] = settedSatusUser;
+        });
+    }
+
+    $scope.resetPasswordUser = function () {
+        UserService.ResetPassword($scope.user).then();
+    }
 }

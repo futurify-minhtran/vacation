@@ -25,7 +25,7 @@ namespace AuthenticationServer.Adapters
                 Gender = model.Gender,
                 PhoneNumber = model.PhoneNumber,
                 Email = model.Email,
-                Password = model.Password
+                Password = model.Password,
             };
 
             return account;
@@ -51,7 +51,8 @@ namespace AuthenticationServer.Adapters
                 Avatar = model.Avatar,
                 RemainingDaysOff = model.RemainingDaysOff,
                 CreatedAt = model.CreatedAt,
-                ModifiedAt = model.ModifiedAt
+                ModifiedAt = model.ModifiedAt,
+                Status = model.Status
             };
 
             return viewModel;

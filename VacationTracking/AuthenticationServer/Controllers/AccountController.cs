@@ -94,7 +94,6 @@ namespace AuthenticationServer.Controllers
         public async Task<List<AccountViewModel>> GetAll()
         {
             var accounts = await _accountService.GetAllAsync();
-
             return accounts.Select(a => a.ToViewModel()).ToList();
         }
 
@@ -105,10 +104,38 @@ namespace AuthenticationServer.Controllers
             await _accountService.DeleteAsync(id);
         }
 
-        [HttpGet, Route("request-reset-password")]
-            public async Task RequestResetPasswordAsync()
+        [HttpGet, Route("reset-password")]
+        public async Task<ActionResult> RequestResetPasswordAsync([FromQuery]string email)
         {
+            try
+            {
+                var account = await _accountService.CheckExistByEmailAsync(email);
 
+                if (account == null)
+                {
+                    throw new CustomException(Errors.ACCOUNT_NOT_FOUND, Errors.ACCOUNT_NOT_FOUND_MSG);
+                }
+
+                var request = await _accountService.CreateRequestResetPassword(
+                    new RequestResetPassword
+                    {
+                        Email = email,
+                        ExpiredAt = DateTime.Now.AddDays(1)
+                    }
+                );
+
+                string template = "<p>Chào bạn,</p>";
+                template += "<p>Bạn vừa yêu cầu khôi phục mật khẩu. Vui lòng bấm vào liên kết bên dưới để tiếp tục:</p>";
+                template += String.Format("<p><a href= 'http://localhost:57251/#/user/reset-password?email={0}&token={1}'>http://localhost:57251/#/user/reset-password?email={0}&token={1}</a></p>", request.Email, request.Token);
+                template += "<p>Nếu không phải là bạn yêu cầu, vui lòng bỏ qua thông báo này.</p>";
+
+                return Json(new { EmailTemplate = template });
+            }catch(Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+
+            //await _rawRabbitBus.PublishAsync(new PushEmail { Title = _emailTemplate.Title, Body = string.Format(_emailTemplate.Body, account.UserName, request.Token), SendTo = email });
         }
 
         [HttpPut, Route("reset-password")]
@@ -132,6 +159,22 @@ namespace AuthenticationServer.Controllers
             }
 
             await _accountService.ResetPasswordAsync(model);
+        }
+
+        [AllowAnonymous]
+        [HttpGet, Route("{id:int}/{status:bool}")]
+        public async Task<AccountViewModel> SetStatusAccountAsync(int id, bool status)
+        {
+            var accountExisting = await _accountService.FindByIdAsync(id);
+
+            if(accountExisting == null)
+            {
+                throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
+            }
+
+            var result = await _accountService.SetStatusAccountAsync(accountExisting, status);
+
+            return result.ToViewModel();
         }
     }
 }

@@ -15,10 +15,7 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
-                <th class="text-center">Edit</th>
-                <th class="text-center">Remove</th>
-                <th class="text-center">View Detail</th>
-            </tr>
+                <th class="text-center">Function</th>
         </thead>
         <tbody>
             <tr ng-repeat="user in users">
@@ -26,16 +23,18 @@
                 <td>{{user.LastName}}</td>
                 <td>{{user.Email}}</td>
                 <td class="text-center">
+                    <a ng-click="setStatusUser(user,false,$index)" style="cursor:pointer"  ng-if="user.Status">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </a>
+                    <a ng-click="setStatusUser(user,true,$index)" style="cursor:pointer" ng-if="!user.Status">
+                        <span class="glyphicon glyphicon-minus-sign" aria-hidden="true" ></span>
+                    </a>
                     <a ng-click="editUser(user)" style="cursor:pointer">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     </a>
-                </td>
-                <td class="text-center">
                     <a ng-click="deleteUser(user,$index)" style="cursor:pointer">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </a>
-                </td>
-                <td class="text-center">
                     <a data-toggle="modal" data-target="#detailUserModal" ng-click="detailUser(user)" style="cursor:pointer">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </a>
@@ -129,7 +128,7 @@
 
     <!-- Modal - Detail User -->
     <div id="detailUserModal" class="modal fade" role="dialog" tabindex='-1'>
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                     <div class="modal-header">

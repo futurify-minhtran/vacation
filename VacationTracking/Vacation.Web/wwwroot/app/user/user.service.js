@@ -9,7 +9,8 @@ function UserService($http, $q) {
         Create: Create,
         Update: Update,
         Delete: Delete,
-        Detail: Detail
+        Detail: Detail,
+        SetStatus : SetStatus
     };
 
     return service;
@@ -73,5 +74,20 @@ function UserService($http, $q) {
             }, function (responseErrors) {
                 deferer.reject(responseErrors.data);
             });
+
+        return deferer.promise;
+    }
+
+    function SetStatus(id, status) {
+        var deferer = $q.defer();
+
+        $http.get(authServer + '/api/account/' + id + '/' + status)
+            .then(function (response) {
+                deferer.resolve(response.data);
+            }, function (responseErrors) {
+                deferer.reject(responseErrors.data);
+            });
+
+        return deferer.promise;
     }
 };

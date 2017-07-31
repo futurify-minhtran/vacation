@@ -33,5 +33,7 @@ namespace AuthenticationServer.Models.ViewModels
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? ModifiedAt { get; set; }
+
+        public bool Status { get; set; }
     }
 }

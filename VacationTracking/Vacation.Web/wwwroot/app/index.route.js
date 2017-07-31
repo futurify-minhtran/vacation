@@ -12,9 +12,14 @@
             when('/user/detail', {
                 templateUrl: '/app/user/user-detail.html',
                 controller: 'UsersController'
-            }).    
-            otherwise({
-                redirectTo: '/user'
+            }). 
+            when('/user/forgot-password', {
+                templateUrl: '/app/user/forgot-password.html',
+                controller: 'ForgotPasswordController'
+            }).  
+            when('/user/reset-password', {
+                templateUrl: '/app/user/reset-password.html',
+                controller: 'ResetPasswordController'
             })
     }
 ]);
