@@ -14,7 +14,7 @@ namespace AuthenticationServer.Models.BindingModels
 
     public class EmailTemplate
     {
-        public string Title { get; set; }
+        public string Subject { get; set; }
         public string Body { get; set; }
     }
 }

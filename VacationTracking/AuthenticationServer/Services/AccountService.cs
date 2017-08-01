@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using App.Common.Core.Exceptions;
 using AuthenticationServer.Resources;
+using MailKit.Net.Smtp;
+using MimeKit;
+using App.Common.Core.Models;
+using App.Common.Core;
 
 namespace AuthenticationServer.Services
 {
@@ -319,6 +323,38 @@ namespace AuthenticationServer.Services
             return existingAccount;
         }
 
+        public async Task SendMail(ConfigSendEmail configSendEmail, EmailTemplate mailTemplate, RequestResetPassword requestResetPassword)
+        {
+            var sender = configSendEmail.Sender;
+            var username = configSendEmail.Username;
+            var password = configSendEmail.Password;
+            var host = configSendEmail.Host;
+            var port = configSendEmail.Port.ConvertToInt();
+
+            var receiver = requestResetPassword.Email;
+
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("Vacation Tracking", sender));
+            emailMessage.To.Add(new MailboxAddress("", receiver));
+            emailMessage.Subject = mailTemplate.Subject;
+            emailMessage.Body = new TextPart("html")
+            {
+                Text = string.Format(mailTemplate.Body, requestResetPassword.Email, requestResetPassword.Token)
+            };
+            
+            using (var client = new SmtpClient())
+            {
+                // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                await client.ConnectAsync(host, port, false);
+                client.AuthenticationMechanisms.Remove("XOAUTH2"); // Must be removed for Gmail SMTP
+                await client.AuthenticateAsync(username, password);
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
+            }
+
+        }
 
         private static string GenerateSecurityStamp()
         {

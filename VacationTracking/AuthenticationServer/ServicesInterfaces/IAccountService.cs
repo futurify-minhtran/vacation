@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Common.Core.Models;
 using AuthenticationServer.Models;
 using AuthenticationServer.Models.BindingModels;
 
@@ -42,5 +43,8 @@ namespace AuthenticationServer.ServicesInterfaces
         Task ResetPasswordAsync(ResetPassword model);
 
         Task<Account> SetStatusAccountAsync(Account account, bool status);
+
+        Task SendMail(ConfigSendEmail configSendEmail, EmailTemplate mailTemplate,RequestResetPassword requestResetPassword);
+
     }
 }

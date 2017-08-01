@@ -15,6 +15,8 @@ using AuthenticationServer.Setup;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Newtonsoft.Json.Serialization;
+using AuthenticationServer.Models.BindingModels;
+using App.Common.Core.Models;
 
 namespace AuthenticationServer
 {
@@ -54,6 +56,9 @@ namespace AuthenticationServer
             {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigins"));
             });
+
+            services.Configure<EmailTemplate>(Configuration.GetSection("EmailTemplate"));
+            services.Configure<ConfigSendEmail>(Configuration.GetSection("ConfigSendEmail"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

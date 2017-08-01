@@ -3,8 +3,11 @@
 function ForgotPasswordController($scope, $location, AuthenticationService,$sce) {
     $scope.requestResetPassword = function () {
         AuthenticationService.RequestResetPassword($scope.email).then(function (data) {
-            $scope.emailTemplate = $sce.trustAsHtml(data.EmailTemplate);
-            $scope.error = data.Error;
+            if (data.Error) {
+                $scope.error = data.Error;
+            } else {
+                $scope.success = 'Success';
+            }
             //$location.path('/user');
         });
     }

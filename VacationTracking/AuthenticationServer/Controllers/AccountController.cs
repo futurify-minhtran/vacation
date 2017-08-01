@@ -14,6 +14,8 @@ using AuthenticationServer.Adapters;
 using App.Common.Core.Exceptions;
 using AuthenticationServer.Resources;
 using AuthenticationServer.Setup;
+using Microsoft.Extensions.Options;
+using App.Common.Core.Models;
 
 namespace AuthenticationServer.Controllers
 {
@@ -23,10 +25,14 @@ namespace AuthenticationServer.Controllers
         //private readonly AuthDbContext _context;
 
         IAccountService _accountService;
+        private readonly EmailTemplate _emailTemplate;
+        private readonly ConfigSendEmail _configSendEmail;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IOptions<EmailTemplate> emailTemplate, IOptions<ConfigSendEmail> configSendEmail)
         {
             _accountService = accountService;
+            _emailTemplate = emailTemplate.Value;
+            _configSendEmail = configSendEmail.Value;
         }
 
         [AllowAnonymous]
@@ -124,11 +130,11 @@ namespace AuthenticationServer.Controllers
                     }
                 );
 
-                string template = "<p>Dear " + request.Email + "!</p>";
-                template += "<p>You recently requested a password reset for your account. To complete the process, click the link below.</p>";
-                template += String.Format("<p><a href= 'http://localhost:57251/#/user/reset-password?email={0}&token={1}'>Reset now</a></p>", request.Email, request.Token);
+                // send email
 
-                return Json(new { EmailTemplate = template });
+                await _accountService.SendMail(_configSendEmail, _emailTemplate, request);
+
+                return Json(new { Success = "Success" });
             }catch(Exception ex)
             {
                 return Json(new { Error = ex.Message });
