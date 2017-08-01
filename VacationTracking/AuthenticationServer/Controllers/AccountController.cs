@@ -56,11 +56,11 @@ namespace AuthenticationServer.Controllers
 
                 var viewModel = account.ToViewModel();
                 //return viewModel;
-                return Json(new { Error = false, User = viewModel });
+                return Json(new { User = viewModel });
             }
             catch (Exception ex)
             {
-                return Json(new { Error = true, Message = ex.Message });
+                return Json(new { Error = ex.Message });
             }
         }
         
@@ -124,10 +124,9 @@ namespace AuthenticationServer.Controllers
                     }
                 );
 
-                string template = "<p>Chào bạn,</p>";
-                template += "<p>Bạn vừa yêu cầu khôi phục mật khẩu. Vui lòng bấm vào liên kết bên dưới để tiếp tục:</p>";
-                template += String.Format("<p><a href= 'http://localhost:57251/#/user/reset-password?email={0}&token={1}'>http://localhost:57251/#/user/reset-password?email={0}&token={1}</a></p>", request.Email, request.Token);
-                template += "<p>Nếu không phải là bạn yêu cầu, vui lòng bỏ qua thông báo này.</p>";
+                string template = "<p>Dear " + request.Email + "!</p>";
+                template += "<p>You recently requested a password reset for your account. To complete the process, click the link below.</p>";
+                template += String.Format("<p><a href= 'http://localhost:57251/#/user/reset-password?email={0}&token={1}'>Reset now</a></p>", request.Email, request.Token);
 
                 return Json(new { EmailTemplate = template });
             }catch(Exception ex)
@@ -139,26 +138,35 @@ namespace AuthenticationServer.Controllers
         }
 
         [HttpPut, Route("reset-password")]
-        public async Task ResetPasswordAsync([FromBody] ResetPassword model)
+        public async Task<ActionResult> ResetPasswordAsync([FromBody] ResetPassword model)
         {
-            if(model == null)
+            try
             {
-                throw new CustomException(Errors.REQUEST_NOT_NULL, Errors.REQUEST_NOT_NULL_MSG);
-            }
-            else if (String.IsNullOrEmpty(model.Email))
-            {
-                throw new CustomException(Errors.EMAIL_NOT_NULL, Errors.EMAIL_NOT_NULL_MSG);
-            }
-            else if (String.IsNullOrEmpty(model.Token))
-            {
-                throw new CustomException(Errors.TOKEN_NOT_NULL, Errors.TOKEN_NOT_NULL_MSG);
-            }
-            else if (String.IsNullOrEmpty(model.NewPassword))
-            {
-                throw new CustomException(Errors.PASSWORD_NOT_NULL, Errors.PASSWORD_NOT_NULL_MSG);
-            }
+                if (model == null)
+                {
+                    throw new CustomException(Errors.REQUEST_NOT_NULL, Errors.REQUEST_NOT_NULL_MSG);
+                }
+                else if (String.IsNullOrEmpty(model.Email))
+                {
+                    throw new CustomException(Errors.EMAIL_NOT_NULL, Errors.EMAIL_NOT_NULL_MSG);
+                }
+                else if (String.IsNullOrEmpty(model.Token))
+                {
+                    throw new CustomException(Errors.TOKEN_NOT_NULL, Errors.TOKEN_NOT_NULL_MSG);
+                }
+                else if (String.IsNullOrEmpty(model.NewPassword))
+                {
+                    throw new CustomException(Errors.PASSWORD_NOT_NULL, Errors.PASSWORD_NOT_NULL_MSG);
+                }
 
-            await _accountService.ResetPasswordAsync(model);
+                await _accountService.ResetPasswordAsync(model);
+
+                return Json(new { });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
         }
 
         [AllowAnonymous]

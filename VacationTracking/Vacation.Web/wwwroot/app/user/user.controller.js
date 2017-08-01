@@ -5,7 +5,7 @@ function UsersController($scope, UserService) {
     $scope.users = [];
 
     $scope.clearMessage = function () {
-        $scope.message = '';
+        $scope.success = '';
     }
   
     UserService.GetUsers().then(function (data) {
@@ -33,15 +33,14 @@ function UsersController($scope, UserService) {
         var model = angular.copy($scope.user);
 
         UserService.Create(model).then(function (data) {
-            if (data.Error == true) {
-                $scope.message = data.Message;
+            if (data.Error) {
+                $scope.error = data.Error;
             } else {
                 $scope.user = data.User;
                 $scope.users.unshift(data.User);
-                $scope.message = 'Success!';
-                $('#myModal').modal('hide');
+                $scope.success = "Add user success!";
+                $('#addUserModal').modal('hide');
             }
-            $scope.error = data.Error;
         });
     };
 

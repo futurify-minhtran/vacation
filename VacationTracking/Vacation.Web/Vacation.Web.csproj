@@ -11,22 +11,15 @@
   <ItemGroup>
     <Content Include="wwwroot\app\index.module.js" />
     <Content Include="wwwroot\app\index.route.js" />
-    <Content Include="wwwroot\app\user\forge.controller.js" />
-    <Content Include="wwwroot\app\user\forgot-password - Copy.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\app\user\forgot-password.controller.js" />
     <Content Include="wwwroot\app\user\forgot-password.html" />
-    <Content Include="wwwroot\app\user\forgot.controller.js" />
     <Content Include="wwwroot\app\user\authentication.service.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\app\user\reset-password.controller" />
-    <Content Include="wwwroot\app\user\reset-password.controller.js" />
     <Content Include="wwwroot\app\user\reset-password.html" />
+	<Content Include="wwwroot\app\user\reset-password.controller.js" />
     <Content Include="wwwroot\app\user\user-detail.html" />
     <Content Include="wwwroot\app\user\user-form.html" />
-    <Content Include="wwwroot\app\user\user-resetpassword.html" />
     <Content Include="wwwroot\app\user\user.controller.js" />
     <Content Include="wwwroot\app\user\user.html" />
     <Content Include="wwwroot\app\user\user.service.js" />
