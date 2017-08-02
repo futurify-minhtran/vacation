@@ -16,6 +16,8 @@
     <Content Include="wwwroot\app\user\authentication.service.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\app\user\login.controller.js" />
+    <Content Include="wwwroot\app\user\login.html" />
     <Content Include="wwwroot\app\user\reset-password.html" />
 	<Content Include="wwwroot\app\user\reset-password.controller.js" />
     <Content Include="wwwroot\app\user\user-detail.html" />

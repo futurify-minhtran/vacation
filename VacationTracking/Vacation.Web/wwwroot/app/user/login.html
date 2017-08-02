@@ -1,0 +1,52 @@
+﻿<br />
+<div class="row" ng-controller="LoginController">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Log in to your account</div>
+            <div class="panel-body">
+                <form name="loginForm" ng-submit="login();">
+                    <div ng-messages="error" role="alert" class="error-messages-animation md-warn" ng-class="{'invalid': error}">
+                        <div ng-message="incorrect" class="error-message-animation">
+                            <span>Incorrect email or password</span>
+                        </div>
+                        <div ng-message="busy" class="error-message-animation">
+                            <span>Server is now busy. Please try later!</span>
+                        </div>
+                        <div ng-message="denied" class="error-message-animation">
+                            <span>Incorrect user name or password</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" class="form-control" name="email" ng-model="loginForm.Email" placeholder="Email" ng-disabled="loggingIn" required>
+                        <div ng-messages="loginForm.email.$error" role="alert" style="color:red">
+                            <div ng-message="required">
+                                <span>Email field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Password:</label>
+                        <input type="password" class="form-control" name="password" ng-model="loginForm.Password" placeholder="Password" ng-disabled="loggingIn" required>
+                        <div ng-messages="loginForm.password.$error" role="alert" style="color:red">
+                            <div ng-message="required">
+                                <span>Password field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span>
+                            <input type="checkbox" class="remember-me" ng-model="loginForm.Remember" aria-label="Remember Me" ng-disabled="loggingIn" />
+                            Remember Me
+                        </span>
+                        <a href="#/user/forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-default" aria-label="LOG IN" 
+                            ng-disabled="loginForm.$invalid || loginForm.$pristine || loggingIn">
+                        {{loggingIn ? 'Logging in' : 'Login'}}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>        

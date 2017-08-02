@@ -16,6 +16,7 @@ using AuthenticationServer.Resources;
 using AuthenticationServer.Setup;
 using Microsoft.Extensions.Options;
 using App.Common.Core.Models;
+using System.Security.Claims;
 
 namespace AuthenticationServer.Controllers
 {
@@ -24,7 +25,7 @@ namespace AuthenticationServer.Controllers
     {
         //private readonly AuthDbContext _context;
 
-        IAccountService _accountService;
+        IAccountService _accountService;    
         private readonly EmailTemplate _emailTemplate;
         private readonly ConfigSendEmail _configSendEmail;
 
@@ -101,6 +102,13 @@ namespace AuthenticationServer.Controllers
         {
             var accounts = await _accountService.GetAllAsync();
             return accounts.Select(a => a.ToViewModel()).ToList();
+        }
+
+        [AllowAnonymous]
+        [HttpGet, Route("me/permissions")]
+        public IEnumerable<string> MyPermissions()
+        {
+            return User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
         }
 
         [AllowAnonymous]

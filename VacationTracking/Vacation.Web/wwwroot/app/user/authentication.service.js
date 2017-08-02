@@ -1,10 +1,14 @@
 ﻿myApp.factory('AuthenticationService', AuthenticationService);
 
-function AuthenticationService($http, $q) {
+function AuthenticationService($http, $q, $cookies, $rootScope) {
 
     var authServer = 'http://localhost:58283';
 
     var service = {
+        IsAuthenticated: false,
+        AccessToken: null,
+        Account: null,
+        SignInAsync: SignInAsync,
         RequestResetPassword: RequestResetPassword,
         ResetPassword: ResetPassword
     };
@@ -43,7 +47,74 @@ function AuthenticationService($http, $q) {
         return deferer.promise;
     }
 
+    function SignInAsync(email, password, remember) {
+        var deferer = $q.defer();
 
+        $http.post(
+            authServer + '/token',
+            { Email: email, Password: password },
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                noBigBox: true,
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                }
+            }).then(function (response) {
+                _authenticate(response.data, remember);
+                _syncPermissions().then(function () {
+                    deferer.resolve();
+                })
+            }, function (responseErrors) {
+                deferer.reject(responseErrors.data);
+            })
+        return deferer.promise;
+    }
+
+    function _authenticate(signInResponse, remember) {
+        var cookieOptions = {
+            path: '/'
+        };
+
+        if (remember) {
+            cookieOptions.expires = new Date(signInResponse.Expires);
+        }
+
+        $cookies.put('access_token', signInResponse.AccessToken, cookieOptions)
+        service.IsAuthenticated = true;
+        service.AccessToken = signInResponse.AccessToken;
+        service.Account = signInResponse.Account;
+    }
+
+    function _syncPermissions() {
+        if (service.IsAuthenticated) {
+            return $http.get(authServer + '/api/account/me/permissions', { hideAjaxLoader: true })
+                .then(function (permissions) {
+                    debugger;
+                    service.Permissions = permissions.data;
+                    $rootScope.$emit('PERMISSIONS_LOADED');
+
+                    //if (service.Permissions.indexOf('RECRUITER') != -1) {
+                    //    $http.get(SVCS.Profile + '/api/recruiters/me').then(function (profile) {
+                    //        service.Profile = profile.data;
+                    //        var deferer = loadCurrentProfilePromises.pop();
+                    //        while (deferer) {
+                    //            deferer.resolve(service.Profile);
+                    //            deferer = loadCurrentProfilePromises.pop();
+                    //        }
+                    //    })
+                    //}
+            })
+        } else {
+            var deferer = $q.defer();
+            deferer.reject();
+            return deferer.promise;
+        }
+    }
     //function GetUsers() {
     //    var deferer = $q.defer();
 
