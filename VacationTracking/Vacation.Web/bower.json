@@ -1,6 +1,6 @@
 {
-  "name": "asp.net",
-  "private": true,
+	"name": "asp.net",
+	"private": true,
     "dependencies": {
         "bootstrap": "3.3.7",
         "jquery": "2.2.0",
@@ -9,6 +9,7 @@
         "angular": "1.5.7",
         "angular-route": "1.5.7",
         "angular-messages": "1.5.7",
-        "angular-cookies": "1.5.7"
+        "angular-cookies": "1.5.7",
+        "angular-ui-router": "0.3.0"
     }
 }
