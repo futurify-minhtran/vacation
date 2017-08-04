@@ -4,7 +4,114 @@
 
     angular
         .module('app.auth', ['ngCookies', 'ui.router'])
-        .config(config);
+        .config(config)
+        .run(['AuthenticationService', '$rootScope', '$state', '$stateParams', function (AuthenticationService, $rootScope, $state, $stateParams) {
+            debugger;
+            var permissionsLoaded = false;
+
+            $rootScope.$on('PERMISSIONS_LOADED', function () {
+                permissionsLoaded = true;
+            })  
+
+            $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+                debugger;
+                if (toState.protect === true) {
+                    debugger;
+                    if (!AuthenticationService.IsAuthenticated) {
+                        event.preventDefault();
+                        $state.go('app.auth_login');
+                    } else if (toState.permissions && toState.permissions.length) {
+                        if (!AuthenticationService.HasPermissions(toState.permissions)) {
+                            if (permissionsLoaded) {
+                                event.preventDefault();
+                                AuthenticationService.SignOut();
+                                $state.go('app.auth_login');
+                            } else {
+                                event.preventDefault();
+                                $rootScope.$on('PERMISSIONS_LOADED', function () {
+                                    if (!AuthenticationService.HasPermissions(toState.permissions)) {
+                                        AuthenticationService.SignOut();
+                                        $state.go('app.auth_login');
+                                    } else {
+                                        var params = angular.copy(toParams);
+                                        $state.go(toState.name, params);
+                                    }
+                                })
+                            }
+                        }
+                    }
+                }
+            });
+        }])
+        .directive('showRoute', ['AuthenticationService', '$rootScope', '$state', function (AuthenticationService, $rootScope, $state) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    handler();
+                    $rootScope.$on('PERMISSIONS_LOADED', function () {
+                        handler();
+                    })
+                    function handler() {
+                        if (!attrs.uiSref && !attrs.showForRoute) {
+                            element.hide();
+                        } else {
+                            var permissions = [];
+                            if (attrs.uiSref) {
+                                var uiSrefState = $state.get(attrs.uiSref);
+                                if (uiSrefState) {
+                                    if (uiSrefState.permissions) {
+                                        permissions = uiSrefState.permissions;
+                                    }
+                                }
+                            }
+                            if (attrs.showForRoute) {
+                                var state = $state.get(attrs.showForRoute);
+                                if (state) {
+                                    if (state.permissions) {
+                                        permissions = permissions.concat(state.permissions);
+                                    }
+                                }
+                            }
+
+                            if (permissions.length) {
+                                if (!AuthenticationService.HasPermissions(permissions)) {
+                                    element.hide();
+                                } else {
+                                    element.show();
+                                }
+                            } else {
+                                element.show();
+                            }
+                        }
+                    }
+                }
+            }
+        }])
+        .directive('showPermissions', ['AuthenticationService', '$rootScope', '$state', function (AuthenticationService, $rootScope, $state) {
+            return {
+                restrict: 'A',
+                scope: {
+                    $$permissions: '=showPermissions'
+                },
+                link: function (scope, element, attrs) {
+                    handler();
+                    $rootScope.$on('PERMISSIONS_LOADED', function () {
+                        handler();
+                    })
+                    function handler() {
+                        if (scope.$$permissions.length) {
+                            if (!AuthenticationService.HasPermissions(scope.$$permissions)) {
+                                element.hide();
+                            } else {
+                                element.show();
+                            }
+                        } else {
+                            element.show();
+                        }
+                    }
+                }
+            }
+        }]);
 
     /** @ngInject */
     function config($stateProvider)
@@ -21,6 +128,15 @@
                 },
                 bodyClass: 'login'
             })
+            .state('app.auth_logout', {
+                url: '/logout',
+                views: {
+                    'main@': {
+                        controller: 'LogoutController as vm'
+                    }
+                },
+                bodyClass: 'login'
+            })
             .state('app.auth_forgot-password', {
                 url: '/forgot-password',
                 views: {
@@ -29,7 +145,9 @@
                         controller: 'ForgotPasswordController as vm'
                     }
                 },
-                bodyClass: 'forgot-password'
+                bodyClass: 'forgot-password',
+                protect: true,
+                permissions: ['USER']
             })
             .state('app.auth_reset-password', {
                 url: '/reset-password?email&token',

@@ -19,7 +19,9 @@
                         controller: 'UsersController as vm'
                     }
                 },
-                bodyClass: 'admin'
+                bodyClass: 'admin',
+                protect: true,
+                permissions: ['ADMIN']
             })
     }
 })();

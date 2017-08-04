@@ -17,6 +17,7 @@ using AuthenticationServer.Setup;
 using Microsoft.Extensions.Options;
 using App.Common.Core.Models;
 using System.Security.Claims;
+using App.Common.Core.Authentication;
 
 namespace AuthenticationServer.Controllers
 {
@@ -35,7 +36,6 @@ namespace AuthenticationServer.Controllers
             _emailTemplate = emailTemplate.Value;
             _configSendEmail = configSendEmail.Value;
         }
-
         [AllowAnonymous]
         [HttpPost, Route("register")]
         public async Task<ActionResult> Register([FromBody]RegisterModel model)
@@ -71,7 +71,6 @@ namespace AuthenticationServer.Controllers
             }
         }
         
-        [AllowAnonymous]
         [HttpPut,Route("{id:int}")]
         public async Task<Account> Update(int id, [FromBody]RegisterModel registerModel)
         {
@@ -87,7 +86,6 @@ namespace AuthenticationServer.Controllers
             return updatedUser;
         }
 
-        [AllowAnonymous]
         [HttpGet, Route("{id:int}")]
         public async Task<AccountViewModel> Get(int id)
         {
@@ -96,7 +94,6 @@ namespace AuthenticationServer.Controllers
             return account.ToViewModel();
         }
 
-        [AllowAnonymous]
         [HttpGet, Route("me")]
         public async Task<List<AccountViewModel>> GetAll()
         {
@@ -104,20 +101,37 @@ namespace AuthenticationServer.Controllers
             return accounts.Select(a => a.ToViewModel()).ToList();
         }
 
-        [AllowAnonymous]
+        [Authorize]
+        [HttpPut, Route("me/password")]
+        public async Task ChangePassword([FromBody]ChangePasswordModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
+            }
+
+            await _accountService.ChangePasswordAsync(User.GetAccountId().Value, model.OldPassword, model.NewPassword);
+        }
+
         [HttpGet, Route("me/permissions")]
         public IEnumerable<string> MyPermissions()
         {
             return User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
         }
 
-        [AllowAnonymous]
+        [HttpGet, Route("is-me-authenticated")]
+        public bool IsAuthenticated()
+        {
+            return User.Identity.IsAuthenticated;
+        }
+
         [HttpDelete,Route("{id:int}")]
         public async Task Delete(int id)
         {
             await _accountService.DeleteAsync(id);
         }
 
+        [Authorize]
         [HttpGet, Route("reset-password")]
         public async Task<ActionResult> RequestResetPasswordAsync([FromQuery]string email)
         {
@@ -183,7 +197,6 @@ namespace AuthenticationServer.Controllers
             }
         }
 
-        [AllowAnonymous]
         [HttpGet, Route("{id:int}/{status:bool}")]
         public async Task<AccountViewModel> SetStatusAccountAsync(int id, bool status)
         {
