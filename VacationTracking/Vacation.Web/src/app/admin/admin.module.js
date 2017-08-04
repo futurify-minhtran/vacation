@@ -21,7 +21,7 @@
                 },
                 bodyClass: 'admin',
                 protect: true,
-                permissions: ['ADMIN']
+                permissions: ['USER']
             })
     }
 })();

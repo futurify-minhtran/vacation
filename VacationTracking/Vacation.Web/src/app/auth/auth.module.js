@@ -6,7 +6,6 @@
         .module('app.auth', ['ngCookies', 'ui.router'])
         .config(config)
         .run(['AuthenticationService', '$rootScope', '$state', '$stateParams', function (AuthenticationService, $rootScope, $state, $stateParams) {
-            debugger;
             var permissionsLoaded = false;
 
             $rootScope.$on('PERMISSIONS_LOADED', function () {
@@ -14,9 +13,7 @@
             })  
 
             $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-                debugger;
                 if (toState.protect === true) {
-                    debugger;
                     if (!AuthenticationService.IsAuthenticated) {
                         event.preventDefault();
                         $state.go('app.auth_login');

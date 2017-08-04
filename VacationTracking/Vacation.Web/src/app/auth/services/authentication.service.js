@@ -22,7 +22,7 @@
         }]);
 
     /** @ngInject **/
-    function AuthenticationService($http, $q, $cookies, $rootScope) {
+    function AuthenticationService($http, $q, $cookies, $rootScope, $interval) {
 
         var baseUrl = 'http://localhost:58283';
 
@@ -65,7 +65,7 @@
 
         $rootScope.$authService = service;
 
-        return service;
+       
 
         function SignInAsync(email, password, remember) {
             var deferer = $q.defer();
@@ -239,8 +239,10 @@
             }
         }
 
+        $interval(_checkAuthentication, 300000);
+        _checkAuthentication();
 
-
+        return service;
         //function GetUsers() {
         //    var deferer = $q.defer();
 

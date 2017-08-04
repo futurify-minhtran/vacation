@@ -6,7 +6,12 @@
         .controller('LoginController', LoginController);
 
     /** @ngInject */
-    function LoginController($scope, AuthenticationService) {
+    function LoginController($scope, AuthenticationService,$state,$rootScope) {
+
+        if (AuthenticationService.IsAuthenticated) {
+            $state.go('app.admin_user');
+        }
+
         $scope.loginForm = {
             Email: null,
             Password: null,
