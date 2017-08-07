@@ -52,6 +52,12 @@ namespace VacationServer.Controllers
             return await _vacationService.GetByIdAsync(id);
         }
 
+        [HttpGet, Route("booking")]
+        public async Task<List<Booking>> ReadAll()
+        {
+            return await _vacationService.GetAllAsync();
+        }
+
         [HttpPut, Route("booking")]
         public async Task<Booking> Update([FromBody]BookingBindingModel bookingBindingModel)
         {

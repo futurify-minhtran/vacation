@@ -36,6 +36,11 @@ namespace VacationServer.Services
             }
         }
 
+        public async Task<List<Booking>> GetAllAsync()
+        {
+            return await _context.Bookings.ToListAsync();
+        }
+
         // Check confict booking
         public async Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, int? excludeBookingId = null)
         {
@@ -49,13 +54,19 @@ namespace VacationServer.Services
 
             foreach (var item in listBooking)
             {
-                // startDate any, endDate inside (existing booking time)
+                // startDate any, endDate inside or equal endDate of (existing booking time)
                 if(endDate > item.StartDate && endDate <= item.EndDate)
                 {
                     return false;
                 }
-                // endDate any, startDate inside (existing booking time)
+                // endDate any, startDate inside or equal startDate of (existing booking time)
                 if (startDate >= item.StartDate && startDate < item.EndDate)
+                {
+                    return false;
+                }
+
+                // startDate and endDate cover or equal of (existing booking time)
+                if (startDate <= item.StartDate && endDate >= item.EndDate)
                 {
                     return false;
                 }
@@ -102,7 +113,7 @@ namespace VacationServer.Services
                 throw new CustomException(Error.BOOKING_NOT_FOUND, Error.BOOKING_NOT_FOUND_MSG);
             }
 
-            var checkBooking = await this.CheckBookingAsync(booking.UserId, booking.StartDate, booking.EndDate, booking.Id);
+            var checkBooking = await this.CheckBookingAsync(existingBooking.UserId, booking.StartDate, booking.EndDate, existingBooking.Id);
 
             if (!checkBooking)
             {
@@ -111,7 +122,9 @@ namespace VacationServer.Services
 
             existingBooking.StartDate = booking.StartDate;
             existingBooking.EndDate = booking.EndDate;
+            existingBooking.BookingType = booking.BookingType;
             existingBooking.Reason = booking.Reason;
+
             existingBooking.ModifiedAt = DateTime.Now;
 
             await _context.SaveChangesAsync();

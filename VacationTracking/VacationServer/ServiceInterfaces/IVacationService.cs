@@ -10,6 +10,7 @@ namespace VacationServer.ServiceInterfaces
     {
         Task<Booking> GetByIdAsync(int id);
         Task<List<Booking>> GetByUserIdAsync(int userId, int? excludeBookingId = null);
+        Task<List<Booking>> GetAllAsync();
         Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, int? excludeBookingId = null);
         Task<Booking> CreateAsync(Booking booking);
         Task<Booking> UpdateAsync(Booking booking);
