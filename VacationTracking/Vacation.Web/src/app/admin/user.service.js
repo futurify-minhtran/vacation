@@ -57,6 +57,8 @@
                 }, function (responseErrors) {
                     deferer.reject(responseErrors.data);
                 });
+
+            return deferer.promise;
         }
 
         function Delete(id) {

@@ -6,7 +6,7 @@
         .controller('LoginController', LoginController);
 
     /** @ngInject */
-    function LoginController($scope, AuthenticationService,$state,$rootScope) {
+    function LoginController($scope, AuthenticationService,$state) {
 
         if (AuthenticationService.IsAuthenticated) {
             $state.go('app.admin_user');

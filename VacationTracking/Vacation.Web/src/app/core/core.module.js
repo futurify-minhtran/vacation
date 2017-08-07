@@ -13,6 +13,7 @@
             //'ngFileUpload',
             //'pascalprecht.translate',
             'ui.router',
+            'ui.bootstrap',
             //'socialLogin',
             //'angularTrix',
             //'fGoogleOAuth'

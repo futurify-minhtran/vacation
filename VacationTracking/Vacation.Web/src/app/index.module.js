@@ -11,6 +11,9 @@
             // admin
             'app.admin',
 
+            // booking
+            'app.booking',
+
             'app.stringcommon'
         ]);
 })();

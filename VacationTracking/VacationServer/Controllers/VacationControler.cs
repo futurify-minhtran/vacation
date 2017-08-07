@@ -73,7 +73,7 @@ namespace VacationServer.Controllers
             return updatedBookingModel;
         }
 
-        [HttpDelete, Route("bookings/{id:int}")]
+        [HttpDelete, Route("booking/{id:int}")]
         public async Task Delete(int id)
         {
             await _vacationService.DeleteAsync(id);
