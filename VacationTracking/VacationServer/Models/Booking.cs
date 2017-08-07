@@ -23,6 +23,9 @@ namespace VacationServer.Models
         [Required]
         public BookingType BookingType { get; set; }
 
+        [Required]
+        public string Reason { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public DateTime ModifiedAt { get; set; }

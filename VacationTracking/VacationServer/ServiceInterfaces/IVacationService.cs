@@ -9,8 +9,8 @@ namespace VacationServer.ServiceInterfaces
     public interface IVacationService
     {
         Task<Booking> GetByIdAsync(int id);
-        Task<List<Booking>> GetByUserIdAsync(int userId);
-        Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate);
+        Task<List<Booking>> GetByUserIdAsync(int userId, int? excludeBookingId = null);
+        Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, int? excludeBookingId = null);
         Task<Booking> CreateAsync(Booking booking);
         Task<Booking> UpdateAsync(Booking booking);
         Task DeleteAsync(int id);

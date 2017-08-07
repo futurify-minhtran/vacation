@@ -16,5 +16,7 @@ namespace VacationServer.Models.BindingModels
         public DateTime EndDate { get; set; }
 
         public BookingType BookingType { get; set; }
+
+        public string Reason { get; set; }
     }
 }

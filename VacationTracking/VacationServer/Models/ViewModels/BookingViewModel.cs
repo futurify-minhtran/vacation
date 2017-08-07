@@ -17,6 +17,8 @@ namespace VacationServer.Models.ViewModels
 
         public BookingType BookingType { get; set; }
 
+        public string Reason { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public DateTime ModifiedAt { get; set; }
