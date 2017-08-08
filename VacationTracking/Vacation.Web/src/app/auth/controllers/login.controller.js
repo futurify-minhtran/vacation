@@ -6,7 +6,7 @@
         .controller('LoginController', LoginController);
 
     /** @ngInject */
-    function LoginController($scope, AuthenticationService,$state) {
+    function LoginController($scope, AuthenticationService, $state, $timeout) {
 
         if (AuthenticationService.IsAuthenticated) {
             $state.go('app.admin_user');
@@ -26,20 +26,15 @@
             $scope.loggingIn = true;
             AuthenticationService.SignInAsync($scope.loginForm.Email, $scope.loginForm.Password, $scope.loginForm.Remember).then(function () {
                 $scope.loggingIn = false;
-
-                //if (AuthenticationService.Permissions.indexOf('JOBSEEKER') != -1 && AuthenticationService.Permissions.length == 1) {
-                //    ctrl.error = { denied: true };
-                //    AuthenticationService.SignOut();
-                //} else {
-                //    $state.go('app.dashboard')
-                //}
+                $state.go('app.admin_user');
+               
             }, function (error) {
                 $timeout(function () {
                     $scope.loggingIn = false;
                     if (error && error.Code) {
                         switch (error.Code) {
                             case 'INCORRECT_LOGIN':
-                                $scope.error = { incorrect: true }
+                                $scope.error = { incorrect: true}
                                 break;
                             default:
                                 $scope.error = { busy: true }
@@ -48,8 +43,16 @@
                     } else {
                         $scope.error = { busy: true }
                     }
-                }, 300)
+                }, 300);
             });
         }
     }
 })();
+
+// success
+//if (AuthenticationService.Permissions.indexOf('JOBSEEKER') != -1 && AuthenticationService.Permissions.length == 1) {
+//    ctrl.error = { denied: true };
+//    AuthenticationService.SignOut();
+//} else {
+//    $state.go('app.dashboard')
+//}

@@ -15,6 +15,9 @@
                 url: '/booking',
                 views: {
                     'main@': {
+                        templateUrl: 'app/core/layouts/layout.html'
+                    },
+                    'content@app.booking': {
                         templateUrl: 'app/booking/views/booking.html',
                         controller: 'BookingController as vm'
                     }

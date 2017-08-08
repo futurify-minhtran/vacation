@@ -119,11 +119,13 @@
                 url: '/login',
                 views: {
                     'main@': {
+                        templateUrl: 'app/core/layouts/loginLayout.html'
+                    },
+                    'content@app.auth_login': {
                         templateUrl: 'app/auth/views/login.html',
                         controller: 'LoginController as vm'
                     }
-                },
-                bodyClass: 'login'
+                }
             })
             .state('app.auth_logout', {
                 url: '/logout',
@@ -131,40 +133,31 @@
                     'main@': {
                         controller: 'LogoutController as vm'
                     }
-                },
-                bodyClass: 'login'
+                }
             })
             .state('app.auth_forgot-password', {
                 url: '/forgot-password',
                 views: {
                     'main@': {
+                        templateUrl: 'app/core/layouts/loginLayout.html'
+                    },
+                    'content@app.auth_forgot-password': {
                         templateUrl: 'app/auth/views/forgot-password.html',
                         controller: 'ForgotPasswordController as vm'
                     }
-                },
-                bodyClass: 'forgot-password',
-                protect: true,
-                permissions: ['USER']
+                }
             })
             .state('app.auth_reset-password', {
                 url: '/reset-password?email&token',
                 views: {
                     'main@': {
+                        templateUrl: 'app/core/layouts/loginLayout.html'
+                    },
+                    'content@app.auth_reset-password': {
                         templateUrl: 'app/auth/views/reset-password.html',
                         controller: 'ResetPasswordController as vm'
                     }
-                },
-                bodyClass: 'reset-password'
-            })
-            .state('app.auth_congratulation', {
-                url: '/auth-congratulation',
-                views: {
-                    'main@': {
-                        templateUrl: 'app/auth/views/congratulation.html',
-                        controller: 'CongratulationController as vm'
-                    }
-                },
-                bodyClass: 'lock'
+                }
             })
     }
 })();

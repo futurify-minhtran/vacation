@@ -4,7 +4,7 @@
     angular
         .module('app.core',
         [
-            //'ngAnimate',
+            'ngAnimate',
             //'ngAria',
             'ngCookies',
             'ngMessages',

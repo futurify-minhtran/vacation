@@ -14,14 +14,14 @@
             .state('app.admin_user', {
                 url: '/admin',
                 views: {
-                    'main@': {
+                    'content@app.admin_user': {
                         templateUrl: 'app/admin/user.html',
                         controller: 'UsersController as vm'
                     }
                 },
-                bodyClass: 'admin',
                 protect: true,
                 permissions: ['USER']
             })
     }
 })();
+//bodyClass: 'admin',

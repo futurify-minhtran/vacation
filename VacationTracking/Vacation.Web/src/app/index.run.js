@@ -9,6 +9,7 @@
     /** @ngInject */
     function run($rootScope, $timeout, $state)
     {
+        $state.go('app.admin_user');
         //// Activate loading indicator
         //var stateChangeStartEvent = $rootScope.$on('$stateChangeStart', function ()
         //{
