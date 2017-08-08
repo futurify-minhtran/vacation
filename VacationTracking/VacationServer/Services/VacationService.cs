@@ -38,7 +38,7 @@ namespace VacationServer.Services
 
         public async Task<List<Booking>> GetAllAsync()
         {
-            return await _context.Bookings.ToListAsync();
+            return await _context.Bookings.OrderBy(o => o.StartDate).ToListAsync();
         }
 
         // Check confict booking
@@ -142,6 +142,13 @@ namespace VacationServer.Services
 
             _context.Bookings.Remove(existingBooking);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> GetVacationDay(int userId, int year)
+        {
+            var vacationDay = await _context.VacationDays.FirstOrDefaultAsync(v => v.UserId == userId && v.Year == year);
+
+            return vacationDay.TotalMonth;
         }
     }
 }

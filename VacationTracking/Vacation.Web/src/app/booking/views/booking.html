@@ -11,7 +11,6 @@
     <thead>
         <tr>
             <th>No.</th>
-            <th>User ID</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Reason</th>
@@ -20,7 +19,6 @@
     <tbody>
         <tr ng-repeat="booking in bookings">
             <td>{{$index+1}}</td>
-            <td>{{booking.UserId}}</td>
             <td>{{booking.StartDate | date:'dd/MM/yyyy HH:mm'}}</td>
             <td>{{booking.EndDate | date:'dd/MM/yyyy HH:mm'}}</td>
             <td>{{booking.Reason}}</td>
@@ -56,12 +54,16 @@
                     <h4 class="modal-title">New booking</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label>User ID:</label>
                         <input type="text" class="form-control" name="UserId" ng-model="booking.UserId" ng-required="true">
                         <div ng-messages="BookingForm.UserId.$error" style="color:red">
                             <div ng-message="required" ng-if="BookingForm.UserId.$touched">Please input your User Id</div>
                         </div>
+                    </div>-->
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="text" class="form-control" ng-disabled="true" value="{{userInfo.Email}}">
                     </div>
                     <div class="form-group">
                         <label>Start Date:</label>

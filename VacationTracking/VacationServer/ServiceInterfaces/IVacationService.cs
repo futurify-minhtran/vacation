@@ -15,5 +15,7 @@ namespace VacationServer.ServiceInterfaces
         Task<Booking> CreateAsync(Booking booking);
         Task<Booking> UpdateAsync(Booking booking);
         Task DeleteAsync(int id);
+
+        Task<int> GetVacationDay(int userId, int year);
     }
 }

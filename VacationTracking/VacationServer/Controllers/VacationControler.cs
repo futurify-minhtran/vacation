@@ -78,5 +78,11 @@ namespace VacationServer.Controllers
         {
             await _vacationService.DeleteAsync(id);
         }
+
+        [HttpGet, Route("{userId:int}/{year:int}")]
+        public async Task<int> GetVacationDay(int userId, int year)
+        {
+            return await _vacationService.GetVacationDay(userId, year);
+        }
     }
 }
