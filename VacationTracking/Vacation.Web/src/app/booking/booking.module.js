@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.booking', ['ngCookies', 'ui.router', 'ui.bootstrap'])
+        .module('app.booking', ['ngCookies', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize'])
         .config(config);
 
     /** @ngInject */

@@ -5,7 +5,7 @@
         .controller('BookingController', BookingController);
 
     /** @ngInject */
-    function BookingController($scope, BookingService, $state) {
+    function BookingController($scope, BookingService, $state, $log) {
 
         BookingService.GetAll().then(function (data) {
             $scope.bookings = data;
@@ -16,8 +16,41 @@
             $scope.success = '';
         }
 
+        $scope.clearForm = function () {
+            var startTime = new Date();
+            startTime.setHours(8);
+            startTime.setMinutes(0);
+
+            var endTime = new Date();
+            endTime.setHours(18);
+            endTime.setMinutes(0);
+
+            $scope.booking = {
+                UserId: null,
+                StartDate: new Date(),
+                EndDate: new Date(),
+                StartTime: startTime,
+                EndTime: endTime,
+                Reason: "Reason"
+            }
+            $scope.BookingForm.$setPristine();
+            $scope.BookingForm.$setUntouched();
+            $scope.error = null;
+            $scope.message = null;
+        }
         $scope.addBooking = function () {
+            debugger;
             var model = angular.copy($scope.booking);
+
+            model.StartDate.setHours(model.StartTime.getHours());
+            model.StartDate.setMinutes(model.StartTime.getMinutes());
+            model.StartDate.setSeconds(0);
+            model.StartDate.setMilliseconds(0);
+
+            model.EndDate.setHours(model.EndTime.getHours());
+            model.EndDate.setMinutes(model.EndTime.getMinutes());
+            model.EndDate.setSeconds(0);
+            model.EndDate.setMilliseconds(0);
 
             BookingService.Create(model).then(function (data) {
                 debugger;
@@ -29,6 +62,7 @@
                     $scope.booking = data.Booking;
                     $scope.success = "Add booking success";
                     $('#addBookingModal').modal('hide');
+                    $scope.booking.unshift(data.Booking);
                 }
             });
         }
@@ -140,3 +174,6 @@
 
 //    return '';
 //}
+
+        
+
