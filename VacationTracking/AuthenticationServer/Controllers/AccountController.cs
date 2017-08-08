@@ -94,11 +94,21 @@ namespace AuthenticationServer.Controllers
             return account.ToViewModel();
         }
 
-        [HttpGet, Route("me")]
+        [HttpGet]
         public async Task<List<AccountViewModel>> GetAll()
         {
             var accounts = await _accountService.GetAllAsync();
             return accounts.Select(a => a.ToViewModel()).ToList();
+        }
+
+        [HttpGet, Route("me")]
+        public async Task<AccountViewModel> MyAccount()
+        {
+            var id = User.GetAccountId();
+
+            var account = await _accountService.FindByIdAsync(id.Value);
+
+            return account.ToViewModel();
         }
 
         [Authorize]

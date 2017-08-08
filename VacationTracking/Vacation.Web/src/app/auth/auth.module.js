@@ -119,7 +119,8 @@
                 url: '/login',
                 views: {
                     'main@': {
-                        templateUrl: 'app/core/layouts/loginLayout.html'
+                        templateUrl: 'app/core/layouts/loginLayout.html',
+                        controller: 'IndexController as vm'
                     },
                     'content@app.auth_login': {
                         templateUrl: 'app/auth/views/login.html',
@@ -139,7 +140,8 @@
                 url: '/forgot-password',
                 views: {
                     'main@': {
-                        templateUrl: 'app/core/layouts/loginLayout.html'
+                        templateUrl: 'app/core/layouts/loginLayout.html',
+                        controller: 'IndexController as vm'
                     },
                     'content@app.auth_forgot-password': {
                         templateUrl: 'app/auth/views/forgot-password.html',
@@ -151,7 +153,8 @@
                 url: '/reset-password?email&token',
                 views: {
                     'main@': {
-                        templateUrl: 'app/core/layouts/loginLayout.html'
+                        templateUrl: 'app/core/layouts/loginLayout.html',
+                        controller: 'IndexController as vm'
                     },
                     'content@app.auth_reset-password': {
                         templateUrl: 'app/auth/views/reset-password.html',

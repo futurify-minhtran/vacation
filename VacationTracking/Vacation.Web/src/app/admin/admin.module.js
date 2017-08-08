@@ -14,6 +14,10 @@
             .state('app.admin_user', {
                 url: '/admin',
                 views: {
+                    'main@': {
+                        templateUrl: 'app/core/layouts/layout.html',
+                        controller: 'IndexController as vm'
+                    },
                     'content@app.admin_user': {
                         templateUrl: 'app/admin/user.html',
                         controller: 'UsersController as vm'

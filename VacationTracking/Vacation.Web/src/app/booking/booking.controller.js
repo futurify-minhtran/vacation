@@ -5,8 +5,7 @@
         .controller('BookingController', BookingController);
 
     /** @ngInject */
-    function BookingController($scope, BookingService, $state, $log) {
-
+    function BookingController($scope, BookingService, $state, $rootScope) {
         BookingService.GetAll().then(function (data) {
             $scope.bookings = data;
         });
@@ -26,7 +25,7 @@
             endTime.setMinutes(0);
 
             $scope.booking = {
-                UserId: null,
+                UserId: $rootScope.$authService.Account.Id,
                 StartDate: new Date(),
                 EndDate: new Date(),
                 StartTime: startTime,
@@ -39,7 +38,6 @@
             $scope.message = null;
         }
         $scope.addBooking = function () {
-            debugger;
             var model = angular.copy($scope.booking);
 
             model.StartDate.setHours(model.StartTime.getHours());
@@ -53,12 +51,9 @@
             model.EndDate.setMilliseconds(0);
 
             BookingService.Create(model).then(function (data) {
-                debugger;
                 if (data.Error) {
-                    debugger;
                     $scope.error = data.Error;
                 } else {
-                    debugger;
                     $scope.booking = data.Booking;
                     $scope.success = "Add booking success";
                     $('#addBookingModal').modal('hide');

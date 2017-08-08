@@ -25,7 +25,7 @@
         function GetUsers() {
             var deferer = $q.defer();
 
-            $http.get(authServer + '/api/account/me')
+            $http.get(authServer + '/api/account')
                 .then(function (response) {
                     deferer.resolve(response.data)
                 }, function (responseErrors) {

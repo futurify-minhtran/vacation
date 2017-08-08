@@ -7,8 +7,9 @@
         .controller('IndexController', IndexController);
 
     /** @ngInject */
-    function IndexController()
+    function IndexController($scope, $rootScope)
     {
         var vm = this;
+        $scope.userInfo = $rootScope.$authService.Account;
     }
 })();

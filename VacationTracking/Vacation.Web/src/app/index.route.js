@@ -27,7 +27,8 @@
                 abstract: true,
                 views: {
                     'main@': {
-                        templateUrl: 'app/core/layouts/layout.html'
+                        templateUrl: 'app/core/layouts/layout.html',
+                        controller: 'IndexController as vm'
                     },
                     'content@app': {
                         templateUrl: 'app/admin/user.html',

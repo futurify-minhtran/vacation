@@ -15,7 +15,8 @@
     "angular-animate": "1.6.5",
     "angular-sanitize": "1.6.5",
     "metisMenu": "2.7.0",
-    "fontAwesome": "4.7.0"
+    "fontAwesome": "4.7.0",
+    "angular-bootstrap-calendar": "0.29.3"
   },
   "resolutions": {
     "jquery": ">= 1.7.2"
