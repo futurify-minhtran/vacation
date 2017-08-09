@@ -73,13 +73,6 @@ namespace VacationServer.Services
         {
             return await _context.Teams.Include(t=>t.TeamMembers).FirstOrDefaultAsync(t => t.Id == id);
         }
-
-        public async Task<List<TeamMember>> GetMembersByIdAsync(int id)
-        {
-            return await _context.TeamMembers.Where(tm => tm.Team.Id == id).ToListAsync();
-            //_context.TeamMembers.Where(tm => tm.TeamId == id).SelectMany(a => a.)
-            // return await _context.AccountsRoles.Where(a => a.AccountId == accountId).SelectMany(a => a.Role.RolePermissions.Select(p => p.PermissionId))
-        }
     }
     
 }

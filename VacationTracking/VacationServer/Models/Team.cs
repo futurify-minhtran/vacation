@@ -27,7 +27,6 @@ namespace VacationServer.Models
 
     public class TeamMember
     {
-
         public virtual Team Team { get; set; }
 
         public int MemberId { get; set; }

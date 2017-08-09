@@ -8,6 +8,17 @@
 
     /** @ngInject */
     function UsersController($scope, UserService, $timeout) {
+
+        $scope.gender = [
+            "Undefined",
+            "Male",
+            "Female"
+        ];
+
+        $scope.position = [
+            "Staff"
+        ];
+
         $scope.users = [];
 
         $scope.clearMessage = function () {

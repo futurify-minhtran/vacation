@@ -12,6 +12,5 @@ namespace VacationServer.ServiceInterfaces
         Task<Team> UpdateAsync(Team team);
         Task DeleteAsync(int id);
         Task<Team> GetByIdAsync(int id);
-        Task<List<TeamMember>> GetMembersByIdAsync(int id);
     }
 }

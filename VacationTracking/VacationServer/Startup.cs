@@ -98,7 +98,7 @@ namespace VacationServer
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //AuthDbContext.UpdateDatabase(app);
+            VacationDbContext.UpdateDatabase(app);
             //app.ConfigurePermissions();
 
             app.UseCors("AllowAllOrigins");
