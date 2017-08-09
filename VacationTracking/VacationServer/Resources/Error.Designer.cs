@@ -548,6 +548,24 @@ namespace VacationServer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TEAM_NOT_FOUND.
+        /// </summary>
+        internal static string TEAM_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("TEAM_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The team can be not found.
+        /// </summary>
+        internal static string TEAM_NOT_FOUND_MSG {
+            get {
+                return ResourceManager.GetString("TEAM_NOT_FOUND_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TOKEN_IS_EXPIRED.
         /// </summary>
         internal static string TOKEN_IS_EXPIRED {

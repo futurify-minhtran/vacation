@@ -279,6 +279,12 @@
   <data name="TEAM_IS_NULL_MSG" xml:space="preserve">
     <value>Team data is null</value>
   </data>
+  <data name="TEAM_NOT_FOUND" xml:space="preserve">
+    <value>TEAM_NOT_FOUND</value>
+  </data>
+  <data name="TEAM_NOT_FOUND_MSG" xml:space="preserve">
+    <value>The team can be not found</value>
+  </data>
   <data name="TOKEN_IS_EXPIRED" xml:space="preserve">
     <value>TOKEN_IS_EXPIRED</value>
   </data>

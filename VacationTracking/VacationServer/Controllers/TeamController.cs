@@ -44,5 +44,12 @@ namespace VacationServer.Controllers
                 return Json(new { Error = ex.Message });
             }
         }
+
+        [HttpGet, Route("{id:int}")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var team = await _teamService.GetByIdAsync(id);
+            return Json(new { Team = team });
+        }
     }
 }
