@@ -48,5 +48,7 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task SendMail(ConfigSendEmail configSendEmail, EmailTemplate mailTemplate,RequestResetPassword requestResetPassword);
 
+        Task SendMailRegister(ConfigSendEmail configSendEmail, string emailRegister, string passwordRegister);
+
     }
 }

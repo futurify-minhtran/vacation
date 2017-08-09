@@ -62,6 +62,10 @@ namespace AuthenticationServer.Controllers
                 //await _rawRabbitBus.PublishAsync(new AccountCreated { Id = account.Id, PhoneNumber = account.PhoneNumber, Status = account.Status, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email });
 
                 var viewModel = account.ToViewModel();
+
+                // Send email
+                await _accountService.SendMailRegister(_configSendEmail, account.Email, model.Password);
+
                 //return viewModel;
                 return Json(new { User = viewModel });
             }

@@ -400,6 +400,42 @@ namespace AuthenticationServer.Services
 
         }
 
+        public async Task SendMailRegister(ConfigSendEmail configSendEmail, string emailRegister, string passwordRegister)
+        {
+            var sender = configSendEmail.Sender;
+            var username = configSendEmail.Username;
+            var password = configSendEmail.Password;
+            var host = configSendEmail.Host;
+            var port = configSendEmail.Port.ConvertToInt();
+
+            var receiver = emailRegister;
+
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("Vacation Tracking", sender));
+            emailMessage.To.Add(new MailboxAddress("", receiver));
+
+            emailMessage.Subject = "Vacation Tracking";
+            var mailTemplate = "<p>Dear {0}!</p><p>Your account have been created!</p><p>Your default password: <b><i>{1}</i></b></p>";
+
+            emailMessage.Body = new TextPart("html")
+            {
+                Text = string.Format(mailTemplate, emailRegister, passwordRegister)
+            };
+
+            using (var client = new SmtpClient())
+            {
+                // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                await client.ConnectAsync(host, port, false);
+                client.AuthenticationMechanisms.Remove("XOAUTH2"); // Must be removed for Gmail SMTP
+                await client.AuthenticateAsync(username, password);
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
+            }
+
+        }
+
         private static string GenerateSecurityStamp()
         {
             return Guid.NewGuid().ToString("D");
