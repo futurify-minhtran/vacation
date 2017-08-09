@@ -23,10 +23,10 @@
 
         return service;
 
-        function GetUsers() {
+        function GetUsers(filter) {
             var deferer = $q.defer();
 
-            $http.get(authServer + '/api/account')
+            $http.get(authServer + '/api/account/getAll?filter=' + filter)
                 .then(function (response) {
                     deferer.resolve(response.data)
                 }, function (responseErrors) {
@@ -36,10 +36,10 @@
             return deferer.promise;
         }
 
-        function GetUsersPaging(pageSize,page) {
+        function GetUsersPaging(pageSize,page, filter) {
             var deferer = $q.defer();
 
-            $http.get(authServer + '/api/account/paging/' + pageSize + '/' + page)
+            $http.get(authServer + '/api/account/getAll/paging/' + pageSize + '/' + page + '?filter=' + filter)
                 .then(function (response) {
                     deferer.resolve(response.data)
                 }, function (responseErrors) {

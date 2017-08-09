@@ -26,9 +26,9 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task<Account> FindByIdAsync(int id);
 
-        Task<List<Account>> GetAllAsync();
+        Task<List<Account>> GetAllAsync(string filter = "");
 
-        Task<List<Account>> GetAllPagingAsync(int pageSize, int page);
+        Task<List<Account>> GetAllPagingAsync(int pageSize, int page, string filter = "");
 
         Task DeleteAsync(int id);
 

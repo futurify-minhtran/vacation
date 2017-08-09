@@ -18,18 +18,23 @@
         $scope.itemsPerPage = 5;
         $scope.totalItems = null;
         $scope.currentPageUsers = 1;
+        $scope.filter = "";
 
-        UserService.GetUsers().then(function (data) {
-            $scope.totalItems = data.length;
-        });
+        $scope.getTotalItems = function () {
+            UserService.GetUsers($scope.filter).then(function (data) {
+                $scope.totalItems = data.length;
+            });
+        }
 
-        $scope.getUsersPaging = function (pageSize, page) {
-            UserService.GetUsersPaging(pageSize, page).then(function (data) {
+        $scope.getTotalItems();
+
+        $scope.getUsersPaging = function (pageSize, page, filter) {
+            UserService.GetUsersPaging(pageSize, page, filter).then(function (data) {
                 $scope.usersPaging = data;
             });
         }
 
-        $scope.getUsersPaging($scope.itemsPerPage, 1);
+        $scope.getUsersPaging($scope.itemsPerPage, 1, $scope.filter);
         // Paging Users
 
         $scope.clearForm = function () {

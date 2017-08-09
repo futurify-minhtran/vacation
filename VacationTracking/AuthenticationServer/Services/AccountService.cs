@@ -200,14 +200,31 @@ namespace AuthenticationServer.Services
             return await _context.Accounts.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<List<Account>> GetAllAsync()
+        public async Task<List<Account>> GetAllAsync(string filter = "")
         {
-            return await _context.Accounts.ToListAsync();
+            if (String.IsNullOrEmpty(filter))
+            {
+                return await _context.Accounts.ToListAsync();
+            }
+            else
+            {
+                return await _context.Accounts.Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter)).ToListAsync();
+
+            }
         }
 
-        public async Task<List<Account>> GetAllPagingAsync(int pageSize, int page)
+        public async Task<List<Account>> GetAllPagingAsync(int pageSize, int page, string filter = "")
         {
-            return await _context.Accounts.Select(a => a).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            if (String.IsNullOrEmpty(filter))
+            {
+                return await _context.Accounts.Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            }
+            else
+            {
+                return await _context.Accounts
+                    .Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter))
+                    .Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            }
         }
 
         public async Task DeleteAsync(int id)

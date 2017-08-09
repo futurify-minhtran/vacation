@@ -94,17 +94,17 @@ namespace AuthenticationServer.Controllers
             return account.ToViewModel();
         }
 
-        [HttpGet]
-        public async Task<List<AccountViewModel>> GetAll()
+        [HttpGet , Route("getAll")]
+        public async Task<List<AccountViewModel>> GetAll([FromQuery] string filter)
         {
-            var accounts = await _accountService.GetAllAsync();
+            var accounts = await _accountService.GetAllAsync(filter);
             return accounts.Select(a => a.ToViewModel()).ToList();
         }
 
-        [HttpGet, Route("paging/{pageSize:int}/{page:int}")]
-        public async Task<List<AccountViewModel>> GellAllPaging(int pageSize, int page)
+        [HttpGet, Route("getAll/paging/{pageSize:int}/{page:int}")]
+        public async Task<List<AccountViewModel>> GellAllPaging(int pageSize, int page, [FromQuery] string filter)
         {
-            var accounts = await _accountService.GetAllPagingAsync(pageSize,page);
+            var accounts = await _accountService.GetAllPagingAsync(pageSize,page,filter);
             return accounts.Select(a => a.ToViewModel()).ToList();
         }
 

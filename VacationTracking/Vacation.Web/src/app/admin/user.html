@@ -9,12 +9,28 @@
     currentPageUsers: {{currentPageUsers}}<br/>
     itemsPerPage: {{itemsPerPage}}<br />
     totalItems: {{totalItems}}<br />
-    <div style="text-align: right; margin-bottom:-20px;">
-    <ul uib-pagination ng-model="currentPageUsers" max-size="5" class="pagination-sm" boundary-links="true" force-ellipses="true"
-        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" 
-        num-pages="numPages" items-per-page="itemsPerPage" total-items="totalItems" ng-change="getUsersPaging(itemsPerPage,currentPageUsers)"></ul>
-   </div>
-    <table class="table table-striped table-hover table-condensed" id="_dataTables-example">
+    
+<div class="row">
+    <div class="col-lg-3">
+        <div class="input-group custom-search-form">
+            <input type="text" class="form-control" placeholder="Search..." ng-model="filter" ng-change="getUsersPaging(itemsPerPage,currentPageUsers,filter); getTotalItems();">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    <i class="fa fa-remove"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6" style="text-align:right">
+        <ul uib-pagination ng-model="currentPageUsers" max-size="5" class="pagination-sm" boundary-links="true" force-ellipses="true"
+            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+            num-pages="numPages" items-per-page="itemsPerPage" total-items="totalItems" ng-change="getUsersPaging(itemsPerPage,currentPageUsers,filter);"
+            style="margin: 2px 0;"></ul>
+    </div>
+</div>
+
+ <table class="table table-striped table-hover table-condensed" id="_dataTables-example">
         <thead>
             <tr>
                 <th>First Name</th>
