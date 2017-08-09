@@ -20,6 +20,8 @@ namespace VacationServer.Models
 
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<VacationDay> VacationDays { get; set; }
+        public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<TeamMember> TeamMembers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +37,8 @@ namespace VacationServer.Models
             }
 
             modelBuilder.Entity<VacationDay>().HasKey("UserId", "Year");
+            modelBuilder.Entity<TeamMember>().HasKey("TeamId", "MemberId");
+
 
 
             // check

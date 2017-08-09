@@ -51,5 +51,41 @@ namespace VacationServer.Adapters
 
             return bookingViewModel;
         }
+
+        public static Team ToModel(this TeamBindingModel teamBindingModel)
+        {
+            if(teamBindingModel == null)
+            {
+                return null;
+            }
+
+            var teamModel = new Team()
+            {
+                Id = teamBindingModel.Id,
+                Name = teamBindingModel.Name,
+                LeaderId = teamBindingModel.LeaderId,
+            };
+
+            return teamModel;
+        }
+
+        public static TeamViewModel ToViewModel (this Team teamModel)
+        {
+            if(teamModel == null)
+            {
+                return null;
+            }
+
+            var teamViewModel = new TeamViewModel()
+            {
+                Id = teamModel.Id,
+                Name = teamModel.Name,
+                LeaderId = teamModel.LeaderId,
+                CreatedAt = teamModel.CreatedAt,
+                ModifiedAt = teamModel.ModifiedAt
+            };
+
+            return teamViewModel;
+        }
     }
 }

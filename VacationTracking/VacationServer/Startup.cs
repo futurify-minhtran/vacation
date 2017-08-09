@@ -67,6 +67,7 @@ namespace VacationServer
 
             services.AddDbContext<VacationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IVacationService,VacationService>();
+            services.AddScoped<ITeamService, TeamService>();
 
             //services.AddScoped<IAccountService, AccountService>();
             //services.AddScoped<IPermissionService, PermissionService>();

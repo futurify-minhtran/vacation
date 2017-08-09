@@ -368,6 +368,24 @@ namespace VacationServer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to INVALID_TEAM.
+        /// </summary>
+        internal static string INVALID_TEAM {
+            get {
+                return ResourceManager.GetString("INVALID_TEAM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The team is invalid.
+        /// </summary>
+        internal static string INVALID_TEAM_MSG {
+            get {
+                return ResourceManager.GetString("INVALID_TEAM_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OLD_PASSWORD_INCORRECT.
         /// </summary>
         internal static string OLD_PASSWORD_INCORRECT {
@@ -508,6 +526,24 @@ namespace VacationServer.Resources {
         internal static string ROLE_NOT_FOUND_MSG {
             get {
                 return ResourceManager.GetString("ROLE_NOT_FOUND_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TEAM_IS_NULL.
+        /// </summary>
+        internal static string TEAM_IS_NULL {
+            get {
+                return ResourceManager.GetString("TEAM_IS_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team data is null.
+        /// </summary>
+        internal static string TEAM_IS_NULL_MSG {
+            get {
+                return ResourceManager.GetString("TEAM_IS_NULL_MSG", resourceCulture);
             }
         }
         

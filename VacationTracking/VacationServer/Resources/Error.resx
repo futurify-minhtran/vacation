@@ -219,6 +219,12 @@
   <data name="INVALID_ROLE_PERMISSION_COMMAND_DATA_MSG" xml:space="preserve">
     <value>The data for role permission command is invalid</value>
   </data>
+  <data name="INVALID_TEAM" xml:space="preserve">
+    <value>INVALID_TEAM</value>
+  </data>
+  <data name="INVALID_TEAM_MSG" xml:space="preserve">
+    <value>The team is invalid</value>
+  </data>
   <data name="OLD_PASSWORD_INCORRECT" xml:space="preserve">
     <value>OLD_PASSWORD_INCORRECT</value>
   </data>
@@ -266,6 +272,12 @@
   </data>
   <data name="ROLE_NOT_FOUND_MSG" xml:space="preserve">
     <value>The role cannot be found</value>
+  </data>
+  <data name="TEAM_IS_NULL" xml:space="preserve">
+    <value>TEAM_IS_NULL</value>
+  </data>
+  <data name="TEAM_IS_NULL_MSG" xml:space="preserve">
+    <value>Team data is null</value>
   </data>
   <data name="TOKEN_IS_EXPIRED" xml:space="preserve">
     <value>TOKEN_IS_EXPIRED</value>
