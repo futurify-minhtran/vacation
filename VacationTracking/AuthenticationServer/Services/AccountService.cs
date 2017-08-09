@@ -213,18 +213,40 @@ namespace AuthenticationServer.Services
             }
         }
 
-        public async Task<List<Account>> GetAllPagingAsync(int pageSize, int page, string filter = "")
+        public async Task<List<Account>> GetAllPagingAsync(int pageSize, int page, string sort, string sortType, string filter = "")
         {
             if (String.IsNullOrEmpty(filter))
             {
-                return await _context.Accounts.Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+                if(sortType == "asc")
+                {
+                    return await _context.Accounts.OrderBy(sort).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+
+                }
+                else if (sortType == "desc")
+                {
+                    return await _context.Accounts.OrderByDescending(sort).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+
+                }
             }
             else
             {
-                return await _context.Accounts
-                    .Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter))
-                    .Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+                if (sortType == "asc")
+                {
+                    return await _context.Accounts
+                        .Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter))
+                        .OrderBy(sort)
+                        .Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+                }
+                else if (sortType == "desc")
+                {
+                    return await _context.Accounts
+                        .Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter))
+                        .OrderByDescending(sort)
+                        .Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+                }
+                
             }
+            return null;
         }
 
         public async Task DeleteAsync(int id)

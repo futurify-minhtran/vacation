@@ -36,10 +36,10 @@
             return deferer.promise;
         }
 
-        function GetUsersPaging(pageSize,page, filter) {
+        function GetUsersPaging(pageSize,page, filter, sort, sortType) {
             var deferer = $q.defer();
 
-            $http.get(authServer + '/api/account/getAll/paging/' + pageSize + '/' + page + '?filter=' + filter)
+            $http.get(authServer + '/api/account/getAll/paging/' + pageSize + '/' + page + '?filter=' + filter + '&sort=' + sort + '&sortType=' + sortType)
                 .then(function (response) {
                     deferer.resolve(response.data)
                 }, function (responseErrors) {

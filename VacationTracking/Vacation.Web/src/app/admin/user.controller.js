@@ -7,7 +7,7 @@
         .controller('UsersController', UsersController);
 
     /** @ngInject */
-    function UsersController($scope, UserService) {
+    function UsersController($scope, UserService, $timeout) {
         $scope.users = [];
 
         $scope.clearMessage = function () {
@@ -20,6 +20,9 @@
         $scope.currentPageUsers = 1;
         $scope.filter = "";
 
+        $scope.sort = "Id";
+        $scope.sortType = "asc";
+
         $scope.getTotalItems = function () {
             UserService.GetUsers($scope.filter).then(function (data) {
                 $scope.totalItems = data.length;
@@ -28,13 +31,22 @@
 
         $scope.getTotalItems();
 
-        $scope.getUsersPaging = function (pageSize, page, filter) {
-            UserService.GetUsersPaging(pageSize, page, filter).then(function (data) {
-                $scope.usersPaging = data;
-            });
+        $scope.getUsersPaging = function (pageSize, page, filter, sort, sortType) {
+            $timeout(function () {
+                UserService.GetUsersPaging(pageSize, page, filter, sort, sortType).then(function (data) {
+                    $scope.usersPaging = data;
+                });
+            }, 500);
         }
 
-        $scope.getUsersPaging($scope.itemsPerPage, 1, $scope.filter);
+        $scope.getUsersPaging($scope.itemsPerPage, $scope.currentPageUsers, $scope.filter, $scope.sort, $scope.sortType);
+
+        $scope.clearFilter = function () {
+            $scope.filter = "";
+            $scope.currentPageUsers = 1;
+            $scope.getTotalItems();
+            $scope.getUsersPaging($scope.itemsPerPage, $scope.currentPageUsers, $scope.filter, $scope.sort, $scope.sortType);
+        }
         // Paging Users
 
         $scope.clearForm = function () {

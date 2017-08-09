@@ -13,9 +13,9 @@
 <div class="row">
     <div class="col-lg-3">
         <div class="input-group custom-search-form">
-            <input type="text" class="form-control" placeholder="Search..." ng-model="filter" ng-change="getUsersPaging(itemsPerPage,currentPageUsers,filter); getTotalItems();">
+            <input type="text" class="form-control" placeholder="Search..." ng-model="filter" ng-change="getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType); getTotalItems();">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-default" type="button" ng-click="clearFilter()" >
                     <i class="fa fa-remove"></i>
                 </button>
             </span>
@@ -25,7 +25,7 @@
     <div class="col-lg-6" style="text-align:right">
         <ul uib-pagination ng-model="currentPageUsers" max-size="5" class="pagination-sm" boundary-links="true" force-ellipses="true"
             previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
-            num-pages="numPages" items-per-page="itemsPerPage" total-items="totalItems" ng-change="getUsersPaging(itemsPerPage,currentPageUsers,filter);"
+            num-pages="numPages" items-per-page="itemsPerPage" total-items="totalItems" ng-change="getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType);"
             style="margin: 2px 0;"></ul>
     </div>
 </div>
@@ -33,9 +33,27 @@
  <table class="table table-striped table-hover table-condensed" id="_dataTables-example">
         <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
+                <th>
+                    <a href="#" ng-click="sort = 'FirstName'; (sortType == 'desc' ? sortType = 'asc' : sortType = 'desc'); getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType);">
+                        First Name
+                        <span ng-show="sort == 'FirstName' && sortType == 'desc'" class="fa fa-caret-down"></span>
+                        <span ng-show="sort == 'FirstName' && sortType == 'asc'" class="fa fa-caret-up"></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" ng-click="sort = 'LastName'; (sortType == 'desc' ? sortType = 'asc' : sortType = 'desc'); getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType);">
+                        Last Name
+                        <span ng-show="sort == 'LastName' && sortType == 'desc'" class="fa fa-caret-down"></span>
+                        <span ng-show="sort == 'LastName' && sortType == 'asc'" class="fa fa-caret-up"></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" ng-click="sort = 'Email'; (sortType == 'desc' ? sortType = 'asc' : sortType = 'desc'); getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType);">
+                        Email
+                        <span ng-show="sort == 'Email' && sortType == 'desc'" class="fa fa-caret-down"></span>
+                        <span ng-show="sort == 'Email' && sortType == 'asc'" class="fa fa-caret-up"></span>
+                    </a>
+                </th>
                 <th class="text-center">Function</th>
         </thead>
         <tbody>

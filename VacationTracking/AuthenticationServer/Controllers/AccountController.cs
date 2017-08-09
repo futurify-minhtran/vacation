@@ -102,9 +102,9 @@ namespace AuthenticationServer.Controllers
         }
 
         [HttpGet, Route("getAll/paging/{pageSize:int}/{page:int}")]
-        public async Task<List<AccountViewModel>> GellAllPaging(int pageSize, int page, [FromQuery] string filter)
+        public async Task<List<AccountViewModel>> GellAllPaging(int pageSize, int page, [FromQuery] string filter, [FromQuery] string sort, [FromQuery] string sortType)
         {
-            var accounts = await _accountService.GetAllPagingAsync(pageSize,page,filter);
+            var accounts = await _accountService.GetAllPagingAsync(pageSize,page,sort,sortType,filter);
             return accounts.Select(a => a.ToViewModel()).ToList();
         }
 

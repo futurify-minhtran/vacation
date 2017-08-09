@@ -28,7 +28,7 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task<List<Account>> GetAllAsync(string filter = "");
 
-        Task<List<Account>> GetAllPagingAsync(int pageSize, int page, string filter = "");
+        Task<List<Account>> GetAllPagingAsync(int pageSize, int page, string sort, string sortType, string filter = "");
 
         Task DeleteAsync(int id);
 
