@@ -28,6 +28,8 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task<List<Account>> GetAllAsync();
 
+        Task<List<Account>> GetAllPagingAsync(int pageSize, int page);
+
         Task DeleteAsync(int id);
 
         Task<IEnumerable<string>> GetPermissionsOfAccountAsync(int accountId);

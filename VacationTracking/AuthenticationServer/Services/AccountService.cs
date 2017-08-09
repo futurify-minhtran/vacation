@@ -205,6 +205,11 @@ namespace AuthenticationServer.Services
             return await _context.Accounts.ToListAsync();
         }
 
+        public async Task<List<Account>> GetAllPagingAsync(int pageSize, int page)
+        {
+            return await _context.Accounts.Select(a => a).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var existingAccount = await this.FindByIdAsync(id);

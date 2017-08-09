@@ -13,6 +13,7 @@
 
         var service = {
             GetUsers: GetUsers,
+            GetUsersPaging: GetUsersPaging,
             Create: Create,
             Update: Update,
             Delete: Delete,
@@ -26,6 +27,19 @@
             var deferer = $q.defer();
 
             $http.get(authServer + '/api/account')
+                .then(function (response) {
+                    deferer.resolve(response.data)
+                }, function (responseErrors) {
+                    deferer.reject(responseErrors.data)
+                });
+
+            return deferer.promise;
+        }
+
+        function GetUsersPaging(pageSize,page) {
+            var deferer = $q.defer();
+
+            $http.get(authServer + '/api/account/paging/' + pageSize + '/' + page)
                 .then(function (response) {
                     deferer.resolve(response.data)
                 }, function (responseErrors) {

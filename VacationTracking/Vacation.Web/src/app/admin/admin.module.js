@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.admin', ['ngCookies', 'ui.router'])
+        .module('app.admin', ['ngCookies', 'ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap'])
         .config(config)
 
     /** @ngInject */

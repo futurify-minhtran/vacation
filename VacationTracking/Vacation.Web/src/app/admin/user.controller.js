@@ -8,16 +8,29 @@
 
     /** @ngInject */
     function UsersController($scope, UserService) {
-
         $scope.users = [];
 
         $scope.clearMessage = function () {
             $scope.success = '';
         }
 
+        // Paging Users
+        $scope.itemsPerPage = 5;
+        $scope.totalItems = null;
+        $scope.currentPageUsers = 1;
+
         UserService.GetUsers().then(function (data) {
-            $scope.users = data;
+            $scope.totalItems = data.length;
         });
+
+        $scope.getUsersPaging = function (pageSize, page) {
+            UserService.GetUsersPaging(pageSize, page).then(function (data) {
+                $scope.usersPaging = data;
+            });
+        }
+
+        $scope.getUsersPaging($scope.itemsPerPage, 1);
+        // Paging Users
 
         $scope.clearForm = function () {
             $scope.user = {
@@ -44,7 +57,8 @@
                     $scope.error = data.Error;
                 } else {
                     $scope.user = data.User;
-                    $scope.users.unshift(data.User);
+                    $scope.usersPaging.unshift(data.User);
+                    $scope.totalItems++;
                     $scope.success = "Add user success!";
                     $('#addUserModal').modal('hide');
                 }
@@ -53,7 +67,8 @@
 
         $scope.deleteUser = function (user, index) {
             UserService.Delete(user.Id).then(function () {
-                $scope.users.splice(index, 1);
+                $scope.usersPaging.splice(index, 1);
+                $scope.totalItems--;
             })
         }
 
@@ -63,9 +78,13 @@
             //  })
         }
 
+        $scope.editUser = function (user) {
+            $scope.user = user;
+        }
+
         $scope.setStatusUser = function (user, status, index) {
             UserService.SetStatus(user.Id, status).then(function (settedSatusUser) {
-                $scope.users[index] = settedSatusUser;
+                $scope.usersPaging[index] = settedSatusUser;
             });
         }
 
