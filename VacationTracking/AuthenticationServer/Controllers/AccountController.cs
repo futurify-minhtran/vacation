@@ -21,7 +21,7 @@ using App.Common.Core.Authentication;
 
 namespace AuthenticationServer.Controllers
 {
-    [Route("api/Account")]
+    [Route("api/account")]
     public class AccountController : Controller
     {
         //private readonly AuthDbContext _context;
@@ -75,19 +75,24 @@ namespace AuthenticationServer.Controllers
             }
         }
         
-        [HttpPut,Route("{id:int}")]
-        public async Task<Account> Update(int id, [FromBody]RegisterModel registerModel)
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody]Account account)
         {
-            if(registerModel == null || !ModelState.IsValid)
+            try
             {
-                throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
+                if (account == null)
+                {
+                    throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
+                }
+
+                var updatedUser = await _accountService.UpdateAsync(account);
+
+                return Json(new { User = updatedUser });
             }
-
-            var model = registerModel.ToModel();
-
-            var updatedUser = await _accountService.UpdateAsync(model);
-
-            return updatedUser;
+            catch(Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
         }
 
         [HttpGet, Route("{id:int}")]

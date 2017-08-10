@@ -9,14 +9,26 @@
     /** @ngInject */
     function UsersController($scope, UserService, $timeout) {
 
+        $scope.editIndex = null;
+
         $scope.gender = [
             "Undefined",
             "Male",
             "Female"
         ];
 
+        $scope.genders = [
+            { id: 0, name: 'Undefined' },
+            { id: 1, name: 'Male' },
+            { id: 2, name: 'Female' }
+        ];
+
         $scope.position = [
             "Staff"
+        ];
+
+        $scope.positions = [
+            { id: 0, name: 'Staff' },
         ];
 
         $scope.users = [];
@@ -106,8 +118,23 @@
             //  })
         }
 
-        $scope.editUser = function (user) {
+        $scope.editUser = function (user,index) {
             $scope.user = user;
+            $scope.editIndex = index;
+        }
+
+        $scope.updateUser = function () {
+            var model = angular.copy($scope.user);
+
+            UserService.Update(model).then(function (data) {
+                if (data.Error) {
+                    $scope.error = data.Error;
+                } else {
+                    $scope.usersPaging[$scope.editIndex] = data.User
+                    $scope.success = "Update user success!";
+                    $('#editUserModal').modal('hide');
+                }
+            });
         }
 
         $scope.setStatusUser = function (user, status, index) {

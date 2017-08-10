@@ -62,10 +62,10 @@
             return deferer.promise;
         }
 
-        function Update(id, model) {
-            var derferer = $q.defer();
+        function Update(model) {
+            var deferer = $q.defer();
 
-            $http.put(authServer + 'api/account/' + id)
+            $http.put(authServer + '/api/account', model)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {

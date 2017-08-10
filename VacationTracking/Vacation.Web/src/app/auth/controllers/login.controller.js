@@ -36,6 +36,9 @@
                             case 'INCORRECT_LOGIN':
                                 $scope.error = { incorrect: true}
                                 break;
+                            case 'ACCOUNT_INACTIVE':
+                                $scope.error = { inactive: true }
+                                break;
                             default:
                                 $scope.error = { busy: true }
                                 break;
@@ -44,7 +47,7 @@
                         $scope.error = { busy: true }
                     }
                 }, 300);
-            });
+                })
         }
     }
 })();
