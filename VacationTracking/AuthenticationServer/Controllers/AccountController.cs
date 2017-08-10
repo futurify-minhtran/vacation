@@ -157,7 +157,6 @@ namespace AuthenticationServer.Controllers
             await _accountService.DeleteAsync(id);
         }
 
-        [Authorize]
         [HttpGet, Route("reset-password")]
         public async Task<ActionResult> RequestResetPasswordAsync([FromQuery]string email)
         {

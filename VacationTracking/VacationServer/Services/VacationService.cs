@@ -41,11 +41,16 @@ namespace VacationServer.Services
             return await _context.Bookings.OrderBy(o => o.StartDate).ToListAsync();
         }
 
+        public async Task<List<Booking>> GetAllByUserIdAsync(int userId)
+        {
+            return await _context.Bookings.Where(b => b.UserId == userId).OrderBy(o => o.StartDate).ToListAsync();
+        }
+        
         // Check confict booking
         public async Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, int? excludeBookingId = null)
         {
             // Un-use
-            if (startDate >= endDate)
+            if (startDate >= endDate || startDate.Year != endDate.Year)
             {
                 return false;
             }
@@ -149,6 +154,43 @@ namespace VacationServer.Services
             var vacationDay = await _context.VacationDays.FirstOrDefaultAsync(v => v.UserId == userId && v.Year == year);
 
             return vacationDay.TotalMonth;
+        }
+
+        public async Task<double> GetBookingVacationDay(int userId, int year)
+        {
+            var bookings =  await _context.Bookings.Where(b => b.UserId == userId && b.EndDate.Year == year).OrderBy(o => o.StartDate).ToListAsync();
+            double totalHours = 0;
+
+            foreach (var booking in bookings)
+            {
+                if (booking.EndDate.Day == booking.StartDate.Day && booking.EndDate.Month == booking.StartDate.Month)
+                {
+                    var hours = booking.EndDate - booking.StartDate;
+                    totalHours += hours.TotalHours;
+                }
+                else
+                {
+                    var totalDays = (int)Math.Floor((booking.EndDate - booking.StartDate).TotalDays + 1);
+
+                    var dateNext = booking.StartDate.AddDays(1);
+
+                    int count = 0;
+                    int check = totalDays;
+                    while (check > 0)
+                    {
+                        if(dateNext.DayOfWeek == DayOfWeek.Saturday || dateNext.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            count++;
+                        }
+                        dateNext = dateNext.AddDays(1);
+                        check--;
+                    }
+                    totalHours += (totalDays - count) * 8;
+                }
+
+            }
+            // totalHours += hours.TotalHours;
+            return totalHours;
         }
     }
 }

@@ -58,6 +58,12 @@ namespace VacationServer.Controllers
             return await _vacationService.GetAllAsync();
         }
 
+        [HttpGet, Route("booking/userId/{userId:int}")]
+        public async Task<List<Booking>> ReadAll(int userId)
+        {
+            return await _vacationService.GetAllByUserIdAsync(userId);
+        }
+
         [HttpPut, Route("booking")]
         public async Task<Booking> Update([FromBody]BookingBindingModel bookingBindingModel)
         {
@@ -83,6 +89,12 @@ namespace VacationServer.Controllers
         public async Task<int> GetVacationDay(int userId, int year)
         {
             return await _vacationService.GetVacationDay(userId, year);
+        }
+
+        [HttpGet, Route("getbooking/{userId:int}/{year:int}")]
+        public async Task<double> GetBookingVacationDay(int userId, int year)
+        {
+            return await _vacationService.GetBookingVacationDay(userId, year);
         }
     }
 }

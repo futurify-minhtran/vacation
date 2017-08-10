@@ -6,10 +6,11 @@
         .controller('ResetPasswordController', ResetPasswordController);
 
     /** @ngInject */
-    function ResetPasswordController($scope, AuthenticationService, $routeParams) {
+    function ResetPasswordController($scope, AuthenticationService, $stateParams, $timeout, $state) {
 
-        var email = $routeParams.email;
-        var token = $routeParams.token;
+        debugger;
+        var email = $stateParams.email;
+        var token = $stateParams.token;
 
         $scope.resetPassword = function () {
             AuthenticationService.ResetPassword(email, token, $scope.newPassword).then(function (data) {
@@ -17,7 +18,10 @@
                     $scope.error = data.Error;
                 }
                 else {
-                    $scope.message = "Password reset successfully!";
+                    $scope.message = "Password reset successfully! Redirectly to login page...";
+                    $timeout(function () {
+                        $state.go('app.auth_login');
+                    }, 2000);
                 }
             });
 
