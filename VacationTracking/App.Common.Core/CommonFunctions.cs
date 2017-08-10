@@ -9,11 +9,20 @@ namespace App.Common.Core
 {
     public static class CommonFunctions
     {
+        private static Random random = new Random();
+
         public static int ConvertToInt(this string value)
         {
             if (string.IsNullOrEmpty(value))
                 return 0;
             return Int32.Parse(value);
+        }
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         public static IOrderedQueryable<TSource> OrderBy<TSource>(this IEnumerable<TSource> query, string propertyName)

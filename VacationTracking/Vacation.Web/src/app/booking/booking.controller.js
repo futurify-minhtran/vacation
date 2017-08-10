@@ -9,9 +9,7 @@
         var userId = $rootScope.$authService.Account.Id;
 
         // Init vacation day default is 12
-        debugger;
         BookingService.CheckNewUser(userId).then(function (data) {
-            debugger;
             // New user, must be create a vacation day
             if (data == true) {
                 var vacationDay = {

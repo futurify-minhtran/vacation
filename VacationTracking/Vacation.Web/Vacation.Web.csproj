@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="src\app\admin - Copy\**" />
-    <Content Remove="src\app\admin - Copy\**" />
-    <EmbeddedResource Remove="src\app\admin - Copy\**" />
-    <None Remove="src\app\admin - Copy\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="src\index.html" />
     <Content Include="wwwroot\favicon.ico" />
   </ItemGroup>
@@ -29,9 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\app\auth\styles\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\fonts\fontawesome-webfont.eot" />

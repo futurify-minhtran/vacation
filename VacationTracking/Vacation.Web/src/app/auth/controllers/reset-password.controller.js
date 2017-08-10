@@ -8,7 +8,6 @@
     /** @ngInject */
     function ResetPasswordController($scope, AuthenticationService, $stateParams, $timeout, $state) {
 
-        debugger;
         var email = $stateParams.email;
         var token = $stateParams.token;
 

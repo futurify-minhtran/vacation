@@ -163,12 +163,12 @@ namespace AuthenticationServer.Services
         {
             if (String.IsNullOrEmpty(oldPassword))
             {
-                throw new ArgumentNullException("oldPassword");
+                throw new CustomException(Errors.OLD_PASSWORD_NOT_NULL, Errors.OLD_PASSWORD_NOT_NULL_MSG);
             }
 
             if (String.IsNullOrEmpty(newPassword))
             {
-                throw new ArgumentNullException("newPassword");
+                throw new CustomException(Errors.NEW_PASSWORD_NOT_NULL, Errors.NEW_PASSWORD_NOT_NULL_MSG);
             }
 
             var account = await this.FindByIdAsync(accountId);

@@ -9,6 +9,10 @@
     /** @ngInject */
     function UsersController($scope, UserService, $timeout) {
 
+        $scope.loading = {
+            create: false
+        };
+
         $scope.editIndex = null;
 
         $scope.gender = [
@@ -59,7 +63,7 @@
                 UserService.GetUsersPaging(pageSize, page, filter, sort, sortType).then(function (data) {
                     $scope.usersPaging = data;
                 });
-            }, 500);
+            }, 3000);
         }
 
         $scope.getUsersPaging($scope.itemsPerPage, $scope.currentPageUsers, $scope.filter, $scope.sort, $scope.sortType);
@@ -90,9 +94,10 @@
         }
 
         $scope.addUser = function () {
+            $scope.loading.create = true;
             var model = angular.copy($scope.user);
-
             UserService.Create(model).then(function (data) {
+                $scope.loading.create = false;
                 if (data.Error) {
                     $scope.error = data.Error;
                 } else {

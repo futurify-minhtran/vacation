@@ -296,6 +296,24 @@ namespace AuthenticationServer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NEW_PASSWORD_NOT_NULL.
+        /// </summary>
+        internal static string NEW_PASSWORD_NOT_NULL {
+            get {
+                return ResourceManager.GetString("NEW_PASSWORD_NOT_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New password is not null.
+        /// </summary>
+        internal static string NEW_PASSWORD_NOT_NULL_MSG {
+            get {
+                return ResourceManager.GetString("NEW_PASSWORD_NOT_NULL_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OLD_PASSWORD_INCORRECT.
         /// </summary>
         internal static string OLD_PASSWORD_INCORRECT {
@@ -310,6 +328,24 @@ namespace AuthenticationServer.Resources {
         internal static string OLD_PASSWORD_INCORRECT_MSG {
             get {
                 return ResourceManager.GetString("OLD_PASSWORD_INCORRECT_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OLD_PASSWORD_NOT_NULL.
+        /// </summary>
+        internal static string OLD_PASSWORD_NOT_NULL {
+            get {
+                return ResourceManager.GetString("OLD_PASSWORD_NOT_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old password is not null.
+        /// </summary>
+        internal static string OLD_PASSWORD_NOT_NULL_MSG {
+            get {
+                return ResourceManager.GetString("OLD_PASSWORD_NOT_NULL_MSG", resourceCulture);
             }
         }
         
