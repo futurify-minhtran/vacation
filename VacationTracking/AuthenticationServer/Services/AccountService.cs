@@ -99,6 +99,7 @@ namespace AuthenticationServer.Services
 
             account.CreatedAt = now;
             account.ModifiedAt = now;
+            account.Status = true;
 
             _context.Accounts.Add(account);
 

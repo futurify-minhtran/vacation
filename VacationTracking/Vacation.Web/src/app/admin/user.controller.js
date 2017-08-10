@@ -106,10 +106,12 @@
         };
 
         $scope.deleteUser = function (user, index) {
-            UserService.Delete(user.Id).then(function () {
-                $scope.usersPaging.splice(index, 1);
-                $scope.totalItems--;
-            })
+            if (confirm('Are you sure to delete No.' + (index + 1))) {
+                UserService.Delete(user.Id).then(function () {
+                    $scope.usersPaging.splice(index, 1);
+                    $scope.totalItems--;
+                })
+            }
         }
 
         $scope.detailUser = function (user) {

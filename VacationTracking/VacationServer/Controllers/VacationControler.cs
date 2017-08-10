@@ -67,7 +67,7 @@ namespace VacationServer.Controllers
         [HttpPut, Route("booking")]
         public async Task<Booking> Update([FromBody]BookingBindingModel bookingBindingModel)
         {
-            if(bookingBindingModel == null || !ModelState.IsValid)
+            if (bookingBindingModel == null || !ModelState.IsValid)
             {
                 throw new CustomException(Error.INVALID_REQUEST, Error.INVALID_REQUEST_MSG);
             }
@@ -96,5 +96,24 @@ namespace VacationServer.Controllers
         {
             return await _vacationService.GetBookingVacationDay(userId, year);
         }
+
+        [HttpGet, Route("checknewuser/{userId:int}")]
+        public async Task<bool> CheckNewUser(int userId)
+        {
+            return await _vacationService.CheckNewUser(userId);
+        }
+
+        [HttpPost, Route("initnewuser")]
+        public async Task<VacationDay> Create([FromBody]VacationDay vacationDay)
+        {
+            if (vacationDay == null || !ModelState.IsValid)
+            {
+                throw new CustomException(Error.INVALID_BOOKING, Error.INVALID_BOOKING_MSG);
+            }
+
+            vacationDay = await _vacationService.CreateAsync(vacationDay);
+
+            return vacationDay;
+        } 
     }
 }

@@ -15,7 +15,9 @@
             GetAllByUserId: GetAllByUserId,
             Delete: Delete,
             GetVacationDay: GetVacationDay,
-            GetBookingVacationDay: GetBookingVacationDay
+            GetBookingVacationDay: GetBookingVacationDay,
+            CheckNewUser: CheckNewUser,
+            InitNewUser: InitNewUser
         }
 
         return service;
@@ -24,6 +26,19 @@
             var deferer = $q.defer();
 
             $http.post(baseUrl + '/api/vacation/booking', model)
+                .then(function (response) {
+                    deferer.resolve(response.data);
+                }, function (reponseErrors) {
+                    deferer.reject(reponseErrors.data);
+                });
+
+            return deferer.promise;
+        }
+
+        function Update(model) {
+            var deferer = $q.defer();
+
+            $http.put(baseUrl + '/api/vacation/booking', model)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (reponseErrors) {
@@ -89,6 +104,32 @@
             var deferer = $q.defer();
 
             $http.get(baseUrl + '/api/vacation/getbooking/' + userId + '/' + year)
+                .then(function (response) {
+                    deferer.resolve(response.data);
+                }, function (responseErrors) {
+                    deferer.reject(responseErrors.data);
+                });
+
+            return deferer.promise;
+        }
+
+        function CheckNewUser(userId) {
+            var deferer = $q.defer();
+
+            $http.get(baseUrl + '/api/vacation/checknewuser/' + userId)
+                .then(function (response) {
+                    deferer.resolve(response.data);
+                }, function (responseErrors) {
+                    deferer.reject(responseErrors.data);
+                });
+
+            return deferer.promise;
+        }
+
+        function InitNewUser(vacationDay) {
+            var deferer = $q.defer();
+
+            $http.post(baseUrl + '/api/vacation/initnewuser', vacationDay)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {

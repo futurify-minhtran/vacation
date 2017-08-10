@@ -175,7 +175,7 @@ namespace VacationServer.Services
                     var dateNext = booking.StartDate.AddDays(1);
 
                     int count = 0;
-                    int check = totalDays;
+                    int check = totalDays - 2;
                     while (check > 0)
                     {
                         if(dateNext.DayOfWeek == DayOfWeek.Saturday || dateNext.DayOfWeek == DayOfWeek.Sunday)
@@ -191,6 +191,29 @@ namespace VacationServer.Services
             }
             // totalHours += hours.TotalHours;
             return totalHours;
+        }
+
+        public async Task<bool> CheckNewUser(int userId)
+        {
+            var result = await _context.VacationDays.AnyAsync(vd => vd.UserId == userId);
+            return !result;
+        }
+
+        public async Task<VacationDay> CreateAsync(VacationDay vacationDay)
+        {
+            if(vacationDay == null)
+            {
+                throw new CustomException(Error.VACATIONDAY_IS_NULL, Error.VACATIONDAY_IS_NULL_MSG);
+            }
+
+            var now = DateTime.Now;
+            vacationDay.CreatedAt = now;
+            vacationDay.ModifiedAt = now;
+
+            _context.VacationDays.Add(vacationDay);
+            await _context.SaveChangesAsync();
+
+            return vacationDay;
         }
     }
 }

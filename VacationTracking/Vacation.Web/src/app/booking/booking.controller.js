@@ -8,6 +8,23 @@
     function BookingController($scope, BookingService, $state, $rootScope) {
         var userId = $rootScope.$authService.Account.Id;
 
+        // Init vacation day default is 12
+        debugger;
+        BookingService.CheckNewUser(userId).then(function (data) {
+            debugger;
+            // New user, must be create a vacation day
+            if (data == true) {
+                var vacationDay = {
+                    "UserId" : userId,
+                    "Year" : 2017,
+                    "TotalMonth" : 12
+                };
+                BookingService.InitNewUser(vacationDay);
+            }
+        });
+
+        // End - Init vacation day default is 12
+
         $scope.year = 2017;
 
         BookingService.GetAllByUserId(userId).then(function (data) {
@@ -34,7 +51,7 @@
                 EndDate: new Date(),
                 StartTime: startTime,
                 EndTime: endTime,
-                Reason: "Reason"
+                Reason: ""
             }
             $scope.BookingForm.$setPristine();
             $scope.BookingForm.$setUntouched();

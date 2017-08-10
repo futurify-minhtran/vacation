@@ -139,7 +139,7 @@
     <value>EMAIL_NOT_NULL</value>
   </data>
   <data name="EMAIL_NOT_NULL_MSG" xml:space="preserve">
-    <value>Email không được trống</value>
+    <value>Email is not null</value>
   </data>
   <data name="EXTERNAL_LOGIN_EXIST" xml:space="preserve">
     <value>EXTERNAL_LOGIN_EXIST</value>
@@ -247,7 +247,7 @@
     <value>TOKEN_IS_EXPIRED</value>
   </data>
   <data name="TOKEN_IS_EXPIRED_MSG" xml:space="preserve">
-    <value>Thời hạn đổi mật khẩu đã hết</value>
+    <value>The token is expired</value>
   </data>
   <data name="TOKEN_NOT_NULL" xml:space="preserve">
     <value>TOKEN_NOT_NULL</value>

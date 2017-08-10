@@ -2,7 +2,7 @@
 
 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addBookingModal" ng-click="clearForm()">Add Booking</button><br /><br />
 
-<div class="alert alert-success">Remaining vacation day of {{year}} is <b><i>{{totalVacationDay - (totalBookingVacationDay / 8)}}</i></b></div>
+<div class="alert alert-success">Remaining vacation day of {{year}} is <b><i>{{totalVacationDay*8 - totalBookingVacationDay}}</i></b> hours</div>
 <div class="alert alert-success" ng-if="success">
     <a class="close" ng-click="clearMessage()" aria-label="close">×</a>
     <strong>{{success}}</strong>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="form-group">
                         <label>Reason:</label>
-                        <input type="text" class="form-control" name="Reason" ng-model="booking.Reason" ng-required="true">
+                        <input type="text" class="form-control" name="Reason" ng-model="booking.Reason" ng-required="true" placeholder="Input your reason">
                         <div ng-messages="BookingForm.Reason.$error" style="color:red">
                             <div ng-message="required" ng-if="BookingForm.Reason.$touched">Please input your Reason</div>
                         </div>

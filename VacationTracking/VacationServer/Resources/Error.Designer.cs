@@ -620,6 +620,24 @@ namespace VacationServer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to VACATIONDAY_IS_NULL.
+        /// </summary>
+        internal static string VACATIONDAY_IS_NULL {
+            get {
+                return ResourceManager.GetString("VACATIONDAY_IS_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The vacation day data is null.
+        /// </summary>
+        internal static string VACATIONDAY_IS_NULL_MSG {
+            get {
+                return ResourceManager.GetString("VACATIONDAY_IS_NULL_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VERIFICATION_EXPIRED.
         /// </summary>
         internal static string VERIFICATION_EXPIRED {

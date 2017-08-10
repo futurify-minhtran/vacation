@@ -303,6 +303,12 @@
   <data name="USERNAME_ALREADY_IN_USE_MSG" xml:space="preserve">
     <value>The user name has been used by another user</value>
   </data>
+  <data name="VACATIONDAY_IS_NULL" xml:space="preserve">
+    <value>VACATIONDAY_IS_NULL</value>
+  </data>
+  <data name="VACATIONDAY_IS_NULL_MSG" xml:space="preserve">
+    <value>The vacation day data is null</value>
+  </data>
   <data name="VERIFICATION_EXPIRED" xml:space="preserve">
     <value>VERIFICATION_EXPIRED</value>
   </data>

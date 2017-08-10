@@ -125,7 +125,7 @@ namespace AuthenticationServer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email không được trống.
+        ///   Looks up a localized string similar to Email is not null.
         /// </summary>
         internal static string EMAIL_NOT_NULL_MSG {
             get {
@@ -449,7 +449,7 @@ namespace AuthenticationServer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thời hạn đổi mật khẩu đã hết.
+        ///   Looks up a localized string similar to The token is expired.
         /// </summary>
         internal static string TOKEN_IS_EXPIRED_MSG {
             get {
