@@ -49,7 +49,8 @@
                 EndDate: new Date(),
                 StartTime: startTime,
                 EndTime: endTime,
-                Reason: ""
+                Reason: "",
+                AllDay: false
             }
             $scope.BookingForm.$setPristine();
             $scope.BookingForm.$setUntouched();
