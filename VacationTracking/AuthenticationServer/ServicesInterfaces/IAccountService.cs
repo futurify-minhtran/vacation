@@ -26,7 +26,9 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task<Account> FindByIdAsync(int id);
 
-        Task<List<Account>> GetAllAsync(string filter = "");
+        IQueryable<Account> _queryAll(string filter = "");
+
+        Task<int> CountAllAsync(string filter = "");
 
         Task<List<Account>> GetAllPagingAsync(int pageSize, int page, string sort, string sortType, string filter = "");
 

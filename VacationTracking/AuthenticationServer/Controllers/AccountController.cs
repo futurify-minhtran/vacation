@@ -103,14 +103,13 @@ namespace AuthenticationServer.Controllers
             return account.ToViewModel();
         }
 
-        [HttpGet , Route("getAll")]
-        public async Task<List<AccountViewModel>> GetAll([FromQuery] string filter)
+        [HttpGet , Route("count-all")]
+        public async Task<int> CountAll([FromQuery] string filter)
         {
-            var accounts = await _accountService.GetAllAsync(filter);
-            return accounts.Select(a => a.ToViewModel()).ToList();
+            return await _accountService.CountAllAsync(filter);
         }
 
-        [HttpGet, Route("getAll/paging/{pageSize:int}/{page:int}")]
+        [HttpGet, Route("get-all/paging/{pageSize:int}/{page:int}")]
         public async Task<List<AccountViewModel>> GellAllPaging(int pageSize, int page, [FromQuery] string filter, [FromQuery] string sort, [FromQuery] string sortType)
         {
             var accounts = await _accountService.GetAllPagingAsync(pageSize,page,sort,sortType,filter);

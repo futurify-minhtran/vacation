@@ -201,53 +201,35 @@ namespace AuthenticationServer.Services
             return await _context.Accounts.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<List<Account>> GetAllAsync(string filter = "")
+        public IQueryable<Account> _queryAll(string filter = "")
         {
-            if (String.IsNullOrEmpty(filter))
-            {
-                return await _context.Accounts.ToListAsync();
-            }
-            else
-            {
-                return await _context.Accounts.Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter)).ToListAsync();
+            var q = from x in _context.Accounts
+                    select x;
 
+            // If have filter
+            if (!String.IsNullOrEmpty(filter))
+            {
+                q = q.Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter));
             }
+
+            return q;
+        }
+
+        public async Task<int> CountAllAsync(string filter = "")
+        {
+            return await this._queryAll(filter).CountAsync();
         }
 
         public async Task<List<Account>> GetAllPagingAsync(int pageSize, int page, string sort, string sortType, string filter = "")
         {
-            if (String.IsNullOrEmpty(filter))
-            {
-                if(sortType == "asc")
-                {
-                    return await _context.Accounts.OrderBy(sort).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
+            var q = this._queryAll(filter);
 
-                }
-                else if (sortType == "desc")
-                {
-                    return await _context.Accounts.OrderByDescending(sort).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
-
-                }
-            }
-            else
+            if (sortType == "desc")
             {
-                if (sortType == "asc")
-                {
-                    return await _context.Accounts
-                        .Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter))
-                        .OrderBy(sort)
-                        .Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
-                }
-                else if (sortType == "desc")
-                {
-                    return await _context.Accounts
-                        .Where(a => a.Email.Contains(filter) || a.FirstName.Contains(filter) || a.LastName.Contains(filter))
-                        .OrderByDescending(sort)
-                        .Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
-                }
-                
+                return await q.OrderByDescending(sort).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
             }
-            return null;
+            // else sortType == asc
+            return await q.OrderBy(sort).Skip(pageSize * (page - 1)).Take(pageSize).ToListAsync();
         }
 
         public async Task DeleteAsync(int id)

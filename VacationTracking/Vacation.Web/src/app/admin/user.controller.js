@@ -41,40 +41,57 @@
             $scope.success = '';
         }
 
-        // Paging Users
-        $scope.itemsPerPage = 5;
+        // Paging & sort Users
+        $scope.itemsPerPage = 10;
         $scope.totalItems = null;
         $scope.currentPageUsers = 1;
         $scope.filter = "";
-
         $scope.sort = "Id";
         $scope.sortType = "asc";
 
         $scope.getTotalItems = function () {
-            UserService.GetUsers($scope.filter).then(function (data) {
-                $scope.totalItems = data.length;
+            UserService.CountAll($scope.filter).then(function (data) {
+                $scope.totalItems = data;
+            });
+        }
+        //$scope.getTotalItems();
+
+        $scope.getUsersPaging = function (pageSize, page, filter, sort, sortType) {
+            UserService.GetUsersPaging(pageSize, page, filter, sort, sortType).then(function (data) {
+                $scope.usersPaging = data;
             });
         }
 
-        $scope.getTotalItems();
-
-        $scope.getUsersPaging = function (pageSize, page, filter, sort, sortType) {
-            $timeout(function () {
-                UserService.GetUsersPaging(pageSize, page, filter, sort, sortType).then(function (data) {
-                    $scope.usersPaging = data;
-                });
-            }, 3000);
-        }
-
-        $scope.getUsersPaging($scope.itemsPerPage, $scope.currentPageUsers, $scope.filter, $scope.sort, $scope.sortType);
-
         $scope.clearFilter = function () {
             $scope.filter = "";
-            $scope.currentPageUsers = 1;
-            $scope.getTotalItems();
+        }
+
+        $scope.hasChange = function () {
             $scope.getUsersPaging($scope.itemsPerPage, $scope.currentPageUsers, $scope.filter, $scope.sort, $scope.sortType);
         }
-        // Paging Users
+
+        // delay search
+        $scope.$watch('filter', function (tmpStr) {
+            $timeout(function () {
+                if (tmpStr === $scope.filter) {
+                    $scope.getTotalItems();
+                    $scope.hasChange();
+                }
+            }, 1000);
+        });
+
+        $scope.sortColumn = function (column) {
+            if ($scope.sort == column) {
+                $scope.sortType = $scope.sortType == 'desc' ? 'asc' : 'desc';
+            }
+            else {
+                $scope.sortType = 'asc';
+            }
+
+            $scope.sort = column;
+
+            $scope.hasChange();
+        }
 
         $scope.clearForm = function () {
             $scope.user = {
@@ -90,7 +107,6 @@
             $scope.UserForm.$setUntouched();
             $scope.user = null;
             $scope.error = null;
-            $scope.message = null;
         }
 
         $scope.addUser = function () {

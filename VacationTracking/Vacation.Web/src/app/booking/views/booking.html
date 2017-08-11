@@ -24,13 +24,13 @@
             <td>{{booking.EndDate | date:'dd/MM/yyyy HH:mm'}}</td>
             <td>{{booking.Reason}}</td>
             <td class="text-center">
-                <a ng-click="editBooking(booking)" style="cursor:pointer" title="Edit User">
+                <a ng-click="editBooking(booking)" style="cursor:pointer" title="Edit Booking">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                 </a>
-                <a ng-click="deleteBooking(booking,$index)" style="cursor:pointer" title="Delete User">
+                <a ng-click="deleteBooking(booking,$index)" style="cursor:pointer" title="Delete Booking">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </a>
-                <a data-toggle="modal" data-target="#detailUserModal" ng-click="detailBooking(booking)" style="cursor:pointer" title="User Detail">
+                <a data-toggle="modal" data-target="#detailUserModal" ng-click="detailBooking(booking)" style="cursor:pointer" title="Booking Detail">
                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                 </a>
             </td>

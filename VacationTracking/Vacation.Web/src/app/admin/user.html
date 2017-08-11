@@ -1,16 +1,9 @@
 ﻿<h2>Users</h2>
 
-
-<!-- Test paging
-currentPageUsers: {{currentPageUsers}}<br />
-itemsPerPage: {{itemsPerPage}}<br />
-totalItems: {{totalItems}}<br />
--->
-    
 <div class="row">
     <div class="col-lg-3">
         <div class="input-group custom-search-form">
-            <input type="text" class="form-control" placeholder="Search..." ng-model="filter" ng-change="getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType); getTotalItems();">
+            <input type="text" class="form-control" placeholder="Search..." ng-model="filter">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" ng-click="clearFilter()" >
                     <i class="fa fa-remove"></i>
@@ -24,25 +17,28 @@ totalItems: {{totalItems}}<br />
     <thead>
         <tr>
             <th>
-                <a href="#" ng-click="sort = 'FirstName'; (sortType == 'desc' ? sortType = 'asc' : sortType = 'desc'); getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType);">
+                <a href="#" ng-click="sortColumn('FirstName');">
                     First Name
-                    <span ng-show="sort == 'FirstName' && sortType == 'desc'" class="fa fa-caret-down"></span>
-                    <span ng-show="sort == 'FirstName' && sortType == 'asc'" class="fa fa-caret-up"></span>
+                    <span ng-if="sort == 'FirstName' && sortType == 'desc'" class="fa fa-caret-down"></span>
+                    <span ng-if="sort == 'FirstName' && sortType == 'asc'" class="fa fa-caret-up"></span>
                 </a>
             </th>
             <th>
-                <a href="#" ng-click="sort = 'LastName'; (sortType == 'desc' ? sortType = 'asc' : sortType = 'desc'); getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType);">
+                <a href="#" ng-click="sortColumn('LastName');">
                     Last Name
-                    <span ng-show="sort == 'LastName' && sortType == 'desc'" class="fa fa-caret-down"></span>
-                    <span ng-show="sort == 'LastName' && sortType == 'asc'" class="fa fa-caret-up"></span>
+                    <span ng-if="sort == 'LastName' && sortType == 'desc'" class="fa fa-caret-down"></span>
+                    <span ng-if="sort == 'LastName' && sortType == 'asc'" class="fa fa-caret-up"></span>
                 </a>
             </th>
             <th>
-                <a href="#" ng-click="sort = 'Email'; (sortType == 'desc' ? sortType = 'asc' : sortType = 'desc'); getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType);">
+                <a href="#" ng-click="sortColumn('Email');">
                     Email
-                    <span ng-show="sort == 'Email' && sortType == 'desc'" class="fa fa-caret-down"></span>
-                    <span ng-show="sort == 'Email' && sortType == 'asc'" class="fa fa-caret-up"></span>
+                    <span ng-if="sort == 'Email' && sortType == 'desc'" class="fa fa-caret-down"></span>
+                    <span ng-if="sort == 'Email' && sortType == 'asc'" class="fa fa-caret-up"></span>
                 </a>
+            </th>
+            <th>
+                Status
             </th>
             <th class="text-center">Function</th>
     </thead>
@@ -51,12 +47,14 @@ totalItems: {{totalItems}}<br />
             <td>{{user.FirstName}}</td>
             <td>{{user.LastName}}</td>
             <td>{{user.Email}}</td>
+            <td ng-if="user.Status">Active</td>
+            <td ng-if="!user.Status">Inactive</td>
             <td class="text-center">
                 <a ng-click="setStatusUser(user,false,$index)" style="cursor:pointer"  ng-if="user.Status" title="Set inActive User">
-                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                 </a>
                 <a ng-click="setStatusUser(user,true,$index)" style="cursor:pointer" ng-if="!user.Status" title="Set Active User">
-                    <span class="glyphicon glyphicon-minus-sign" aria-hidden="true" ></span>
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" ></span>
                 </a>
                 <a data-toggle="modal" data-target="#editUserModal" ng-click="editUser(user,$index)" style="cursor:pointer" title="Edit User">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -76,7 +74,7 @@ totalItems: {{totalItems}}<br />
     <div class="col" style="text-align:right">
         <ul uib-pagination ng-model="currentPageUsers" max-size="5" class="pagination-sm" boundary-links="true" force-ellipses="true"
             previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
-            num-pages="numPages" items-per-page="itemsPerPage" total-items="totalItems" ng-change="getUsersPaging(itemsPerPage,currentPageUsers,filter,sort,sortType);"
+            num-pages="numPages" items-per-page="itemsPerPage" total-items="totalItems" ng-change="hasChange();"
             style="margin: 2px 0;"></ul>
     </div>
 </div>

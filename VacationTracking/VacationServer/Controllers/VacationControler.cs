@@ -58,7 +58,7 @@ namespace VacationServer.Controllers
             return await _vacationService.GetAllAsync();
         }
 
-        [HttpGet, Route("booking/userId/{userId:int}")]
+        [HttpGet, Route("booking/user/{userId:int}")]
         public async Task<List<Booking>> ReadAll(int userId)
         {
             return await _vacationService.GetAllByUserIdAsync(userId);
@@ -91,19 +91,19 @@ namespace VacationServer.Controllers
             return await _vacationService.GetVacationDay(userId, year);
         }
 
-        [HttpGet, Route("getbooking/{userId:int}/{year:int}")]
+        [HttpGet, Route("get-booking/{userId:int}/{year:int}")]
         public async Task<double> GetBookingVacationDay(int userId, int year)
         {
             return await _vacationService.GetBookingVacationDay(userId, year);
         }
 
-        [HttpGet, Route("checknewuser/{userId:int}")]
+        [HttpGet, Route("check-new-user/{userId:int}")]
         public async Task<bool> CheckNewUser(int userId)
         {
             return await _vacationService.CheckNewUser(userId);
         }
 
-        [HttpPost, Route("initnewuser")]
+        [HttpPost, Route("init-new-user")]
         public async Task<VacationDay> Create([FromBody]VacationDay vacationDay)
         {
             if (vacationDay == null || !ModelState.IsValid)

@@ -12,7 +12,7 @@
         var authServer = 'http://localhost:58283';
 
         var service = {
-            GetUsers: GetUsers,
+            CountAll: CountAll,
             GetUsersPaging: GetUsersPaging,
             Create: Create,
             Update: Update,
@@ -23,10 +23,10 @@
 
         return service;
 
-        function GetUsers(filter) {
+        function CountAll(filter) {
             var deferer = $q.defer();
 
-            $http.get(authServer + '/api/account/getAll?filter=' + filter)
+            $http.get(authServer + '/api/account/count-all?filter=' + filter)
                 .then(function (response) {
                     deferer.resolve(response.data)
                 }, function (responseErrors) {
@@ -39,7 +39,7 @@
         function GetUsersPaging(pageSize,page, filter, sort, sortType) {
             var deferer = $q.defer();
 
-            $http.get(authServer + '/api/account/getAll/paging/' + pageSize + '/' + page + '?filter=' + filter + '&sort=' + sort + '&sortType=' + sortType)
+            $http.get(authServer + '/api/account/get-all/paging/' + pageSize + '/' + page + '?filter=' + filter + '&sort=' + sort + '&sortType=' + sortType)
                 .then(function (response) {
                     deferer.resolve(response.data)
                 }, function (responseErrors) {

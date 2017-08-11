@@ -64,7 +64,7 @@
         function GetAllByUserId(userId) {
             var deferer = $q.defer();
 
-            $http.get(baseUrl + '/api/vacation/booking/userId/' + userId)
+            $http.get(baseUrl + '/api/vacation/booking/user/' + userId)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {
@@ -103,7 +103,7 @@
         function GetBookingVacationDay(userId, year) {
             var deferer = $q.defer();
 
-            $http.get(baseUrl + '/api/vacation/getbooking/' + userId + '/' + year)
+            $http.get(baseUrl + '/api/vacation/get-booking/' + userId + '/' + year)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {
@@ -116,7 +116,7 @@
         function CheckNewUser(userId) {
             var deferer = $q.defer();
 
-            $http.get(baseUrl + '/api/vacation/checknewuser/' + userId)
+            $http.get(baseUrl + '/api/vacation/check-new-user/' + userId)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {
@@ -129,7 +129,7 @@
         function InitNewUser(vacationDay) {
             var deferer = $q.defer();
 
-            $http.post(baseUrl + '/api/vacation/initnewuser', vacationDay)
+            $http.post(baseUrl + '/api/vacation/init-new-user', vacationDay)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {
