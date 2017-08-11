@@ -162,5 +162,20 @@
                     }
                 }
             })
+            .state('app.auth_change-password', {
+                url: '/change-password',
+                views: {
+                    'main@': {
+                        templateUrl: 'app/core/layouts/loginLayout.html',
+                        controller: 'IndexController as vm'
+                    },
+                    'content@app.auth_change-password': {
+                        templateUrl: 'app/auth/views/change-password.html',
+                        controller: 'ChangePasswordController as vm'
+                    }
+                },
+                protect: true,
+                permissions: ['USER', 'ADMIN']
+            })
     }
 })();

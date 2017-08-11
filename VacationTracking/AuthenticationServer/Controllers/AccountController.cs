@@ -129,14 +129,22 @@ namespace AuthenticationServer.Controllers
 
         [Authorize]
         [HttpPut, Route("me/password")]
-        public async Task ChangePassword([FromBody]ChangePasswordModel model)
+        public async Task<ActionResult> ChangePassword([FromBody]ChangePasswordModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            try
             {
-                throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
-            }
+                if (model == null || !ModelState.IsValid)
+                {
+                    throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
+                }
 
-            await _accountService.ChangePasswordAsync(User.GetAccountId().Value, model.OldPassword, model.NewPassword);
+                await _accountService.ChangePasswordAsync(User.GetAccountId().Value, model.OldPassword, model.NewPassword);
+
+                return Json(new { });
+            }catch(Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
         }
 
         [HttpGet, Route("me/permissions")]
@@ -181,10 +189,10 @@ namespace AuthenticationServer.Controllers
 
                 await _accountService.SendMail(_configSendEmail, _emailTemplate, request);
 
-                return Json(new { Success = "Success" });
+                return Json(new { });
             }catch(Exception ex)
             {
-                return Json(new { Error = ex.Message });
+                return Json(new { error = ex.Message });
             }
 
             //await _rawRabbitBus.PublishAsync(new PushEmail { Title = _emailTemplate.Title, Body = string.Format(_emailTemplate.Body, account.UserName, request.Token), SendTo = email });

@@ -6,32 +6,30 @@
         .controller('ChangePasswordController', ChangePasswordController);
 
     /** @ngInject */
-    function ChangePasswordController($scope, AuthenticationService, $state, $rootScope) {
+    function ChangePasswordController($scope, AuthenticationService, $state, $rootScope, $timeout) {
         $scope.loading = {
             change: false
         }
 
-        $scope.changePassword = {
-            userId: $rootScope.$authService.Account.Id,
-            oldPassword: $scope.oldPassword,
-            newPassword: $scope.newPassword
-        }
-
         $scope.changePassword = function () {
+            $scope.success = null;
+            $scope.error = null;
             $scope.loading.change = true;
-            AuthenticationService.ChangePasswordAsync($scope.changePassword).then(function (data) {
+
+            AuthenticationService.ChangePasswordAsync($scope.user).then(function (response) {
                 $scope.loading.change = false;
-                if (data.Error) {
-                    $scope.error = data.Error;
-                }
-                else {
-                    $scope.message = "Password was changed! Loging out...";
+
+                if (!response.error) {
+                    $scope.success = "Password was changed! Loging out...";
                     $timeout(function () {
                         $state.go('app.auth_logout');
                     }, 2000);
                 }
-            });
+                else {
+                    $scope.error = response.error;
 
+                }
+            });
         }
     }
 })();

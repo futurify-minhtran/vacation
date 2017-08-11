@@ -99,8 +99,8 @@
             var deferer = $q.defer();
 
             $http.put(baseUrl + '/api/account/me/password', model)
-                .then(function () {
-                    deferer.resolve();
+                .then(function (response) {
+                    deferer.resolve(response.data);
                 }, function (responseErrors) {
                     deferer.reject(responseErrors.data);
                 });

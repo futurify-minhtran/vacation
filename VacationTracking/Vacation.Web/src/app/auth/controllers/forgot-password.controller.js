@@ -7,18 +7,25 @@
         .controller('ForgotPasswordController', ForgotPasswordController);
 
     /** @ngInject */
-    function ForgotPasswordController($scope, $location, AuthenticationService, $sce) {
+    function ForgotPasswordController($scope, AuthenticationService) {
+        $scope.loading = {
+            request: false
+        };
+
         $scope.requestResetPassword = function () {
             $scope.error = null;
             $scope.success = null;
 
+            $scope.loading.request = true;
             AuthenticationService.RequestResetPassword($scope.email).then(function (data) {
-                if (data.Error) {
-                    $scope.error = data.Error;
+                $scope.loading.request = false;
+                if (!data.error) {
+                    $scope.success = 'Please check your email';
+                    $scope.email = '';
+                    //$location.path('/user');
                 } else {
-                    $scope.success = 'Success';
+                    $scope.error = data.error;
                 }
-                //$location.path('/user');
             });
         }
     }
