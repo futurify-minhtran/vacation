@@ -8,9 +8,10 @@ using VacationServer.Models;
 namespace VacationServer.Migrations
 {
     [DbContext(typeof(VacationDbContext))]
-    partial class VacationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170814033237_Add_AllDay_Booking")]
+    partial class Add_AllDay_Booking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -36,7 +37,7 @@ namespace VacationServer.Migrations
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<double>("TotalHours");
+                    b.Property<int>("TotalHours");
 
                     b.Property<int>("UserId");
 

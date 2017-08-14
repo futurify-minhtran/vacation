@@ -135,6 +135,12 @@
   <data name="BOOKING_IS_NULL_MSG" xml:space="preserve">
     <value>Booking data is null</value>
   </data>
+  <data name="BOOKING_NOT_ENOUGH" xml:space="preserve">
+    <value>BOOKING_NOT_ENOUGH</value>
+  </data>
+  <data name="BOOKING_NOT_ENOUGH_MSG" xml:space="preserve">
+    <value>The remaining vacation day is not enough to booking</value>
+  </data>
   <data name="BOOKING_NOT_FOUND" xml:space="preserve">
     <value>BOOKING_NOT_FOUND</value>
   </data>

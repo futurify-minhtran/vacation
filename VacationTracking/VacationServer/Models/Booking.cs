@@ -29,6 +29,10 @@ namespace VacationServer.Models
         public DateTime CreatedAt { get; set; }
 
         public DateTime ModifiedAt { get; set; }
+
+        public double TotalHours { get; set; }
+
+        public bool AllDay { get; set; }
     }
 
     public enum BookingType

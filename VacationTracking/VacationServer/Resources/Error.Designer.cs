@@ -116,6 +116,24 @@ namespace VacationServer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BOOKING_NOT_ENOUGH.
+        /// </summary>
+        internal static string BOOKING_NOT_ENOUGH {
+            get {
+                return ResourceManager.GetString("BOOKING_NOT_ENOUGH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The remaining vacation day is not enough to booking.
+        /// </summary>
+        internal static string BOOKING_NOT_ENOUGH_MSG {
+            get {
+                return ResourceManager.GetString("BOOKING_NOT_ENOUGH_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BOOKING_NOT_FOUND.
         /// </summary>
         internal static string BOOKING_NOT_FOUND {

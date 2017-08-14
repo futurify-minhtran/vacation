@@ -9,7 +9,7 @@
             'ngCookies',
             'ngMessages',
             //'ngResource',
-            //'ngSanitize',
+            'ngSanitize',
             //'ngFileUpload',
             //'pascalprecht.translate',
             'ui.router',

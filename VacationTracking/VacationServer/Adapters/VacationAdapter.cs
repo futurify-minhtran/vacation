@@ -24,7 +24,8 @@ namespace VacationServer.Adapters
                 StartDate = bookingBindingModel.StartDate,
                 EndDate = bookingBindingModel.EndDate,
                 BookingType = bookingBindingModel.BookingType,
-                Reason = bookingBindingModel.Reason
+                Reason = bookingBindingModel.Reason,
+                AllDay = bookingBindingModel.AllDay
             };
 
             return bookingModel;
@@ -46,7 +47,9 @@ namespace VacationServer.Adapters
                 BookingType = bookingModel.BookingType,
                 CreatedAt = bookingModel.CreatedAt,
                 ModifiedAt = bookingModel.ModifiedAt,
-                Reason = bookingModel.Reason
+                Reason = bookingModel.Reason,
+                AllDay = bookingModel.AllDay,
+                TotalHours = bookingModel.TotalHours
             };
 
             return bookingViewModel;

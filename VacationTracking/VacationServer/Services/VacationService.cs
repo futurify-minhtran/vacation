@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using App.Common.Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using VacationServer.Models;
 using VacationServer.Resources;
 using VacationServer.ServiceInterfaces;
@@ -13,10 +14,12 @@ namespace VacationServer.Services
     public class VacationService : IVacationService
     {
         private VacationDbContext _context;
+        private IConfiguration _vacationConfig;
 
-        public VacationService(VacationDbContext context)
+        public VacationService(VacationDbContext context, IConfiguration vacationConfig)
         {
             _context = context;
+            _vacationConfig = vacationConfig;
         }
 
         public async Task<Booking> GetByIdAsync(int id)
@@ -85,16 +88,160 @@ namespace VacationServer.Services
             {
                 throw new CustomException(Error.BOOKING_IS_NULL, Error.BOOKING_IS_NULL_MSG);
             }
+
             if (booking.StartDate >= booking.EndDate)
             {
                 throw new CustomException(Error.INVALID_BOOKING, Error.INVALID_BOOKING_MSG);
             }
 
+            // Check conflict
             var checkBooking = await this.CheckBookingAsync(booking.UserId, booking.StartDate, booking.EndDate);
             if (!checkBooking)
             {
                 throw new CustomException(Error.CONFLICT_BOOKING, Error.CONFLICT_BOOKING_MSG);
             }
+
+            var _workingTime = _vacationConfig.GetSection("WorkingTime");
+            var _lunchBreak = _vacationConfig.GetSection("LunchBreak");
+
+            var startTimeOfWorkingTime = DateTime.Parse(_workingTime["StartTime"]).TimeOfDay;
+            var endTimeOfWorkingTime = DateTime.Parse(_workingTime["EndTime"]).TimeOfDay;
+
+            var startTimeOfLunchBreak = DateTime.Parse(_lunchBreak["StartTime"]).TimeOfDay;
+            var endTimeOfLunchBreak = DateTime.Parse(_lunchBreak["EndTime"]).TimeOfDay;
+
+            var lunchBreak = (endTimeOfLunchBreak - startTimeOfLunchBreak).TotalHours;
+            var workingTime = (endTimeOfWorkingTime - startTimeOfWorkingTime).TotalHours - lunchBreak;
+
+            var startTimeOfBooking = booking.StartDate.TimeOfDay;
+            var endTimeOfBooking = booking.EndDate.TimeOfDay;
+
+            double totalHours = 0;
+            var countWeekEnd = 0;
+            var totalDays = (booking.EndDate.Date - booking.StartDate.Date).Days + 1;
+            var dateNext = new DateTime();
+            var check = totalDays - 2;
+            bool checkInDay = booking.StartDate.Date == booking.EndDate.Date;
+
+            
+            // Calculate by days
+            if (booking.AllDay)
+            {
+                // One day
+                if (checkInDay)
+                {
+                    totalHours = workingTime;
+                }
+                // Many days
+                else
+                {
+                    // Count except week end days
+                    dateNext = booking.StartDate.AddDays(1);
+                    while (check > 0)
+                    {
+                        if (dateNext.DayOfWeek == DayOfWeek.Saturday || dateNext.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            countWeekEnd++;
+                        }
+                        dateNext = dateNext.AddDays(1);
+                        check--;
+                    }
+                    totalHours = (totalDays - countWeekEnd) * workingTime;
+                }
+                // Remove time in datetime
+                booking.StartDate = booking.StartDate.Date;
+                booking.EndDate = booking.EndDate.Date;
+            }
+            // Calculate by hours
+            else
+            {
+                // Invalid when booking is outside of working time
+                if (startTimeOfBooking < startTimeOfWorkingTime || endTimeOfBooking > endTimeOfWorkingTime)
+                {
+                    throw new CustomException(Error.INVALID_BOOKING, Error.INVALID_BOOKING_MSG
+                        + ". <br/>Working Time: " + _workingTime["StartTime"] + " -> " + _workingTime["EndTime"]);
+                }
+
+                // Invalid when booking: starttime or endtime is inside Lunch break
+                if ((startTimeOfBooking >= startTimeOfLunchBreak && endTimeOfBooking <= endTimeOfLunchBreak)
+                    || (startTimeOfBooking >= startTimeOfLunchBreak && startTimeOfBooking < endTimeOfLunchBreak)
+                    || (endTimeOfBooking > startTimeOfLunchBreak && endTimeOfBooking <= endTimeOfLunchBreak)
+                    )
+                {
+                    throw new CustomException(Error.INVALID_BOOKING, Error.INVALID_BOOKING_MSG
+                        + ". <br/>Lunch Break: " + _lunchBreak["StartTime"] + " -> " + _lunchBreak["EndTime"]);
+                }
+
+                // Hours in one day
+                if (checkInDay)
+                {
+                    // In 1 side
+                    if((startTimeOfBooking < startTimeOfLunchBreak && endTimeOfBooking <= startTimeOfLunchBreak)
+                        || startTimeOfBooking >= endTimeOfLunchBreak && endTimeOfBooking > endTimeOfLunchBreak)
+                    {
+                        totalHours = endTimeOfBooking.TotalHours - startTimeOfBooking.TotalHours;
+                    }
+                    // In 2 sides
+                    else
+                    {
+                        totalHours = endTimeOfBooking.TotalHours - startTimeOfBooking.TotalHours - lunchBreak;
+                    }
+                }
+                // Hours in many days
+                else
+                {
+                    double firstDayHours = 0;
+                    double lastDayHours = 0;
+                    double hours = 0;
+                    // The first day hours
+                    if (startTimeOfBooking >= startTimeOfWorkingTime && startTimeOfBooking <= startTimeOfLunchBreak)
+                    {
+                        firstDayHours = endTimeOfWorkingTime.TotalHours - startTimeOfBooking.TotalHours - lunchBreak;
+                    }
+                    else if (startTimeOfBooking >= endTimeOfLunchBreak && startTimeOfBooking <= endTimeOfWorkingTime)
+                    {
+                        firstDayHours = endTimeOfWorkingTime.TotalHours - startTimeOfBooking.TotalHours;
+                    }
+                    // The last day hours
+                    if (endTimeOfBooking > startTimeOfWorkingTime && endTimeOfBooking <= startTimeOfLunchBreak)
+                    {
+                        lastDayHours = endTimeOfBooking.TotalHours - startTimeOfWorkingTime.TotalHours;
+                    }
+                    else if (endTimeOfBooking > endTimeOfLunchBreak && endTimeOfBooking <= endTimeOfWorkingTime)
+                    {
+                        lastDayHours = endTimeOfBooking.TotalHours - startTimeOfWorkingTime.TotalHours - lunchBreak;
+                    }
+
+                    // allday from 2nd to before last day
+                    dateNext = booking.StartDate.AddDays(1);
+                    while (check > 0)
+                    {
+                        if (dateNext.DayOfWeek == DayOfWeek.Saturday || dateNext.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            countWeekEnd++;
+                        }
+                        dateNext = dateNext.AddDays(1);
+                        check--;
+                    }
+                    hours = (totalDays - countWeekEnd - 2) * workingTime;
+
+                    totalHours = firstDayHours + hours + lastDayHours;
+                }
+            }
+            
+
+            // check user is still remaining vacation day
+            var userId = booking.UserId;
+            var year = booking.EndDate.Year;
+            var bookingVacationDay = await this.GetBookingVacationDay(userId, year);
+            var vacationDay = (double)await this.GetVacationDay(userId, year) * 8;
+            if ((totalHours + bookingVacationDay) > vacationDay)
+            {
+                throw new CustomException(Error.BOOKING_NOT_ENOUGH, Error.BOOKING_NOT_ENOUGH_MSG
+                    + ", it's over <b>" + (totalHours + bookingVacationDay - vacationDay) + "</b> hours.");
+            }
+
+            booking.TotalHours = totalHours;
 
             var now = DateTime.Now;
             booking.CreatedAt = now;
@@ -158,39 +305,9 @@ namespace VacationServer.Services
 
         public async Task<double> GetBookingVacationDay(int userId, int year)
         {
-            var bookings =  await _context.Bookings.Where(b => b.UserId == userId && b.EndDate.Year == year).OrderBy(o => o.StartDate).ToListAsync();
-            double totalHours = 0;
-
-            foreach (var booking in bookings)
-            {
-                if (booking.EndDate.Day == booking.StartDate.Day && booking.EndDate.Month == booking.StartDate.Month)
-                {
-                    var hours = booking.EndDate - booking.StartDate;
-                    totalHours += hours.TotalHours;
-                }
-                else
-                {
-                    var totalDays = (int)Math.Floor((booking.EndDate - booking.StartDate).TotalDays + 1);
-
-                    var dateNext = booking.StartDate.AddDays(1);
-
-                    int count = 0;
-                    int check = totalDays - 2;
-                    while (check > 0)
-                    {
-                        if(dateNext.DayOfWeek == DayOfWeek.Saturday || dateNext.DayOfWeek == DayOfWeek.Sunday)
-                        {
-                            count++;
-                        }
-                        dateNext = dateNext.AddDays(1);
-                        check--;
-                    }
-                    totalHours += (totalDays - count) * 8;
-                }
-
-            }
-            // totalHours += hours.TotalHours;
-            return totalHours;
+            return await _context.Bookings
+                .Where(b => b.UserId == userId && b.EndDate.Year == year)
+                .SumAsync(b => b.TotalHours);
         }
 
         public async Task<bool> CheckNewUser(int userId)

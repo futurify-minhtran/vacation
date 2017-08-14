@@ -7,14 +7,17 @@
     /** @ngInject */
     function BookingController($scope, BookingService, $state, $rootScope) {
         var userId = $rootScope.$authService.Account.Id;
+        $scope.loading = {
+            create: false
+        };
 
         // Init vacation day default is 12
         BookingService.CheckNewUser(userId).then(function (data) {
             // New user, must be create a vacation day
             if (data == true) {
                 var vacationDay = {
-                    "UserId" : userId,
-                    "Year" : 2017,
+                    "UserId": userId,
+                    "Year": (new DateTime()).Year,
                     "TotalMonth" : 12
                 };
                 BookingService.InitNewUser(vacationDay);
@@ -58,6 +61,7 @@
             $scope.message = null;
         }
         $scope.addBooking = function () {
+            $scope.loading.create = true;
             var model = angular.copy($scope.booking);
 
             model.StartDate.setHours(model.StartTime.getHours());
@@ -70,7 +74,9 @@
             model.EndDate.setSeconds(0);
             model.EndDate.setMilliseconds(0);
 
+            
             BookingService.Create(model).then(function (data) {
+                $scope.loading.create = false;
                 if (data.Error) {
                     $scope.error = data.Error;
                 } else {
@@ -94,11 +100,12 @@
         }
 
         // Remaining vacation days
+        $scope.totalVacationDay = null;
+        $scope.totalBookingVacationDay = null;
         var checkBookingVacationDay = function () {
             BookingService.GetVacationDay(userId, $scope.year).then(function (data) {
                 $scope.totalVacationDay = data;
             });
-
             BookingService.GetBookingVacationDay(userId, $scope.year).then(function (data) {
                 $scope.totalBookingVacationDay = data;
             });

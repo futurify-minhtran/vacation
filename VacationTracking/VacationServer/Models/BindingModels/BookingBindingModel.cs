@@ -18,5 +18,7 @@ namespace VacationServer.Models.BindingModels
         public BookingType BookingType { get; set; }
 
         public string Reason { get; set; }
+
+        public bool AllDay { get; set; }
     }
 }

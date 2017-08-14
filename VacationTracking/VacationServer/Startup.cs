@@ -72,6 +72,8 @@ namespace VacationServer
             //services.AddScoped<IAccountService, AccountService>();
             //services.AddScoped<IPermissionService, PermissionService>();
 
+            services.AddSingleton<IConfiguration>(Configuration.GetSection("VacationConfig"));
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins",

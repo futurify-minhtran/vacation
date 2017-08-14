@@ -22,5 +22,9 @@ namespace VacationServer.Models.ViewModels
         public DateTime CreatedAt { get; set; }
 
         public DateTime ModifiedAt { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public double TotalHours { get; set; }
     }
 }
