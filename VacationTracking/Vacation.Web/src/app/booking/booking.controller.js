@@ -17,7 +17,7 @@
             if (data == true) {
                 var vacationDay = {
                     "UserId": userId,
-                    "Year": (new DateTime()).Year,
+                    "Year": (new Date()).getFullYear(),
                     "TotalMonth" : 12
                 };
                 BookingService.InitNewUser(vacationDay);

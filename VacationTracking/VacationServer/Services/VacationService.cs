@@ -123,7 +123,12 @@ namespace VacationServer.Services
             var check = totalDays - 2;
             bool checkInDay = booking.StartDate.Date == booking.EndDate.Date;
 
-            
+            // variable - vacation duration rule
+            var _vacationDuration = _vacationConfig.GetSection("VacationDuration");
+            var weekVacationDuration = Double.Parse(_vacationDuration["Week"]);
+            var monthVacationDuration = Double.Parse(_vacationDuration["Month"]);
+            // variable end - vacation duration rule
+
             // Calculate by days
             if (booking.AllDay)
             {
@@ -240,6 +245,26 @@ namespace VacationServer.Services
                 throw new CustomException(Error.BOOKING_NOT_ENOUGH, Error.BOOKING_NOT_ENOUGH_MSG
                     + ", it's over <b>" + (totalHours + bookingVacationDay - vacationDay) + "</b> hours.");
             }
+
+            // Check vacation duration > 1 and <= 5, not allow to book with in a week
+            // >5, not allow to book with in a month
+            // can be config
+            var vacationDuration = totalHours / 8;
+            if(vacationDuration > monthVacationDuration)
+            {
+                if(booking.StartDate < (DateTime.Now).Date.AddDays(30))
+                {
+                    throw new CustomException(Error.BOOKING_RULE_MONTH, Error.BOOKING_RULE_MONTH_MSG);
+                }
+            }
+            else if( vacationDuration > weekVacationDuration)
+            {
+                if (booking.StartDate < (DateTime.Now).Date.AddDays(7))
+                {
+                    throw new CustomException(Error.BOOKING_RULE_WEEK, Error.BOOKING_RULE_WEEK_MSG);
+                }
+            }
+            // end - check vacation duration
 
             booking.TotalHours = totalHours;
 

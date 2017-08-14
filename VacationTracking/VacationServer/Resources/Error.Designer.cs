@@ -152,6 +152,42 @@ namespace VacationServer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BOOKING_RULE_MONTH.
+        /// </summary>
+        internal static string BOOKING_RULE_MONTH {
+            get {
+                return ResourceManager.GetString("BOOKING_RULE_MONTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vacation duration &gt; 5, you do not allow to book within a month.
+        /// </summary>
+        internal static string BOOKING_RULE_MONTH_MSG {
+            get {
+                return ResourceManager.GetString("BOOKING_RULE_MONTH_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BOOKING_RULE_WEEK.
+        /// </summary>
+        internal static string BOOKING_RULE_WEEK {
+            get {
+                return ResourceManager.GetString("BOOKING_RULE_WEEK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vacation duration &gt; 1 and &lt;= 5 days, you do not allow to book within a week.
+        /// </summary>
+        internal static string BOOKING_RULE_WEEK_MSG {
+            get {
+                return ResourceManager.GetString("BOOKING_RULE_WEEK_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CONFLICT_BOOKING.
         /// </summary>
         internal static string CONFLICT_BOOKING {

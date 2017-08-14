@@ -22,6 +22,7 @@ namespace VacationServer.Models
         public virtual DbSet<VacationDay> VacationDays { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
+        public virtual DbSet<VacationConfig> VacationConfigs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
