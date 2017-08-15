@@ -169,5 +169,23 @@
         $scope.resetPasswordUser = function () {
             UserService.ResetPassword($scope.user).then();
         }
+
+        // dateOptions
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            maxDate: new Date(2020, 5, 22),
+            minDate: new Date(),
+            startingDay: 1
+        };
+        $scope.user = {
+            DateOfBirth: new Date()
+        }
+        // open popup
+        $scope.dateOfBirthPopup = {
+            opened: false
+        };
+        $scope.openDateOfBirthPopup = function () {
+            $scope.dateOfBirthPopup.opened = true;
+        };
     }
 })();

@@ -250,6 +250,27 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label>Date Of Birth:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="DateOfBirth" ng-required="true" close-text="Close"
+                                   uib-datepicker-popup="dd/MM/yyyy" ng-model="user.DateOfBirth"
+                                   is-open="dateOfBirthPopup.opened" datepicker-options="dateOptions" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDateOfBirthPopup();">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="LastName" ng-model="user.RemainingDaysOff" ng-required="true" placeholder="Remaining Days Off">
+                    </div>
+                    <div class="form-group">
+                        <label>Department:</label>
+                        <select ng-model="user.Department"
+                                ng-options="value.id as value.name for (key, value) in departments"></select>
+                    </div>
+                    <div class="form-group">
                         <label>Position:</label>
                         <select ng-model="user.Position"
                                 ng-options="value.id as value.name for (key, value) in positions"></select>
