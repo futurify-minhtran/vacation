@@ -327,6 +327,18 @@
   <data name="VACATIONDAY_IS_NULL_MSG" xml:space="preserve">
     <value>The vacation day data is null</value>
   </data>
+  <data name="VACATION_CONFIG_IS_NULL" xml:space="preserve">
+    <value>VACATION_CONFIG_IS_NULL</value>
+  </data>
+  <data name="VACATION_CONFIG_IS_NULL_MSG" xml:space="preserve">
+    <value>The vacation config is null</value>
+  </data>
+  <data name="VACATION_CONFIG_NOT_FOUND" xml:space="preserve">
+    <value>VACATION_CONFIG_NOT_FOUND</value>
+  </data>
+  <data name="VACATION_CONFIG_NOT_FOUND_MSG" xml:space="preserve">
+    <value>The vacation config canbe not found</value>
+  </data>
   <data name="VERIFICATION_EXPIRED" xml:space="preserve">
     <value>VERIFICATION_EXPIRED</value>
   </data>

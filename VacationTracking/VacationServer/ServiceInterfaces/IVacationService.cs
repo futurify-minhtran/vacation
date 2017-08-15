@@ -21,5 +21,10 @@ namespace VacationServer.ServiceInterfaces
         Task<double> GetBookingVacationDay(int userId, int year);
         Task<bool> CheckNewUser(int userId);
         Task<VacationDay> CreateAsync(VacationDay vacationDay);
+
+        Task<List<VacationConfig>> GetVacationConfigAsync();
+        Task<VacationConfig> GetVacationConfigAsync(string name);
+        Task<VacationConfig> UpdateVacationConfigAsync(VacationConfig _vacationAsync);
+        Task<VacationConfig> SetStatusVacationConfigAsync(VacationConfig vacationConfig);
     }
 }

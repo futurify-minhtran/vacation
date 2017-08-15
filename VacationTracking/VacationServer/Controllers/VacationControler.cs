@@ -115,5 +115,41 @@ namespace VacationServer.Controllers
 
             return vacationDay;
         } 
+
+        [HttpGet, Route("get-vacation-config")]
+        public async Task<List<VacationConfig>> GetVacationConfig()
+        {
+            return await _vacationService.GetVacationConfigAsync();
+        }
+
+        [HttpGet, Route("get-vacation-config/{name}")]
+        public async Task<VacationConfig> GetVacationConfig(string name)
+        {
+            return await _vacationService.GetVacationConfigAsync(name);
+        }
+
+        [HttpPut, Route("update-vacation-config")]
+        public async Task<VacationConfig> UpdateVacationConfig([FromBody]VacationConfig vacationConfig)
+        {
+            if(vacationConfig == null || !ModelState.IsValid)
+            {
+                throw new CustomException(Error.INVALID_REQUEST, Error.INVALID_REQUEST_MSG);
+            }
+
+            return await _vacationService.UpdateVacationConfigAsync(vacationConfig);
+        }
+
+        [HttpPut, Route("vacation-config")]
+        public async Task<VacationConfig> SetStatusVacationConfig([FromBody]VacationConfig vacationConfig)
+        {
+            if (vacationConfig == null || !ModelState.IsValid)
+            {
+                throw new CustomException(Error.INVALID_REQUEST, Error.INVALID_REQUEST_MSG);
+            }
+
+            var result = await _vacationService.SetStatusVacationConfigAsync(vacationConfig);
+
+            return result;
+        }
     }
 }

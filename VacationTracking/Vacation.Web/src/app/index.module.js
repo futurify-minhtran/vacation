@@ -1,5 +1,6 @@
 ﻿(function () {
     'use strict';
+
     angular
         .module('vacationTracking', [
             // Core
@@ -13,6 +14,8 @@
 
             // booking
             'app.booking',
+
+            'app.config',
 
             'app.stringcommon'
         ]);

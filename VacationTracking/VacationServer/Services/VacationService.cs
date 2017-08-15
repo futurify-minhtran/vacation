@@ -357,5 +357,65 @@ namespace VacationServer.Services
 
             return vacationDay;
         }
+
+        public async Task<List<VacationConfig>> GetVacationConfigAsync()
+        {
+            return await _context.VacationConfigs.ToListAsync();
+        }
+
+        public async Task<VacationConfig> GetVacationConfigAsync(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                throw new CustomException(Error.INVALID_REQUEST, Error.INVALID_REQUEST_MSG);
+            }
+
+            return await _context.VacationConfigs.FirstOrDefaultAsync(vc => vc.Name == name);
+        }
+
+        public async Task<VacationConfig> UpdateVacationConfigAsync(VacationConfig vacationConfig)
+        {
+            if(vacationConfig == null)
+            {
+                throw new CustomException(Error.VACATION_CONFIG_IS_NULL, Error.VACATION_CONFIG_IS_NULL_MSG);
+            }
+
+            var existingVacationConfig = await this.GetVacationConfigAsync(vacationConfig.Name);
+
+            if(existingVacationConfig == null)
+            {
+                throw new CustomException(Error.VACATION_CONFIG_NOT_FOUND, Error.VACATION_CONFIG_NOT_FOUND_MSG);
+            }
+
+            existingVacationConfig.Value = vacationConfig.Value;
+            existingVacationConfig.ModifiedAt = DateTime.Now;
+            existingVacationConfig.Status = vacationConfig.Status;
+
+            await _context.SaveChangesAsync();
+
+            return existingVacationConfig;
+
+        }
+
+        public async Task<VacationConfig> SetStatusVacationConfigAsync(VacationConfig vacationConfig)
+        {
+            if (vacationConfig == null)
+            {
+                throw new CustomException(Error.VACATION_CONFIG_IS_NULL, Error.VACATION_CONFIG_IS_NULL_MSG);
+            }
+
+            var existing = await this.GetVacationConfigAsync(vacationConfig.Name);
+
+            if (existing == null)
+            {
+                throw new CustomException(Error.VACATION_CONFIG_NOT_FOUND, Error.VACATION_CONFIG_NOT_FOUND_MSG);
+            }
+
+            existing.Status = vacationConfig.Status;
+
+            await _context.SaveChangesAsync();
+
+            return existing;
+        }
     }
 }

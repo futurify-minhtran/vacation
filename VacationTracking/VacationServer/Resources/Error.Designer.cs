@@ -674,6 +674,42 @@ namespace VacationServer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to VACATION_CONFIG_IS_NULL.
+        /// </summary>
+        internal static string VACATION_CONFIG_IS_NULL {
+            get {
+                return ResourceManager.GetString("VACATION_CONFIG_IS_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The vacation config is null.
+        /// </summary>
+        internal static string VACATION_CONFIG_IS_NULL_MSG {
+            get {
+                return ResourceManager.GetString("VACATION_CONFIG_IS_NULL_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VACATION_CONFIG_NOT_FOUND.
+        /// </summary>
+        internal static string VACATION_CONFIG_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("VACATION_CONFIG_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The vacation config canbe not found.
+        /// </summary>
+        internal static string VACATION_CONFIG_NOT_FOUND_MSG {
+            get {
+                return ResourceManager.GetString("VACATION_CONFIG_NOT_FOUND_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VACATIONDAY_IS_NULL.
         /// </summary>
         internal static string VACATIONDAY_IS_NULL {

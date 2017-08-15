@@ -66,6 +66,28 @@ namespace VacationServer.Models
         private static void Seed(VacationDbContext context)
         {
             //seed code
+            if(!context.VacationConfigs.Any())
+            {
+                var now = DateTime.Now;
+                context.VacationConfigs.AddRange(
+                    new List<VacationConfig>()
+                    {
+                        new VacationConfig {
+                            Name = "VacationDurationWeek",
+                            Value = "1",
+                            Status = true,
+                            CreatedAt = now
+                        },
+                        new VacationConfig {
+                            Name = "VacationDurationMonth",
+                            Value = "5",
+                            Status = true,
+                            CreatedAt = now
+                        },
+                    }
+                );
+                context.SaveChanges();
+            }
         }
     }
 }
