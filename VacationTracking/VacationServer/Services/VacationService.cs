@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Common.Core;
 using App.Common.Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -124,9 +125,9 @@ namespace VacationServer.Services
             bool checkInDay = booking.StartDate.Date == booking.EndDate.Date;
 
             // variable - vacation duration rule
-            var _vacationDuration = _vacationConfig.GetSection("VacationDuration");
-            var weekVacationDuration = Double.Parse(_vacationDuration["Week"]);
-            var monthVacationDuration = Double.Parse(_vacationDuration["Month"]);
+            VacationConfig weekVacationDuration = await this.GetVacationConfigAsync("VacationDurationWeek");
+            VacationConfig monthVacationDuration = await this.GetVacationConfigAsync("VacationDurationMonth");
+
             // variable end - vacation duration rule
 
             // Calculate by days
@@ -250,18 +251,18 @@ namespace VacationServer.Services
             // >5, not allow to book with in a month
             // can be config
             var vacationDuration = totalHours / 8;
-            if(vacationDuration > monthVacationDuration)
+            if(monthVacationDuration.Status && vacationDuration > monthVacationDuration.Value.ConvertToInt())
             {
                 if(booking.StartDate < (DateTime.Now).Date.AddDays(30))
                 {
-                    throw new CustomException(Error.BOOKING_RULE_MONTH, Error.BOOKING_RULE_MONTH_MSG);
+                    throw new CustomException(Error.BOOKING_RULE_MONTH, String.Format(Error.BOOKING_RULE_MONTH_MSG, monthVacationDuration.Value.ConvertToInt()));
                 }
             }
-            else if( vacationDuration > weekVacationDuration)
+            else if(weekVacationDuration.Status && vacationDuration > weekVacationDuration.Value.ConvertToInt())
             {
                 if (booking.StartDate < (DateTime.Now).Date.AddDays(7))
                 {
-                    throw new CustomException(Error.BOOKING_RULE_WEEK, Error.BOOKING_RULE_WEEK_MSG);
+                    throw new CustomException(Error.BOOKING_RULE_WEEK, String.Format(Error.BOOKING_RULE_WEEK_MSG, weekVacationDuration.Value.ConvertToInt()));
                 }
             }
             // end - check vacation duration

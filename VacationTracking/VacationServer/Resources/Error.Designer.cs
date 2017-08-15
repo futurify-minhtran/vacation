@@ -161,7 +161,7 @@ namespace VacationServer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vacation duration &gt; 5, you do not allow to book within a month.
+        ///   Looks up a localized string similar to Vacation duration &gt; {0} days, you do not allow to book within a month.
         /// </summary>
         internal static string BOOKING_RULE_MONTH_MSG {
             get {
@@ -179,7 +179,7 @@ namespace VacationServer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vacation duration &gt; 1 and &lt;= 5 days, you do not allow to book within a week.
+        ///   Looks up a localized string similar to Vacation duration &gt; {0} days, you do not allow to book within a week.
         /// </summary>
         internal static string BOOKING_RULE_WEEK_MSG {
             get {

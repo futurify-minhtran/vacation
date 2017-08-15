@@ -151,13 +151,13 @@
     <value>BOOKING_RULE_MONTH</value>
   </data>
   <data name="BOOKING_RULE_MONTH_MSG" xml:space="preserve">
-    <value>Vacation duration &gt; 5, you do not allow to book within a month</value>
+    <value>Vacation duration &gt; {0} days, you do not allow to book within a month</value>
   </data>
   <data name="BOOKING_RULE_WEEK" xml:space="preserve">
     <value>BOOKING_RULE_WEEK</value>
   </data>
   <data name="BOOKING_RULE_WEEK_MSG" xml:space="preserve">
-    <value>Vacation duration &gt; 1 and &lt;= 5 days, you do not allow to book within a week</value>
+    <value>Vacation duration &gt; {0} days, you do not allow to book within a week</value>
   </data>
   <data name="CONFLICT_BOOKING" xml:space="preserve">
     <value>CONFLICT_BOOKING</value>
