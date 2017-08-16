@@ -18,7 +18,7 @@
             GetBookingVacationDay: GetBookingVacationDay,
             CheckNewUser: CheckNewUser,
             InitNewUser: InitNewUser
-        }
+        };
 
         return service;
 

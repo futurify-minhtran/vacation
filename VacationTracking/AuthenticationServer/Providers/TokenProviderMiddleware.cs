@@ -91,7 +91,7 @@ namespace AuthenticationServer.Providers
             {
                 AccessToken = encodedJwt,
                 Expires = now.AddSeconds((int)_options.Expiration.TotalSeconds),
-                Account = identity.ToViewModel()
+                Account = identity.ToAccountViewModel()
             };
 
             // Serialize and return the response

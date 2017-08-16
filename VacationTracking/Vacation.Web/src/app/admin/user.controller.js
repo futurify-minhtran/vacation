@@ -15,31 +15,31 @@
 
         $scope.editIndex = null;
 
-        $scope.gender = [
-            "Undefined",
-            "Male",
-            "Female"
-        ];
-
         $scope.genders = [
-            { id: 0, name: 'Undefined' },
-            { id: 1, name: 'Male' },
-            { id: 2, name: 'Female' }
-        ];
-
-        $scope.position = [
-            "Staff"
+            { id: 0, name: 'Undefined'},
+            { id: 1, name: 'Male'},
+            { id: 2, name: 'Female'}
         ];
 
         $scope.positions = [
-            { id: 0, name: 'Staff' },
+            { id: 0, name: 'Marketing'},
+            { id: 1, name: 'Quality'},
+            { id: 2, name: 'Development'},
+            { id: 3, name: 'Sale'},
+            { id: 4, name: 'Business Development'}
         ];
 
+        $scope.departments = [
+            { id: 0, name: 'Enterprise'},
+            { id: 1, name: 'Staffing'},
+            { id: 2, name: 'Outsource'},
+            { id: 3, name: 'Product'}
+        ];
         $scope.users = [];
 
         $scope.clearMessage = function () {
             $scope.success = '';
-        }
+        };
 
         // Paging & sort Users
         $scope.itemsPerPage = 10;
@@ -53,22 +53,22 @@
             UserService.CountAll($scope.filter).then(function (data) {
                 $scope.totalItems = data;
             });
-        }
+        };
         //$scope.getTotalItems();
 
         $scope.getUsersPaging = function (pageSize, page, filter, sort, sortType) {
             UserService.GetUsersPaging(pageSize, page, filter, sort, sortType).then(function (data) {
                 $scope.usersPaging = data;
             });
-        }
+        };
 
         $scope.clearFilter = function () {
             $scope.filter = "";
-        }
+        };
 
         $scope.hasChange = function () {
             $scope.getUsersPaging($scope.itemsPerPage, $scope.currentPageUsers, $scope.filter, $scope.sort, $scope.sortType);
-        }
+        };
 
         // delay search
         $scope.$watch('filter', function (tmpStr) {
@@ -81,8 +81,8 @@
         });
 
         $scope.sortColumn = function (column) {
-            if ($scope.sort == column) {
-                $scope.sortType = $scope.sortType == 'desc' ? 'asc' : 'desc';
+            if ($scope.sort === column) {
+                $scope.sortType = $scope.sortType === 'desc' ? 'asc' : 'desc';
             }
             else {
                 $scope.sortType = 'asc';
@@ -91,7 +91,7 @@
             $scope.sort = column;
 
             $scope.hasChange();
-        }
+        };
 
         $scope.clearForm = function () {
             $scope.user = {
@@ -102,12 +102,12 @@
                 phoneNumber: null,
                 email: null,
                 password: null
-            }
+            };
             $scope.UserForm.$setPristine();
             $scope.UserForm.$setUntouched();
             $scope.user = null;
             $scope.error = null;
-        }
+        };
 
         $scope.addUser = function () {
             $scope.loading.create = true;
@@ -131,55 +131,64 @@
                 UserService.Delete(user.Id).then(function () {
                     $scope.usersPaging.splice(index, 1);
                     $scope.totalItems--;
-                })
+                });
             }
-        }
+        };
 
         $scope.detailUser = function (user) {
             // UserService.Detail(user.Id).then(function (data) {
             $scope.user = user;
             //  })
-        }
+        };
 
-        $scope.editUser = function (user,index) {
-            $scope.user = user;
+        var _removeTime = function (datetime) {
+            datetime.setHours(0);
+            datetime.setMinutes(0);
+            datetime.setSeconds(0);
+            datetime.setMilliseconds(0);
+        };
+
+        $scope.editUser = function (user, index) {
+            $scope.user = angular.copy(user);
             $scope.editIndex = index;
-        }
+            $scope.user.DateOfBirth = new Date(user.DateOfBirth);
+        };
 
         $scope.updateUser = function () {
+            _removeTime($scope.user.DateOfBirth);
             var model = angular.copy($scope.user);
 
             UserService.Update(model).then(function (data) {
                 if (data.Error) {
                     $scope.error = data.Error;
                 } else {
-                    $scope.usersPaging[$scope.editIndex] = data.User
+                    $scope.usersPaging[$scope.editIndex] = data.User;
                     $scope.success = "Update user success!";
                     $('#editUserModal').modal('hide');
                 }
             });
-        }
+        };
 
         $scope.setStatusUser = function (user, status, index) {
             UserService.SetStatus(user.Id, status).then(function (settedSatusUser) {
                 $scope.usersPaging[index] = settedSatusUser;
             });
-        }
+        };
 
         $scope.resetPasswordUser = function () {
             UserService.ResetPassword($scope.user).then();
-        }
+        };
 
         // dateOptions
         $scope.dateOptions = {
             formatYear: 'yy',
-            maxDate: new Date(2020, 5, 22),
-            minDate: new Date(),
+            maxDate: new Date(),
+            minDate: new Date(1900, 1, 1),
             startingDay: 1
         };
         $scope.user = {
             DateOfBirth: new Date()
-        }
+        };
         // open popup
         $scope.dateOfBirthPopup = {
             opened: false

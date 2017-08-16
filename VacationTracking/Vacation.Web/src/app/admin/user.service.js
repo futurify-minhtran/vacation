@@ -28,9 +28,9 @@
 
             $http.get(authServer + '/api/account/count-all?filter=' + filter)
                 .then(function (response) {
-                    deferer.resolve(response.data)
+                    deferer.resolve(response.data);
                 }, function (responseErrors) {
-                    deferer.reject(responseErrors.data)
+                    deferer.reject(responseErrors.data);
                 });
 
             return deferer.promise;
@@ -41,9 +41,9 @@
 
             $http.get(authServer + '/api/account/get-all/paging/' + pageSize + '/' + page + '?filter=' + filter + '&sort=' + sort + '&sortType=' + sortType)
                 .then(function (response) {
-                    deferer.resolve(response.data)
+                    deferer.resolve(response.data);
                 }, function (responseErrors) {
-                    deferer.reject(responseErrors.data)
+                    deferer.reject(responseErrors.data);
                 });
 
             return deferer.promise;
@@ -65,7 +65,7 @@
         function Update(model) {
             var deferer = $q.defer();
 
-            $http.put(authServer + '/api/account', model)
+            $http.put(authServer + '/api/account/update-account', model)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {

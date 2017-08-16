@@ -36,7 +36,8 @@ namespace AuthenticationServer.Controllers
             _emailTemplate = emailTemplate.Value;
             _configSendEmail = configSendEmail.Value;
         }
-        [AllowAnonymous]
+
+        [Authorize(Roles = "ADMIN")]
         [HttpPost, Route("register")]
         public async Task<ActionResult> Register([FromBody]RegisterModel model)
         {
@@ -61,7 +62,7 @@ namespace AuthenticationServer.Controllers
                 // check
                 //await _rawRabbitBus.PublishAsync(new AccountCreated { Id = account.Id, PhoneNumber = account.PhoneNumber, Status = account.Status, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email });
 
-                var viewModel = account.ToViewModel();
+                var viewModel = account.ToAccountViewModel();
 
                 // Send email
                 await _accountService.SendMailRegister(_configSendEmail, account.Email, model.Password);
@@ -74,22 +75,44 @@ namespace AuthenticationServer.Controllers
                 return Json(new { Error = ex.Message });
             }
         }
-        
-        [HttpPut]
-        public async Task<ActionResult> Update([FromBody]Account account)
+
+        [Authorize(Roles = "ADMIN")]
+        [HttpPut, Route("update-account")]
+        public async Task<ActionResult> UpdateAccount([FromBody]AccountBindingModel accountBindingModel)
         {
             try
             {
-                if (account == null)
+                if (accountBindingModel == null)
                 {
                     throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
                 }
 
-                var updatedUser = await _accountService.UpdateAsync(account);
+                var updatedAccount = await _accountService.UpdateAccountAsync(accountBindingModel);
 
-                return Json(new { User = updatedUser });
+                return Json(new { User = updatedAccount.ToAccountViewModel() });
             }
             catch(Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+        }
+
+        [Authorize(Roles = "USER")]
+        [HttpPut, Route("update-user")]
+        public async Task<ActionResult> UpdateUser([FromBody]UserBindingModel userBindingModel)
+        {
+            try
+            {
+                if (userBindingModel == null)
+                {
+                    throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
+                }
+
+                var updatedUser = await _accountService.UpdateUserAsync(userBindingModel);
+
+                return Json(new { User = updatedUser.ToUserViewModel() });
+            }
+            catch (Exception ex)
             {
                 return Json(new { Error = ex.Message });
             }
@@ -100,7 +123,7 @@ namespace AuthenticationServer.Controllers
         {
             var account = await _accountService.FindByIdAsync(id);
 
-            return account.ToViewModel();
+            return account.ToAccountViewModel();
         }
 
         [HttpGet , Route("count-all")]
@@ -113,7 +136,7 @@ namespace AuthenticationServer.Controllers
         public async Task<List<AccountViewModel>> GellAllPaging(int pageSize, int page, [FromQuery] string filter, [FromQuery] string sort, [FromQuery] string sortType)
         {
             var accounts = await _accountService.GetAllPagingAsync(pageSize,page,sort,sortType,filter);
-            return accounts.Select(a => a.ToViewModel()).ToList();
+            return accounts.Select(a => a.ToAccountViewModel()).ToList();
         }
 
         [HttpGet, Route("me")]
@@ -123,7 +146,7 @@ namespace AuthenticationServer.Controllers
 
             var account = await _accountService.FindByIdAsync(id.Value);
 
-            return account.ToViewModel();
+            return account.ToAccountViewModel();
         }
 
         [Authorize]
@@ -229,6 +252,7 @@ namespace AuthenticationServer.Controllers
             }
         }
 
+        [Authorize(Roles = "USER")]
         [HttpGet, Route("{id:int}/{status:bool}")]
         public async Task<AccountViewModel> SetStatusAccountAsync(int id, bool status)
         {
@@ -241,7 +265,7 @@ namespace AuthenticationServer.Controllers
 
             var result = await _accountService.SetStatusAccountAsync(accountExisting, status);
 
-            return result.ToViewModel();
+            return result.ToAccountViewModel();
         }
     }
 }

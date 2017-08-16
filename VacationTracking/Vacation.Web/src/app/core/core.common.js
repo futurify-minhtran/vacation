@@ -827,4 +827,4 @@ var Latinise = {}; Latinise.latin_map = {
     "ᵥ": "v",
     "ₓ": "x"
 };
-String.prototype.noneAccents = function () { return this.replace(/[^A-Za-z0-9\[\] ]/g, function (a) { return Latinise.latin_map[a] || a }) };
+String.prototype.noneAccents = function () { return this.replace(/[^A-Za-z0-9\[\] ]/g, function (a) { return Latinise.latin_map[a] || a; }); };

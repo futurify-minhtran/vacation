@@ -9,7 +9,7 @@
     function ChangePasswordController($scope, AuthenticationService, $state, $rootScope, $timeout) {
         $scope.loading = {
             change: false
-        }
+        };
 
         $scope.changePassword = function () {
             $scope.success = null;
@@ -30,6 +30,6 @@
 
                 }
             });
-        }
+        };
     }
 })();

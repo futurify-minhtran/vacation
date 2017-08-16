@@ -10,7 +10,8 @@
         function logout() {
             AuthenticationService.SignOut();
             $state.go('app.auth_login');
-        };
+        }
+
         logout();
     }
 })();

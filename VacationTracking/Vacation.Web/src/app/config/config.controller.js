@@ -8,7 +8,7 @@
     function ConfigController($scope, $state, ConfigService) {
         $scope.loading = {
             change: false
-        }
+        };
         ConfigService.GetAll().then(function (data) {
             $scope.configs = data;
         });
@@ -19,7 +19,7 @@
                 $scope.loading.change = false;
                 $scope.configs[index] = settedStatus;
             });
-        }
+        };
     }
 
 })();

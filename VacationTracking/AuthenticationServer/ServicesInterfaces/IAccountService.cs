@@ -16,7 +16,9 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task<Account> CreateAsync(Account account);
 
-        Task<Account> UpdateAsync(Account account);
+        Task<Account> UpdateAccountAsync(AccountBindingModel accountBindingModel);
+
+        Task<Account> UpdateUserAsync(UserBindingModel userBindingModel);
 
         Task<Account> UpdatePasswordAsync(int accountId, string password);
 

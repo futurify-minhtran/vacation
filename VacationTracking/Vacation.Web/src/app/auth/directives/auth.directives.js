@@ -32,8 +32,8 @@
                                 }
                             }, function (responseError) {
                                 def.reject();
-                            })
-                        }, 500)
+                            });
+                        }, 500);
 
                         return def.promise;
                     };
@@ -69,8 +69,8 @@
                                 }
                             }, function (responseError) {
                                 def.reject();
-                            })
-                        }, 500)
+                            });
+                        }, 500);
 
                         return def.promise;
                     };
@@ -106,8 +106,8 @@
                                 }
                             }, function (responseError) {
                                 def.reject();
-                            })
-                        }, 500)
+                            });
+                        }, 500);
 
                         return def.promise;
                     };
@@ -140,6 +140,6 @@
                         ngModel.$setValidity('passwordVerify', val1 === val2);
                     };
                 }
-            }
-        })
+            };
+        });
 })();

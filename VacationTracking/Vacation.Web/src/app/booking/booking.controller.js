@@ -33,9 +33,9 @@
         });
 
         $scope.clearMessage = function () {
-            $scope.error = ''
+            $scope.error = '';
             $scope.success = '';
-        }
+        };
 
         $scope.clearForm = function () {
             var startTime = new Date();
@@ -54,12 +54,12 @@
                 EndTime: endTime,
                 Reason: "",
                 AllDay: false
-            }
+            };
             $scope.BookingForm.$setPristine();
             $scope.BookingForm.$setUntouched();
             $scope.error = null;
             $scope.message = null;
-        }
+        };
         $scope.addBooking = function () {
             $scope.loading.create = true;
             var model = angular.copy($scope.booking);
@@ -74,7 +74,7 @@
             model.EndDate.setSeconds(0);
             model.EndDate.setMilliseconds(0);
 
-            
+
             BookingService.Create(model).then(function (data) {
                 $scope.loading.create = false;
                 if (data.Error) {
@@ -88,16 +88,16 @@
                     checkBookingVacationDay();
                 }
             });
-        }
+        };
 
         $scope.deleteBooking = function (booking, index) {
             if (confirm('Are you sure to delete No.' + (index + 1))) {
                 BookingService.Delete(booking.Id).then(function () {
                     $scope.bookings.splice(index, 1);
                     checkBookingVacationDay();
-                })
+                });
             }
-        }
+        };
 
         // Remaining vacation days
         $scope.totalVacationDay = null;
@@ -109,7 +109,7 @@
             BookingService.GetBookingVacationDay(userId, $scope.year).then(function (data) {
                 $scope.totalBookingVacationDay = data;
             });
-        }
+        };
         checkBookingVacationDay();
         // Remaining vacation days
 

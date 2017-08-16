@@ -9,13 +9,13 @@
                 'request': function (config) {
                     var accessToken = $cookies.get('access_token');
                     if (config.params && config.params.isExternalRequest) {
-                        delete (config.params.isExternalRequest)
+                        delete(config.params.isExternalRequest);
                     } else if (accessToken) {
                         config.headers.Authorization = 'bearer ' + accessToken;
                     }
                     return config;
                 }
-            }
+            };
         }])
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('HttpBearerTokenAuthorizationInterceptor');
@@ -88,10 +88,10 @@
                     _authenticate(response.data, remember);
                     _syncPermissions().then(function () {
                         deferer.resolve();
-                    })
+                    });
                 }, function (responseErrors) {
                     deferer.reject(responseErrors.data);
-                })
+                });
             return deferer.promise;
         }
 
@@ -176,7 +176,7 @@
                 cookieOptions.expires = new Date(signInResponse.Expires);
             }
 
-            $cookies.put('access_token', signInResponse.AccessToken, cookieOptions)
+            $cookies.put('access_token', signInResponse.AccessToken, cookieOptions);
             service.IsAuthenticated = true;
             service.AccessToken = signInResponse.AccessToken;
             service.Account = signInResponse.Account;
@@ -201,7 +201,7 @@
                                             deferer.resolve(service.Account);
                                             deferer = loadCurrentPromises.pop();
                                         }
-                                    })
+                                    });
                                 _syncPermissions();
                             }
                         } else if (firstCheck) {
@@ -209,7 +209,7 @@
                             window.location.reload();
                         }
                         firstCheck = false;
-                    })
+                    });
             }
             
         }
@@ -231,7 +231,7 @@
                         //        }
                         //    })
                         //}
-                    })
+                    });
             } else {
                 var deferer = $q.defer();
                 deferer.reject();
@@ -318,5 +318,5 @@
 
         //    return deferer.promise;
         //}
-    };
+    }
 })();

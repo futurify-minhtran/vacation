@@ -24,7 +24,7 @@
                     }
                 },
                 protect: true,
-                permissions: ['USER']
+                permissions: ['USER', 'ADMIN']
             });
             //.state('app.booking_', {
             //    url: '/booking/',

@@ -27,28 +27,28 @@
             AuthenticationService.SignInAsync($scope.loginForm.Email, $scope.loginForm.Password, $scope.loginForm.Remember).then(function () {
                 $scope.loggingIn = false;
                 $state.go('app.admin_user');
-               
+
             }, function (error) {
                 $timeout(function () {
                     $scope.loggingIn = false;
                     if (error && error.Code) {
                         switch (error.Code) {
                             case 'INCORRECT_LOGIN':
-                                $scope.error = { incorrect: true}
+                                $scope.error = { incorrect: true };
                                 break;
                             case 'ACCOUNT_INACTIVE':
-                                $scope.error = { inactive: true }
+                                $scope.error = { inactive: true };
                                 break;
                             default:
-                                $scope.error = { busy: true }
+                                $scope.error = { busy: true };
                                 break;
                         }
                     } else {
-                        $scope.error = { busy: true }
+                        $scope.error = { busy: true };
                     }
                 }, 300);
-                })
-        }
+            });
+        };
     }
 })();
 

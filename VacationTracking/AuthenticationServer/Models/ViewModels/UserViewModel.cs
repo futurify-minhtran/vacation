@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace AuthenticationServer.Models.ViewModels
 {
-    public class AccountViewModel
+    public class UserViewModel
     {
         public int Id { get; set; }
 
-        public bool IsSystemAdmin { get; set; }
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -21,10 +20,8 @@ namespace AuthenticationServer.Models.ViewModels
 
         public Gender Gender { get; set; }
 
-        [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
-        [EmailAddress]
         public string Email { get; set; }
 
         public DateTime DateOfBirth { get; set; }
@@ -34,9 +31,5 @@ namespace AuthenticationServer.Models.ViewModels
         public int RemainingDaysOff { get; set; }
 
         public DateTime? CreatedAt { get; set; }
-
-        public DateTime? ModifiedAt { get; set; }
-
-        public bool Status { get; set; }
     }
 }

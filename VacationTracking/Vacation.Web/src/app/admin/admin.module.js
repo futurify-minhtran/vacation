@@ -4,7 +4,7 @@
 
     angular
         .module('app.admin', ['ngCookies', 'ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap'])
-        .config(config)
+        .config(config);
 
     /** @ngInject */
     function config($stateProvider)
@@ -24,8 +24,8 @@
                     }
                 },
                 protect: true,
-                permissions: ['USER']
-            })
+                permissions: ['ADMIN', 'USER']
+            });
     }
 })();
 //bodyClass: 'admin',

@@ -13,7 +13,7 @@
             Get: Get,
             GetAll: GetAll,
             SetStatus: SetStatus
-        }
+        };
 
         return service;
 

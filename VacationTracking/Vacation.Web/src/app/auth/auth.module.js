@@ -10,7 +10,7 @@
 
             $rootScope.$on('PERMISSIONS_LOADED', function () {
                 permissionsLoaded = true;
-            })  
+            });  
 
             $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
                 if (toState.protect === true) {
@@ -33,7 +33,7 @@
                                         var params = angular.copy(toParams);
                                         $state.go(toState.name, params);
                                     }
-                                })
+                                });
                             }
                         }
                     }
@@ -47,7 +47,7 @@
                     handler();
                     $rootScope.$on('PERMISSIONS_LOADED', function () {
                         handler();
-                    })
+                    });
                     function handler() {
                         if (!attrs.uiSref && !attrs.showForRoute) {
                             element.hide();
@@ -82,7 +82,7 @@
                         }
                     }
                 }
-            }
+            };
         }])
         .directive('showPermissions', ['AuthenticationService', '$rootScope', '$state', function (AuthenticationService, $rootScope, $state) {
             return {
@@ -94,7 +94,7 @@
                     handler();
                     $rootScope.$on('PERMISSIONS_LOADED', function () {
                         handler();
-                    })
+                    });
                     function handler() {
                         if (scope.$$permissions.length) {
                             if (!AuthenticationService.HasPermissions(scope.$$permissions)) {
@@ -107,7 +107,7 @@
                         }
                     }
                 }
-            }
+            };
         }]);
 
     /** @ngInject */
@@ -134,7 +134,9 @@
                     'main@': {
                         controller: 'LogoutController as vm'
                     }
-                }
+                },
+                protect: true,
+                permissions: ['USER', 'ADMIN']
             })
             .state('app.auth_forgot-password', {
                 url: '/forgot-password',
@@ -176,6 +178,6 @@
                 },
                 protect: true,
                 permissions: ['USER', 'ADMIN']
-            })
+            });
     }
 })();

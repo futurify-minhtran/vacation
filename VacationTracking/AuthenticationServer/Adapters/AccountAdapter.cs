@@ -31,7 +31,7 @@ namespace AuthenticationServer.Adapters
             return account;
         }
 
-        public static AccountViewModel ToViewModel(this Account model)
+        public static AccountViewModel ToAccountViewModel(this Account model)
         {
             if (model == null)
             {
@@ -41,9 +41,11 @@ namespace AuthenticationServer.Adapters
             var viewModel = new AccountViewModel
             {
                 Id = model.Id,
+                IsSystemAdmin = model.IsSystemAdmin,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Position = model.Position,
+                Department = model.Department,
                 Gender = model.Gender,
                 PhoneNumber = model.PhoneNumber,
                 Email = model.Email,
@@ -53,6 +55,32 @@ namespace AuthenticationServer.Adapters
                 CreatedAt = model.CreatedAt,
                 ModifiedAt = model.ModifiedAt,
                 Status = model.Status
+            };
+
+            return viewModel;
+        }
+
+        public static UserViewModel ToUserViewModel(this Account model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+
+            var viewModel = new UserViewModel
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Position = model.Position,
+                Department = model.Department,
+                Gender = model.Gender,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                DateOfBirth = model.DateOfBirth,
+                Avatar = model.Avatar,
+                RemainingDaysOff = model.RemainingDaysOff,
+                CreatedAt = model.CreatedAt,
             };
 
             return viewModel;

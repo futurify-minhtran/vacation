@@ -27,7 +27,7 @@
                     $scope.error = data.error;
                 }
             });
-        }
+        };
     }
 })();
 

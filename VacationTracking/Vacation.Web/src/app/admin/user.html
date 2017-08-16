@@ -190,6 +190,12 @@
                 <div class="modal-body">
                     <table class="table table-responsive table-striped">
                         <tr>
+                            <td>Is System Admin:</td>
+                            <td>
+                                <div>{{user.IsSystemAdmin ? "Yes" : "No"}}</div>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>First Name:</td>
                             <td><div ng-bind="user.FirstName"></div></td>
                         </tr>
@@ -199,11 +205,15 @@
                         </tr>
                         <tr>
                             <td>Position:</td>
-                            <td><div ng-bind="position[user.Position]"></div></td>
+                            <td><div ng-bind="positions[user.Position].name"></div></td>
+                        </tr>
+                        <tr>
+                            <td>Department:</td>
+                            <td><div ng-bind="departments[user.Department].name"></div></td>
                         </tr>
                         <tr>
                             <td>Gender:</td>
-                            <td><div ng-bind="gender[user.Gender]"></div></td>
+                            <td><div ng-bind="genders[user.Gender].name"></div></td>
                         </tr>
                         <tr>
                             <td>Phone Number:</td>
@@ -212,6 +222,14 @@
                         <tr>
                             <td>Email:</td>
                             <td><div ng-bind="user.Email"></div></td>
+                        </tr>
+                        <tr>
+                            <td>Date Of Birth:</td>
+                            <td><div ng-bind="user.DateOfBirth | date:'dd/MM/yyyy'"></div></td>
+                        </tr>
+                        <tr>
+                            <td>Remaining Days Off:</td>
+                            <td><div ng-bind="user.RemainingDaysOff"></div></td>
                         </tr>
                         <tr>
                             <td>Status:</td>
@@ -238,6 +256,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                            <input type="checkbox" name="FirstName" ng-model="user.IsSystemAdmin">
+                            Is System Admin?
+                    </div>
+                    <div class="form-group">
                         <input type="text" class="form-control" name="FirstName" ng-model="user.FirstName" ng-required="true" placeholder="First Name">
                         <div ng-messages="UserForm.FirstName.$error" style="color:red">
                             <div ng-message="required" ng-if="UserForm.FirstName.$touched">Please input your First Name</div>
@@ -247,6 +269,36 @@
                         <input type="text" class="form-control" name="LastName" ng-model="user.LastName" ng-required="true" placeholder="Last Name">
                         <div ng-messages="UserForm.LastName.$error" style="color:red">
                             <div ng-message="required" ng-if="UserForm.LastName.$touched">Please input your Last Name</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Position:</label>
+                        <select ng-model="user.Position"
+                                ng-options="value.id as value.name for (key, value) in positions"></select>
+                        <div ng-messages="UserForm.Position.$error" style="color:red">
+                            <div ng-message="required" ng-if="UserForm.Position.$touched">Please choose your Position</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Department:</label>
+                        <select ng-model="user.Department"
+                                ng-options="value.id as value.name for (key, value) in departments"></select>
+                        <div ng-messages="UserForm.Department.$error" style="color:red">
+                            <div ng-message="required" ng-if="UserForm.Department.$touched">Please choose your Department</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender:</label>
+                        <select ng-model="user.Gender"
+                                ng-options="value.id as value.name for (key, value) in genders"></select>
+                        <div ng-messages="UserForm.Gender.$error" style="color:red">
+                            <div ng-message="required" ng-if="UserForm.Gender.$touched">Please choose your Gender</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="PhoneNumber" ng-model="user.PhoneNumber" ng-required="true" placeholder="Phone Number">
+                        <div ng-messages="UserForm.PhoneNumber.$error" style="color:red">
+                            <div ng-message="required" ng-if="UserForm.PhoneNumber.$touched">Please input your Phone Number</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -263,34 +315,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="LastName" ng-model="user.RemainingDaysOff" ng-required="true" placeholder="Remaining Days Off">
+                        <input type="text" class="form-control" name="RemainingDaysOff" ng-model="user.RemainingDaysOff" ng-required="true" placeholder="Remaining Days Off">
                     </div>
                     <div class="form-group">
-                        <label>Department:</label>
-                        <select ng-model="user.Department"
-                                ng-options="value.id as value.name for (key, value) in departments"></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Position:</label>
-                        <select ng-model="user.Position"
-                                ng-options="value.id as value.name for (key, value) in positions"></select>
-                        <div ng-messages="UserForm.Position.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Position.$touched">Please choose your Position</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Gender:</label>
-                        <select ng-model="user.Gender"
-                                ng-options="value.id as value.name for (key, value) in genders"></select>
-                        <div ng-messages="UserForm.Gender.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Gender.$touched">Please choose your Gender</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="PhoneNumber" ng-model="user.PhoneNumber" ng-required="true" placeholder="Phone Number">
-                        <div ng-messages="UserForm.PhoneNumber.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.PhoneNumber.$touched">Please input your Phone Number</div>
-                        </div>
+                        <input type="checkbox" name="Status" ng-model="user.Status">
+                        Active / Inactive
                     </div>
                 </div>
                 <div class="modal-footer">

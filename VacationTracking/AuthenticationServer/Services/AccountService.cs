@@ -108,29 +108,62 @@ namespace AuthenticationServer.Services
             return account;
         }
 
-        public async Task<Account> UpdateAsync(Account account)
+        public async Task<Account> UpdateAccountAsync(AccountBindingModel accountBindingModel)
         {
-            if (account == null)
+            if (accountBindingModel == null)
             {
-                throw new ArgumentNullException("account");
+                throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
             }
 
-            var existingAccount = await FindByIdAsync(account.Id);
+            var existingAccount = await FindByIdAsync(accountBindingModel.Id);
             if(existingAccount == null)
             {
                 throw new CustomException(Errors.ACCOUNT_NOT_FOUND, Errors.ACCOUNT_NOT_FOUND_MSG);
             }
 
-            existingAccount.FirstName = account.FirstName;
-            existingAccount.LastName = account.LastName;
-            existingAccount.Gender = account.Gender;
-            existingAccount.Position = account.Position;
-            existingAccount.PhoneNumber = account.PhoneNumber;
+            existingAccount.IsSystemAdmin = accountBindingModel.IsSystemAdmin;
+            existingAccount.FirstName = accountBindingModel.FirstName;
+            existingAccount.LastName = accountBindingModel.LastName;
+            existingAccount.Position = accountBindingModel.Position;
+            existingAccount.Department = accountBindingModel.Department;
+            existingAccount.Gender = accountBindingModel.Gender;
+            existingAccount.PhoneNumber = accountBindingModel.PhoneNumber;
+            existingAccount.DateOfBirth = accountBindingModel.DateOfBirth;
+            existingAccount.Avatar = accountBindingModel.Avatar;
+            existingAccount.RemainingDaysOff = accountBindingModel.RemainingDaysOff;
+            existingAccount.Status = accountBindingModel.Status;
             existingAccount.ModifiedAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
             return existingAccount;
+
+        }
+
+        public async Task<Account> UpdateUserAsync(UserBindingModel userBindingModel)
+        {
+            if (userBindingModel == null)
+            {
+                throw new CustomException(Errors.INVALID_REQUEST, Errors.INVALID_REQUEST_MSG);
+            }
+
+            var existingUser = await FindByIdAsync(userBindingModel.Id);
+            if (existingUser == null)
+            {
+                throw new CustomException(Errors.ACCOUNT_NOT_FOUND, Errors.ACCOUNT_NOT_FOUND_MSG);
+            }
+
+            existingUser.FirstName = userBindingModel.FirstName;
+            existingUser.LastName = userBindingModel.LastName;
+            existingUser.Gender = userBindingModel.Gender;
+            existingUser.PhoneNumber = userBindingModel.PhoneNumber;
+            existingUser.DateOfBirth = userBindingModel.DateOfBirth;
+            existingUser.Avatar = userBindingModel.Avatar;
+            existingUser.ModifiedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            return existingUser;
 
         }
 

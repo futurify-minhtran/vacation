@@ -11,15 +11,14 @@
     {
         var convertToAliasName = function (name) {
             var result = "";
-            if (name)   
-            {
+            if (name) {
                 var result = name.replace(/ /g, '-');
                 result = result.replace(/-+/g, '-');
                 result = result.toLowerCase();
             }
 
             return result;
-        }
+        };
 
         var convertToNumberPhoneString = function (number) {
             var result = "";
@@ -38,12 +37,12 @@
         var goToDetailPage = function (rvname, city) {
             var _city = convertToAliasName(city);
 
-            return SVCS.Web + "/" + $stateParams.lang +  "/rv-rental/" + _city + "/" + rvname;
-        }
+            return SVCS.Web + "/" + $stateParams.lang + "/rv-rental/" + _city + "/" + rvname;
+        };
 
         var addSpaceBeforeCapital = function (string) {
             return string.replace(/([a-z])([A-Z])/g, '$1 $2').trim();
-        }
+        };
 
         return {
             convertToAliasName: convertToAliasName,

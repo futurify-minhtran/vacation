@@ -19,6 +19,8 @@ namespace AuthenticationServer.Models
 
         public Position Position { get; set; }
 
+        public Department Department { get; set; }
+
         public Gender Gender { get; set; }
 
         [DataType(DataType.PhoneNumber)]
@@ -50,7 +52,24 @@ namespace AuthenticationServer.Models
         public bool Status { get; set; }
     }
 
-    public enum Position { Staff }
+    public enum Position {
+        Marketing,
+        Quality,
+        Development,
+        Sale,
+        BusinessDevelopment
+    }
 
-    public enum Gender { Undefine, Male, Female }
+    public enum Gender {
+        Undefine,
+        Male,
+        Female
+    }
+
+    public enum Department {
+        Enterprise,
+        Staffing,
+        Outsource,
+        Product
+    }
 }
