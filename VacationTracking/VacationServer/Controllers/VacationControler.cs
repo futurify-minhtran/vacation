@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App.Common.Core.Exceptions;
+using App.Common.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using VacationServer.Adapters;
 using VacationServer.Models;
 using VacationServer.Models.BindingModels;
@@ -16,20 +18,22 @@ namespace VacationServer.Controllers
     public class VacationControler : Controller
     {
         IVacationService _vacationService;
+        private ConfigSendEmail _configSendEmail;
 
-        public VacationControler(IVacationService vacationService)
+        public VacationControler(IVacationService vacationService, IOptions<ConfigSendEmail> configSendEmail)
         {
             _vacationService = vacationService;
+            _configSendEmail = configSendEmail.Value;
         }
 
-        [HttpPost, Route("booking")]
-        public async Task<ActionResult> Create([FromBody]BookingBindingModel bookingBindingModel)
+        [HttpPost, Route("booking/{email}")]
+        public async Task<ActionResult> Create([FromBody]BookingBindingModel bookingBindingModel, string email)
         {
             try
             {
                 var bookingModel = bookingBindingModel.ToModel();
 
-                if (bookingModel == null || !ModelState.IsValid)
+                if (bookingModel == null || !ModelState.IsValid || email == null)
                 {
                     throw new CustomException(Error.INVALID_BOOKING, Error.INVALID_BOOKING_MSG);
                 }
@@ -37,6 +41,9 @@ namespace VacationServer.Controllers
                 bookingModel = await _vacationService.CreateAsync(bookingModel);
 
                 var bookingViewModel = bookingModel.ToViewMode();
+
+                // Send mail
+                await _vacationService.SendMailBooking(_configSendEmail, email, bookingModel);
 
                 return Json(new { Booking = bookingViewModel });
             }

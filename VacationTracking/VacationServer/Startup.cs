@@ -74,6 +74,8 @@ namespace VacationServer
 
             services.AddSingleton<IConfiguration>(Configuration.GetSection("VacationConfig"));
 
+            services.Configure<ConfigSendEmail>(Configuration.GetSection("ConfigSendEmail"));
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins",

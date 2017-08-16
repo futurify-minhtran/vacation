@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using App.Common.Core;
 using App.Common.Core.Exceptions;
+using App.Common.Core.Models;
+using MailKit.Net.Smtp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MimeKit;
 using VacationServer.Models;
 using VacationServer.Resources;
 using VacationServer.ServiceInterfaces;
@@ -51,10 +54,10 @@ namespace VacationServer.Services
         }
         
         // Check confict booking
-        public async Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, int? excludeBookingId = null)
+        public async Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, bool allDay, int? excludeBookingId = null)
         {
             // Un-use
-            if (startDate >= endDate || startDate.Year != endDate.Year)
+            if ((startDate >= endDate && !allDay) || startDate.Year != endDate.Year || (startDate > endDate))
             {
                 return false;
             }
@@ -90,13 +93,13 @@ namespace VacationServer.Services
                 throw new CustomException(Error.BOOKING_IS_NULL, Error.BOOKING_IS_NULL_MSG);
             }
 
-            if (booking.StartDate >= booking.EndDate)
+            if ((booking.StartDate >= booking.EndDate && !booking.AllDay) || booking.StartDate > booking.EndDate)
             {
                 throw new CustomException(Error.INVALID_BOOKING, Error.INVALID_BOOKING_MSG);
             }
 
             // Check conflict
-            var checkBooking = await this.CheckBookingAsync(booking.UserId, booking.StartDate, booking.EndDate);
+            var checkBooking = await this.CheckBookingAsync(booking.UserId, booking.StartDate, booking.EndDate, booking.AllDay);
             if (!checkBooking)
             {
                 throw new CustomException(Error.CONFLICT_BOOKING, Error.CONFLICT_BOOKING_MSG);
@@ -291,7 +294,7 @@ namespace VacationServer.Services
                 throw new CustomException(Error.BOOKING_NOT_FOUND, Error.BOOKING_NOT_FOUND_MSG);
             }
 
-            var checkBooking = await this.CheckBookingAsync(existingBooking.UserId, booking.StartDate, booking.EndDate, existingBooking.Id);
+            var checkBooking = await this.CheckBookingAsync(existingBooking.UserId, booking.StartDate, booking.EndDate, booking.AllDay, existingBooking.Id);
 
             if (!checkBooking)
             {
@@ -417,6 +420,54 @@ namespace VacationServer.Services
             await _context.SaveChangesAsync();
 
             return existing;
+        }
+
+        public async Task SendMailBooking(ConfigSendEmail configSendEmail, string email, Booking booking)
+        {
+            var sender = configSendEmail.Sender;
+            var username = configSendEmail.Username;
+            var password = configSendEmail.Password;
+            var host = configSendEmail.Host;
+            var port = configSendEmail.Port.ConvertToInt();
+
+            var receiver = new List<MailboxAddress>
+            {
+                new MailboxAddress("Tran Quoc Minh","tranquocminh1112@gmail.com"),
+                new MailboxAddress("Minh Tran","minhtran@futurify.vn")
+            };
+
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("Vacation Tracking", sender));
+            emailMessage.To.AddRange(receiver);
+
+            emailMessage.Subject = "Booking Vacation Day";
+
+            var mailTemplate = "<p>Dear Admin!</p>";
+            mailTemplate += "<br />";
+            mailTemplate += "<p>User {0} have been booked for the vacation day.</p>";
+            mailTemplate += "<br />";
+            mailTemplate += "<p>Start date: {1}</p>";
+            mailTemplate += "<p>End date: {2}</p>";
+            mailTemplate += "<p>Reason: {3}</p>";
+            mailTemplate += "<p>Total hours: {4} hours</p>";
+
+            emailMessage.Body = new TextPart("html")
+            {
+                Text = string.Format(mailTemplate, email, booking.StartDate, booking.EndDate, booking.Reason, booking.TotalHours)
+            };
+
+            using (var client = new SmtpClient())
+            {
+                // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                await client.ConnectAsync(host, port, false);
+                client.AuthenticationMechanisms.Remove("XOAUTH2"); // Must be removed for Gmail SMTP
+                await client.AuthenticateAsync(username, password);
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
+            }
+
         }
     }
 }

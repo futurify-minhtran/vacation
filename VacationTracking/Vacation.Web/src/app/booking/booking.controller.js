@@ -7,6 +7,7 @@
     /** @ngInject */
     function BookingController($scope, BookingService, $state, $rootScope) {
         var userId = $rootScope.$authService.Account.Id;
+        var email = $rootScope.$authService.Account.Email;
         $scope.loading = {
             create: false
         };
@@ -60,22 +61,23 @@
             $scope.error = null;
             $scope.message = null;
         };
+
+        // Remove time in datetime
+        var _removeTime = function (datetime) {
+            datetime.setHours(0);
+            datetime.setMinutes(0);
+            datetime.setSeconds(0);
+            datetime.setMilliseconds(0);
+        };
+
         $scope.addBooking = function () {
             $scope.loading.create = true;
             var model = angular.copy($scope.booking);
 
-            model.StartDate.setHours(model.StartTime.getHours());
-            model.StartDate.setMinutes(model.StartTime.getMinutes());
-            model.StartDate.setSeconds(0);
-            model.StartDate.setMilliseconds(0);
+            _removeTime(model.StartDate);
+            _removeTime(model.EndDate);
 
-            model.EndDate.setHours(model.EndTime.getHours());
-            model.EndDate.setMinutes(model.EndTime.getMinutes());
-            model.EndDate.setSeconds(0);
-            model.EndDate.setMilliseconds(0);
-
-
-            BookingService.Create(model).then(function (data) {
+            BookingService.Create(email,model).then(function (data) {
                 $scope.loading.create = false;
                 if (data.Error) {
                     $scope.error = data.Error;

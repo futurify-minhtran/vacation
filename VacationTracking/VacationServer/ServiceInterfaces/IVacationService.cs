@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Common.Core.Models;
 using VacationServer.Models;
 
 namespace VacationServer.ServiceInterfaces
@@ -12,7 +13,7 @@ namespace VacationServer.ServiceInterfaces
         Task<List<Booking>> GetByUserIdAsync(int userId, int? excludeBookingId = null);
         Task<List<Booking>> GetAllAsync();
         Task<List<Booking>> GetAllByUserIdAsync(int userId);
-        Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, int? excludeBookingId = null);
+        Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, bool allDay ,int? excludeBookingId = null);
         Task<Booking> CreateAsync(Booking booking);
         Task<Booking> UpdateAsync(Booking booking);
         Task DeleteAsync(int id);
@@ -26,5 +27,7 @@ namespace VacationServer.ServiceInterfaces
         Task<VacationConfig> GetVacationConfigAsync(string name);
         Task<VacationConfig> UpdateVacationConfigAsync(VacationConfig _vacationAsync);
         Task<VacationConfig> SetStatusVacationConfigAsync(VacationConfig vacationConfig);
+
+        Task SendMailBooking(ConfigSendEmail configSendEmail, string email, Booking booking);
     }
 }

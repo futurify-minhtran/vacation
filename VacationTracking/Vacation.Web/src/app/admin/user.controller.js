@@ -141,6 +141,7 @@
             //  })
         };
 
+        // Remove time in datetime
         var _removeTime = function (datetime) {
             datetime.setHours(0);
             datetime.setMinutes(0);

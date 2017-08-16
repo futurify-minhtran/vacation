@@ -22,10 +22,10 @@
 
         return service;
 
-        function Create(model) {
+        function Create(email,model) {
             var deferer = $q.defer();
 
-            $http.post(baseUrl + '/api/vacation/booking', model)
+            $http.post(baseUrl + '/api/vacation/booking/' + email, model)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (reponseErrors) {
