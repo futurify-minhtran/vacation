@@ -38,6 +38,13 @@
                 </a>
             </th>
             <th>
+                <a href="#" ng-click="sortColumn('RemainingDaysOff');">
+                    Remaining Days Off
+                    <span ng-if="sort == 'RemainingDaysOff' && sortType == 'desc'" class="fa fa-caret-down"></span>
+                    <span ng-if="sort == 'RemainingDaysOff' && sortType == 'asc'" class="fa fa-caret-up"></span>
+                </a>
+            </th>
+            <th>
                 Status
             </th>
             <th class="text-center">Function</th>
@@ -47,6 +54,7 @@
             <td>{{user.FirstName}}</td>
             <td>{{user.LastName}}</td>
             <td>{{user.Email}}</td>
+            <td>{{user.RemainingDaysOff}}</td>
             <td ng-if="user.Status">Active</td>
             <td ng-if="!user.Status">Inactive</td>
             <td class="text-center">

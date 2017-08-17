@@ -17,6 +17,8 @@
 
             'app.config',
 
+            'app.report',
+
             'app.stringcommon'
         ]);
 })();

@@ -268,7 +268,7 @@ namespace AuthenticationServer.Controllers
             return result.ToAccountViewModel();
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         [HttpGet, Route("update-remaining-days-off/{userId:int}/{remainingDaysOff}")]
         public async Task UpdateRemainingDaysOff(int userId, double remainingDaysOff)
         {
