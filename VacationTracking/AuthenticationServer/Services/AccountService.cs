@@ -452,6 +452,21 @@ namespace AuthenticationServer.Services
 
         }
 
+        public async Task UpdateRemainingDaysOffAsync(int userId, double remainingDaysOff)
+        {
+            var existingAccount = await this.FindByIdAsync(userId);
+
+            if(existingAccount == null)
+            {
+                throw new CustomException(Errors.ACCOUNT_NOT_FOUND, Errors.ACCOUNT_NOT_FOUND_MSG);
+            }
+
+            existingAccount.RemainingDaysOff = remainingDaysOff;
+            existingAccount.ModifiedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+        }
+
         private static string GenerateSecurityStamp()
         {
             return Guid.NewGuid().ToString("D");

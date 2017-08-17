@@ -8,6 +8,8 @@
     function BookingController($scope, BookingService, $state, $rootScope) {
         var userId = $rootScope.$authService.Account.Id;
         var email = $rootScope.$authService.Account.Email;
+        var year = (new Date()).getFullYear();
+
         $scope.loading = {
             create: false,
             delete: false
@@ -89,6 +91,11 @@
                     $scope.bookings.unshift(data.Booking);
 
                     checkBookingVacationDay();
+
+                    // update Remainng Days Off
+                    BookingService.GetRemaingDaysOff(userId, year).then(function (data) {
+                        $rootScope.$authService.UpdateRemainingDaysOff(userId, data);
+                    });
                 }
             });
         };
@@ -100,6 +107,11 @@
                     $scope.loading.delete = false;
                     $scope.bookings.splice(index, 1);
                     checkBookingVacationDay();
+
+                    // update Remainng Days Off
+                    BookingService.GetRemaingDaysOff(userId, year).then(function (data) {
+                        $rootScope.$authService.UpdateRemainingDaysOff(userId, data);
+                    });
                 });
             }
         };

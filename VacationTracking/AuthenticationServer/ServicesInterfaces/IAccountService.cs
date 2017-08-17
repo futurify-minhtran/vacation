@@ -54,5 +54,7 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task SendMailRegister(ConfigSendEmail configSendEmail, string emailRegister, string passwordRegister);
 
+        Task UpdateRemainingDaysOffAsync(int userId, double remainingDaysOff);
+
     }
 }

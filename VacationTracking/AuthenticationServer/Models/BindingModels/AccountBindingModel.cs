@@ -29,7 +29,7 @@ namespace AuthenticationServer.Models.BindingModels
 
         public string Avatar { get; set; }
 
-        public int RemainingDaysOff { get; set; }
+        public double RemainingDaysOff { get; set; }
 
         public bool Status { get; set; }
     }

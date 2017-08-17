@@ -161,5 +161,13 @@ namespace VacationServer.Controllers
 
             return result;
         }
+
+        [HttpGet, Route("get-remaining-days-off/{userId:int}/{year:int}")]
+        public async Task<double> RemainingDaysOff(int userId, int year)
+        {
+            double bookingVacationHours = await this.GetBookingVacationDay(userId, year) / 8;
+            int vacationDay = await this.GetVacationDay(userId, year);
+            return vacationDay - bookingVacationHours;
+        }
     }
 }

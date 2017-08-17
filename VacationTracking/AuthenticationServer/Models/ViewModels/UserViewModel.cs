@@ -28,7 +28,7 @@ namespace AuthenticationServer.Models.ViewModels
 
         public string Avatar { get; set; }
 
-        public int RemainingDaysOff { get; set; }
+        public double RemainingDaysOff { get; set; }
 
         public DateTime? CreatedAt { get; set; }
     }

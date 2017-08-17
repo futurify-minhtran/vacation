@@ -36,7 +36,7 @@ namespace AuthenticationServer.Models
 
         public string Avatar { get; set; }
 
-        public int RemainingDaysOff { get; set; }
+        public double RemainingDaysOff { get; set; }
 
         [Required]
         public string SecurityStamp { get; set; }

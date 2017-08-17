@@ -8,9 +8,10 @@ using AuthenticationServer.Models;
 namespace AuthenticationServer.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170817065056_Update_RemainingDaysOff_Account")]
+    partial class Update_RemainingDaysOff_Account
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

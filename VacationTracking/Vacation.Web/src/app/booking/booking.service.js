@@ -17,7 +17,8 @@
             GetVacationDay: GetVacationDay,
             GetBookingVacationDay: GetBookingVacationDay,
             CheckNewUser: CheckNewUser,
-            InitNewUser: InitNewUser
+            InitNewUser: InitNewUser,
+            GetRemaingDaysOff: GetRemaingDaysOff
         };
 
         return service;
@@ -138,6 +139,18 @@
 
             return deferer.promise;
         }
-        
+
+        function GetRemaingDaysOff(userId, year) {
+            var deferer = $q.defer();
+
+            $http.get(baseUrl + '/api/vacation/get-remaining-days-off/' + userId + '/' + year)
+                .then(function (response) {
+                    deferer.resolve(response.data);
+                }, function (responseErrors) {
+                    deferer.reject(responseErrors.data);
+                });
+
+            return deferer.promise;
+        }
     }
 })();
