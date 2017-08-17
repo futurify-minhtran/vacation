@@ -1,8 +1,21 @@
 ﻿body {
-    .uib-timepicker{ 
+    .uib-timepicker {
         .uib-time {
             width: 60px;
         }
     }
 
+    .loading {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        background: white;
+        background: rgba(255,255,255,0);
+        width: 100%;
+        height: 100%;
+        cursor: progress;
+    }
 }

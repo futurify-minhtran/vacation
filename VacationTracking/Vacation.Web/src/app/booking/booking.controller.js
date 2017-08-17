@@ -9,7 +9,8 @@
         var userId = $rootScope.$authService.Account.Id;
         var email = $rootScope.$authService.Account.Email;
         $scope.loading = {
-            create: false
+            create: false,
+            delete: false
         };
 
         // Init vacation day default is 12
@@ -62,20 +63,20 @@
             $scope.message = null;
         };
 
-        // Remove time in datetime
-        var _removeTime = function (datetime) {
-            datetime.setHours(0);
-            datetime.setMinutes(0);
-            datetime.setSeconds(0);
-            datetime.setMilliseconds(0);
+        // add timepicker to datepicker
+        var _addTime = function (datepicker, timepicker) {
+            datepicker.setHours(timepicker.getHours());
+            datepicker.setMinutes(timepicker.getMinutes());
+            datepicker.setSeconds(0);
+            datepicker.setMilliseconds(0);
         };
 
         $scope.addBooking = function () {
             $scope.loading.create = true;
             var model = angular.copy($scope.booking);
 
-            _removeTime(model.StartDate);
-            _removeTime(model.EndDate);
+            _addTime(model.StartDate,model.StartTime);
+            _addTime(model.EndDate,model.EndTime);
 
             BookingService.Create(email,model).then(function (data) {
                 $scope.loading.create = false;
@@ -94,7 +95,9 @@
 
         $scope.deleteBooking = function (booking, index) {
             if (confirm('Are you sure to delete No.' + (index + 1))) {
-                BookingService.Delete(booking.Id).then(function () {
+                $scope.loading.delete = true;
+                BookingService.Delete(booking.Id,email).then(function () {
+                    $scope.loading.delete = false;
                     $scope.bookings.splice(index, 1);
                     checkBookingVacationDay();
                 });

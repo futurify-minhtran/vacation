@@ -73,6 +73,7 @@ namespace VacationServer
             //services.AddScoped<IPermissionService, PermissionService>();
 
             services.AddSingleton<IConfiguration>(Configuration.GetSection("VacationConfig"));
+            services.Configure<List<ConfigReceiveEmail>>(Configuration.GetSection("ConfigReceiveEmail"));
 
             services.Configure<ConfigSendEmail>(Configuration.GetSection("ConfigSendEmail"));
 

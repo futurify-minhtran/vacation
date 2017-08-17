@@ -74,10 +74,10 @@
             return deferer.promise;
         }
 
-        function Delete(id) {
+        function Delete(id,email) {
             var deferer = $q.defer();
 
-            $http.delete(baseUrl + '/api/vacation/booking/' + id)
+            $http.delete(baseUrl + '/api/vacation/booking/' + id + '/' + email)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {

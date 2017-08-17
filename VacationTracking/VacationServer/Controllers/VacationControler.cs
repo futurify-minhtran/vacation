@@ -43,7 +43,7 @@ namespace VacationServer.Controllers
                 var bookingViewModel = bookingModel.ToViewMode();
 
                 // Send mail
-                await _vacationService.SendMailBooking(_configSendEmail, email, bookingModel);
+                //await _vacationService.SendMailBooking(_configSendEmail, email, bookingModel);
 
                 return Json(new { Booking = bookingViewModel });
             }
@@ -86,10 +86,13 @@ namespace VacationServer.Controllers
             return updatedBookingModel;
         }
 
-        [HttpDelete, Route("booking/{id:int}")]
-        public async Task Delete(int id)
+        [HttpDelete, Route("booking/{id:int}/{email}")]
+        public async Task Delete(int id, string email)
         {
-            await _vacationService.DeleteAsync(id);
+            var bookingModel = await _vacationService.DeleteAsync(id);
+
+            // Send mail
+            // await _vacationService.SendMailCancelBooking(_configSendEmail, email, bookingModel);
         }
 
         [HttpGet, Route("{userId:int}/{year:int}")]

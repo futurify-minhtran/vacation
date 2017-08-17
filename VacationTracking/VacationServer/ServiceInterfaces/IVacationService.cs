@@ -16,7 +16,7 @@ namespace VacationServer.ServiceInterfaces
         Task<bool> CheckBookingAsync(int userId, DateTime startDate, DateTime endDate, bool allDay ,int? excludeBookingId = null);
         Task<Booking> CreateAsync(Booking booking);
         Task<Booking> UpdateAsync(Booking booking);
-        Task DeleteAsync(int id);
+        Task<Booking> DeleteAsync(int id);
 
         Task<int> GetVacationDay(int userId, int year);
         Task<double> GetBookingVacationDay(int userId, int year);
@@ -29,5 +29,7 @@ namespace VacationServer.ServiceInterfaces
         Task<VacationConfig> SetStatusVacationConfigAsync(VacationConfig vacationConfig);
 
         Task SendMailBooking(ConfigSendEmail configSendEmail, string email, Booking booking);
+
+        Task SendMailCancelBooking(ConfigSendEmail configSendEmail, string email, Booking booking);
     }
 }

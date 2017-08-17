@@ -8,6 +8,7 @@ using App.Common.Core.Models;
 using MailKit.Net.Smtp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using VacationServer.Models;
 using VacationServer.Resources;
@@ -19,11 +20,12 @@ namespace VacationServer.Services
     {
         private VacationDbContext _context;
         private IConfiguration _vacationConfig;
-
-        public VacationService(VacationDbContext context, IConfiguration vacationConfig)
+        private List<ConfigReceiveEmail> _configReceiveEmail;
+        public VacationService(VacationDbContext context, IConfiguration vacationConfig, IOptions<List<ConfigReceiveEmail>> configReceiveEmail)
         {
             _context = context;
             _vacationConfig = vacationConfig;
+            _configReceiveEmail = configReceiveEmail.Value;
         }
 
         public async Task<Booking> GetByIdAsync(int id)
@@ -313,7 +315,7 @@ namespace VacationServer.Services
             return existingBooking;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Booking> DeleteAsync(int id)
         {
             var existingBooking = await this.GetByIdAsync(id);
             if (existingBooking == null)
@@ -323,6 +325,8 @@ namespace VacationServer.Services
 
             _context.Bookings.Remove(existingBooking);
             await _context.SaveChangesAsync();
+
+            return existingBooking;
         }
 
         public async Task<int> GetVacationDay(int userId, int year)
@@ -430,26 +434,84 @@ namespace VacationServer.Services
             var host = configSendEmail.Host;
             var port = configSendEmail.Port.ConvertToInt();
 
-            var receiver = new List<MailboxAddress>
-            {
-                new MailboxAddress("Tran Quoc Minh","tranquocminh1112@gmail.com"),
-                new MailboxAddress("Minh Tran","minhtran@futurify.vn")
-            };
-
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("Vacation Tracking", sender));
-            emailMessage.To.AddRange(receiver);
+            foreach (var receive in _configReceiveEmail)
+            {
+                emailMessage.To.Add(new MailboxAddress(receive.Name, receive.Address));
+            }
 
-            emailMessage.Subject = "Booking Vacation Day";
+            emailMessage.Subject = email + " have been booked for the vacation day";
 
             var mailTemplate = "<p>Dear Admin!</p>";
             mailTemplate += "<br />";
             mailTemplate += "<p>User {0} have been booked for the vacation day.</p>";
             mailTemplate += "<br />";
-            mailTemplate += "<p>Start date: {1}</p>";
-            mailTemplate += "<p>End date: {2}</p>";
+            if (booking.AllDay)
+            {
+                mailTemplate += "<p>Start date: {1:dd/MM/yyyy}</p>";
+                mailTemplate += "<p>End date: {2:dd/MM/yyyy}</p>";
+            }
+            else
+            {
+                mailTemplate += "<p>Start date: {1}</p>";
+                mailTemplate += "<p>End date: {2}</p>";
+            }
             mailTemplate += "<p>Reason: {3}</p>";
-            mailTemplate += "<p>Total hours: {4} hours</p>";
+            mailTemplate += "<p>Vacation duration: {4} hours</p>";
+
+            emailMessage.Body = new TextPart("html")
+            {
+                Text = string.Format(mailTemplate, email, booking.StartDate, booking.EndDate, booking.Reason, booking.TotalHours)
+            };
+
+            using (var client = new SmtpClient())
+            {
+                // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                await client.ConnectAsync(host, port, false);
+                client.AuthenticationMechanisms.Remove("XOAUTH2"); // Must be removed for Gmail SMTP
+                await client.AuthenticateAsync(username, password);
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
+            }
+
+        }
+
+        public async Task SendMailCancelBooking(ConfigSendEmail configSendEmail, string email, Booking booking)
+        {
+            var sender = configSendEmail.Sender;
+            var username = configSendEmail.Username;
+            var password = configSendEmail.Password;
+            var host = configSendEmail.Host;
+            var port = configSendEmail.Port.ConvertToInt();
+
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("Vacation Tracking", sender));
+            foreach (var receive in _configReceiveEmail)
+            {
+                emailMessage.To.Add(new MailboxAddress(receive.Name, receive.Address));
+            }
+
+            emailMessage.Subject = email + " have been cancelled booking for the vacation day";
+
+            var mailTemplate = "<p>Dear Admin!</p>";
+            mailTemplate += "<br />";
+            mailTemplate += "<p>User {0} have been cancelled booking for the vacation day.</p>";
+            mailTemplate += "<br />";
+            if (booking.AllDay)
+            {
+                mailTemplate += "<p>Start date: {1:dd/MM/yyyy}</p>";
+                mailTemplate += "<p>End date: {2:dd/MM/yyyy}</p>";
+            }
+            else
+            {
+                mailTemplate += "<p>Start date: {1}</p>";
+                mailTemplate += "<p>End date: {2}</p>";
+            }
+            mailTemplate += "<p>Reason: {3}</p>";
+            mailTemplate += "<p>Vacation duration: {4} hours</p>";
 
             emailMessage.Body = new TextPart("html")
             {
