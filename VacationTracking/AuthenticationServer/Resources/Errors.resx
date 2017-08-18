@@ -129,6 +129,24 @@
   <data name="ACCOUNT_NOT_FOUND_MSG" xml:space="preserve">
     <value>The account cannot be found</value>
   </data>
+  <data name="ACCOUNT_PERMISSION_EXIST" xml:space="preserve">
+    <value>ACCOUNT_PERMISSION_EXIST</value>
+  </data>
+  <data name="ACCOUNT_PERMISSION_EXIST_MSG" xml:space="preserve">
+    <value>The account permission has been existed</value>
+  </data>
+  <data name="ACCOUNT_PERMISSION_NOT_FOUND" xml:space="preserve">
+    <value>ACCOUNT_PERMISSION_NOT_FOUND</value>
+  </data>
+  <data name="ACCOUNT_PERMISSION_NOT_FOUND_MSG" xml:space="preserve">
+    <value>The account permission can not be found</value>
+  </data>
+  <data name="ACCOUNT_PERMISSION_NOT_NULL" xml:space="preserve">
+    <value>ACCOUNT_PERMISSION_NOT_NULL</value>
+  </data>
+  <data name="ACCOUNT_PERMISSION_NOT_NULL_MSG" xml:space="preserve">
+    <value>The account permission is not null</value>
+  </data>
   <data name="EMAIL_ALREADY_IN_USE" xml:space="preserve">
     <value>EMAIL_ALREADY_IN_USE</value>
   </data>

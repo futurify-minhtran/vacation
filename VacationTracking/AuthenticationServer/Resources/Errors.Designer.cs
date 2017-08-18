@@ -98,6 +98,60 @@ namespace AuthenticationServer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ACCOUNT_PERMISSION_EXIST.
+        /// </summary>
+        internal static string ACCOUNT_PERMISSION_EXIST {
+            get {
+                return ResourceManager.GetString("ACCOUNT_PERMISSION_EXIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The account permission has been existed.
+        /// </summary>
+        internal static string ACCOUNT_PERMISSION_EXIST_MSG {
+            get {
+                return ResourceManager.GetString("ACCOUNT_PERMISSION_EXIST_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ACCOUNT_PERMISSION_NOT_FOUND.
+        /// </summary>
+        internal static string ACCOUNT_PERMISSION_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("ACCOUNT_PERMISSION_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The account permission can not be found.
+        /// </summary>
+        internal static string ACCOUNT_PERMISSION_NOT_FOUND_MSG {
+            get {
+                return ResourceManager.GetString("ACCOUNT_PERMISSION_NOT_FOUND_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ACCOUNT_PERMISSION_NOT_NULL.
+        /// </summary>
+        internal static string ACCOUNT_PERMISSION_NOT_NULL {
+            get {
+                return ResourceManager.GetString("ACCOUNT_PERMISSION_NOT_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The account permission is not null.
+        /// </summary>
+        internal static string ACCOUNT_PERMISSION_NOT_NULL_MSG {
+            get {
+                return ResourceManager.GetString("ACCOUNT_PERMISSION_NOT_NULL_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EMAIL_ALREADY_IN_USE.
         /// </summary>
         internal static string EMAIL_ALREADY_IN_USE {

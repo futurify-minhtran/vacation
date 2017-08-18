@@ -121,6 +121,18 @@ namespace AuthenticationServer.Services
                 throw new CustomException(Errors.ACCOUNT_NOT_FOUND, Errors.ACCOUNT_NOT_FOUND_MSG);
             }
 
+            if(existingAccount.IsSystemAdmin != accountBindingModel.IsSystemAdmin)
+            {
+                var permissionAdmin = await this.GetAccountPermissionAsync(existingAccount.Id, "ADMIN");
+                if(permissionAdmin == null)
+                {
+                    await this.CreateAccountPermission(existingAccount.Id, "ADMIN");
+                } else
+                {
+                    await this.DeleteAccountPermission(existingAccount.Id, "ADMIN");
+                }
+            }
+
             existingAccount.IsSystemAdmin = accountBindingModel.IsSystemAdmin;
             existingAccount.FirstName = accountBindingModel.FirstName;
             existingAccount.LastName = accountBindingModel.LastName;
@@ -464,6 +476,53 @@ namespace AuthenticationServer.Services
             existingAccount.RemainingDaysOff = remainingDaysOff;
             existingAccount.ModifiedAt = DateTime.Now;
 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<AccountPermission> GetAccountPermissionAsync(int userId, string permissionId)
+        {
+            return await _context.AccountsPermissions.FirstOrDefaultAsync(ap => ap.AccountId == userId && ap.PermissionId == permissionId);
+        }
+
+        public async Task<AccountPermission> CreateAccountPermission(int userId, string permissionId)
+        {
+            if (userId == 0 || string.IsNullOrEmpty(permissionId))
+            {
+                throw new CustomException(Errors.ACCOUNT_PERMISSION_NOT_NULL, Errors.ACCOUNT_PERMISSION_NOT_NULL_MSG);
+            }
+
+            var existing = await this.GetAccountPermissionAsync(userId, permissionId);
+            if (existing != null)
+            {
+                throw new CustomException(Errors.ACCOUNT_PERMISSION_EXIST, Errors.ACCOUNT_PERMISSION_EXIST_MSG);
+            }
+
+            var accountPermission = new AccountPermission()
+            {
+                AccountId = userId,
+                PermissionId = permissionId
+            };
+
+            _context.Add(accountPermission);
+            await _context.SaveChangesAsync();
+
+            return accountPermission;
+        }
+
+        public async Task DeleteAccountPermission(int userId, string permissionId)
+        {
+            if(userId == 0 || string.IsNullOrEmpty(permissionId))
+            {
+                throw new CustomException(Errors.ACCOUNT_PERMISSION_NOT_NULL, Errors.ACCOUNT_PERMISSION_NOT_NULL_MSG);
+            }
+
+            var existing = await this.GetAccountPermissionAsync(userId, permissionId);
+            if(existing == null)
+            {
+                throw new CustomException(Errors.ACCOUNT_PERMISSION_NOT_FOUND, Errors.ACCOUNT_PERMISSION_NOT_FOUND_MSG);
+            }
+
+            _context.Remove(existing);
             await _context.SaveChangesAsync();
         }
 
