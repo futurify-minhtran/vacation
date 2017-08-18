@@ -24,17 +24,8 @@
                     }
                 },
                 protect: true,
-                permissions: ['USER', 'ADMIN']
+                permissions: ['ADMIN', 'USER']
             });
-            //.state('app.booking_', {
-            //    url: '/booking/',
-            //    views: {
-            //        'main@': {
-            //            templateUrl: '',
-            //            controller: 'Controller as vm'
-            //        }
-            //    }
-            //})
     }
 
 })();

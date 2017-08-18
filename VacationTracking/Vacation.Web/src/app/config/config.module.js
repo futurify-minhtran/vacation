@@ -22,7 +22,7 @@
                     }
                 },
                 protect: true,
-                permissions: ['USER']
+                permissions: ['ADMIN']
             });
     }
 

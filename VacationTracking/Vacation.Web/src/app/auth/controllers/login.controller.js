@@ -9,7 +9,7 @@
     function LoginController($scope, AuthenticationService, $state, $timeout) {
 
         if (AuthenticationService.IsAuthenticated) {
-            $state.go('app.admin_user');
+            $state.go('app.booking');
         }
 
         $scope.loginForm = {
@@ -26,7 +26,7 @@
             $scope.loggingIn = true;
             AuthenticationService.SignInAsync($scope.loginForm.Email, $scope.loginForm.Password, $scope.loginForm.Remember).then(function () {
                 $scope.loggingIn = false;
-                $state.go('app.admin_user');
+                $state.go('app.booking');
 
             }, function (error) {
                 $timeout(function () {
@@ -51,11 +51,3 @@
         };
     }
 })();
-
-// success
-//if (AuthenticationService.Permissions.indexOf('JOBSEEKER') != -1 && AuthenticationService.Permissions.length == 1) {
-//    ctrl.error = { denied: true };
-//    AuthenticationService.SignOut();
-//} else {
-//    $state.go('app.dashboard')
-//}

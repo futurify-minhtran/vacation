@@ -136,7 +136,7 @@
                     }
                 },
                 protect: true,
-                permissions: ['USER', 'ADMIN']
+                permissions: ['ADMIN', 'USER']
             })
             .state('app.auth_forgot-password', {
                 url: '/forgot-password',
@@ -177,7 +177,7 @@
                     }
                 },
                 protect: true,
-                permissions: ['USER', 'ADMIN']
+                permissions: ['ADMIN', 'USER']
             });
     }
 })();

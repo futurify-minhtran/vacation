@@ -24,7 +24,7 @@
                     }
                 },
                 protect: true,
-                permissions: ['ADMIN', 'USER']
+                permissions: ['ADMIN']
             });
     }
 })();

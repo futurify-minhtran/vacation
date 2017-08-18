@@ -49,7 +49,7 @@
 
                 // Get by userId & by month
                 else {
-                    ReportService.GetAllByUserIdWithMonth($scope.user,$scope.year,$scope.month).then(function (data) {
+                    ReportService.GetAllByUserIdWithMonth($scope.user, $scope.year, $scope.month).then(function (data) {
                         $scope.bookings = data.Bookings;
                         $scope.totalHours = data.TotalHours;
                     });
@@ -58,7 +58,7 @@
                     $scope.remainingDaysOff = data * 8;
                 });
             }
-        }
+        };
 
         $scope.hasChange();
     }
