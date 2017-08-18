@@ -34,8 +34,11 @@
     <tbody ng-repeat="bookingPerUserId in bookings">
         <tr ng-if="bookingPerUserId.TotalHours" class="user">
             <td></td>
-            <td colspan="3" class="cornflowerblue"><b>User</b>: {{bookingPerUserId.Bookings[0].UserId}}</td>
-            <td>{{bookingPerUserId.TotalHours}} hours</td>
+            <td colspan="3" class="cornflowerblue">
+                User: <b>{{emails[bookingPerUserId.Bookings[0].UserId]}}</b><br/> 
+                Remaining days off: <b>{{remainingDaysOffs[bookingPerUserId.Bookings[0].UserId] * 8}}</b> hours
+            </td>
+            <td><b>{{bookingPerUserId.TotalHours}}</b> hours</td>
         </tr>
         <tr ng-repeat="booking in bookingPerUserId.Bookings">
             <td>{{$index+1}}</td>
@@ -49,11 +52,3 @@
     </tbody>
 
 </table>
-<!--<div class="row">
-    <div class="col-lg-4">
-        <div class="form-group input-group">
-            <span class="input-group-addon">Remaining Days Off</span>
-            <span class="form-control">{{remainingDaysOff == null ? "None" : remainingDaysOff + " hours"}}</span>
-        </div>
-    </div>
-</div>-->

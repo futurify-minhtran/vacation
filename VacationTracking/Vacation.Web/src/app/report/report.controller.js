@@ -9,10 +9,18 @@
     /** @ngInject */
     function ReportController($scope, $rootScope, $state, ReportService, UserService, BookingService) {
         $scope.bookings = null;
-        $scope.remainingDaysOff = null;
+        $scope.remainingDaysOffs = [];
+        $scope.emails = [];
 
         UserService.GetUsersPaging(1000, 1, '', 'Id', 'asc').then(function (data) {
             $scope.users = data;
+
+            for (var i = 0; i < data.length; i++) {
+                var user = data[i];
+                $scope.emails[user.Id] = user.Email;
+                $scope.remainingDaysOffs[user.Id] = user.RemainingDaysOff;
+            }
+
         });
         $scope.year = (new Date()).getFullYear();
         $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -32,7 +40,6 @@
                         $scope.bookings = data;
                     });
                 }
-                //$scope.remainingDaysOff = null;
             }
             // Get by userId
             else {
@@ -49,11 +56,12 @@
                         $scope.bookings = { data };
                     });
                 }
-                //BookingService.GetRemaingDaysOff($scope.user, $scope.year).then(function (data) {
-                //    $scope.remainingDaysOff = data * 8;
-                //});
+                BookingService.GetRemaingDaysOff($scope.user, $scope.year).then(function (data) {
+                    $scope.remainingDaysOff = data * 8;
+                });
             }
         };
+
 
         $scope.hasChange();
     }
