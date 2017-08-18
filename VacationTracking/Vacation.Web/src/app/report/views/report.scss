@@ -1,0 +1,14 @@
+﻿#page-wrapper {
+    #content {
+        #report {
+            > tfoot {
+                > tr {
+                    > td {
+                        font-weight:bold;
+                        color:deepskyblue;
+                    }
+                }
+            }
+        }
+    }
+}

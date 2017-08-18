@@ -13,6 +13,7 @@
         var service = {
             GetAll: GetAll,
             GetAllByUserId: GetAllByUserId,
+            GetAllByMonth: GetAllByMonth,
             GetAllByUserIdWithMonth: GetAllByUserIdWithMonth
         }
 
@@ -35,6 +36,19 @@
             var deferer = $q.defer();
 
             $http.get(baseUrl + '/api/report/' + userId)
+                .then(function (response) {
+                    deferer.resolve(response.data);
+                }, function (responseErrors) {
+                    deferer.reject(responseErrors.data);
+                });
+
+            return deferer.promise;
+        }
+
+        function GetAllByMonth(year,month) {
+            var deferer = $q.defer();
+
+            $http.get(baseUrl + '/api/report/' + year + '/' + month)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {

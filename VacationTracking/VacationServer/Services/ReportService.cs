@@ -25,6 +25,11 @@ namespace VacationServer.Services
         {
             return await _context.Bookings.Where(b => b.UserId == userId).ToListAsync();
         }
+
+        public async Task<List<Booking>> GetAllAsync(int year, int month)
+        {
+            return await _context.Bookings.Where(b => b.EndDate.Year == year && b.EndDate.Month == month).ToListAsync();
+        }
         public async Task<List<Booking>> GetAllAsync(int userId, int year, int month)
         {
             return await _context.Bookings.Where(b => b.UserId == userId && b.EndDate.Year == year && b.EndDate.Month == month).ToListAsync();

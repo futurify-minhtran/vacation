@@ -10,6 +10,7 @@ namespace VacationServer.ServiceInterfaces
     {
         Task<List<Booking>> GetAllAsync();
         Task<List<Booking>> GetAllAsync(int userId);
+        Task<List<Booking>> GetAllAsync(int year, int month);
         Task<List<Booking>> GetAllAsync(int userId, int year, int month);
     }
 }

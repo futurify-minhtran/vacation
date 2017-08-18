@@ -19,20 +19,78 @@ namespace VacationServer.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Booking>> GetAll(){
-            return await _reportService.GetAllAsync();
+        public async Task<ActionResult> GetAll(){
+            var bookings = await _reportService.GetAllAsync();
+
+            double totalHours = 0;
+
+            foreach(var booking in bookings)
+            {
+                totalHours += booking.TotalHours;
+            }
+
+            return Json(new
+            {
+                Bookings = bookings,
+                TotalHours = totalHours
+            });
         }
 
         [HttpGet, Route("{userId}")]
-        public async Task<List<Booking>> GetAll(int userId)
+        public async Task<ActionResult> GetAll(int userId)
         {
-            return await _reportService.GetAllAsync(userId);
+            var bookings = await _reportService.GetAllAsync(userId);
+
+            double totalHours = 0;
+
+            foreach (var booking in bookings)
+            {
+                totalHours += booking.TotalHours;
+            }
+
+            return Json(new
+            {
+                Bookings = bookings,
+                TotalHours = totalHours
+            });
+        }
+
+        [HttpGet, Route("{year:int}/{month:int}")]
+        public async Task<ActionResult> GetAll(int year, int month)
+        {
+            var bookings = await _reportService.GetAllAsync(year, month + 1);
+
+            double totalHours = 0;
+
+            foreach (var booking in bookings)
+            {
+                totalHours += booking.TotalHours;
+            }
+
+            return Json(new
+            {
+                Bookings = bookings,
+                TotalHours = totalHours
+            });
         }
 
         [HttpGet, Route("{userId:int}/{year:int}/{month:int}")]
-        public async Task<List<Booking>> GetAll(int userId, int year, int month)
+        public async Task<ActionResult> GetAll(int userId, int year, int month)
         {
-            return await _reportService.GetAllAsync(userId,year,month+1);
+            var bookings = await _reportService.GetAllAsync(userId,year,month+1);
+
+            double totalHours = 0;
+
+            foreach (var booking in bookings)
+            {
+                totalHours += booking.TotalHours;
+            }
+
+            return Json(new
+            {
+                Bookings = bookings,
+                TotalHours = totalHours
+            });
         }
 
     }
