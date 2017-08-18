@@ -11,6 +11,7 @@
 
         var service = {
             Create: Create,
+            Update: Update,
             GetAll: GetAll,
             GetAllByUserId: GetAllByUserId,
             Delete: Delete,
@@ -36,10 +37,10 @@
             return deferer.promise;
         }
 
-        function Update(model) {
+        function Update(email,model) {
             var deferer = $q.defer();
 
-            $http.put(baseUrl + '/api/vacation/booking', model)
+            $http.put(baseUrl + '/api/vacation/booking/' + email, model)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (reponseErrors) {

@@ -12,7 +12,8 @@
 
         $scope.loading = {
             create: false,
-            delete: false
+            delete: false,
+            update: false
         };
 
         // Init vacation day default is 12
@@ -162,5 +163,42 @@
             return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
         }
 
+        // update booking
+        $scope.editBooking = function (booking, index) {
+            $scope.clearMessage();
+            $scope.booking = angular.copy(booking);
+            $scope.editIndex = index;
+            $scope.booking.StartDate = new Date(booking.StartDate);
+            $scope.booking.EndDate = new Date(booking.EndDate);
+            $scope.booking.StartTime = new Date(booking.StartDate);
+            $scope.booking.EndTime = new Date(booking.EndDate);
+        };
+
+        $scope.updateBooking = function () {
+            $scope.loading.update = true;
+            var model = angular.copy($scope.booking);
+
+            _addTime(model.StartDate, model.StartTime);
+            _addTime(model.EndDate, model.EndTime);
+           
+            BookingService.Update(email, model).then(function (data) {
+                $scope.loading.update = false;
+                if (data.Error) {
+                    $scope.error = data.Error;
+                } else {
+                    //$scope.booking = data.Booking;
+                    $scope.success = "Update booking success";
+                    $('#editBookingModal').modal('hide');
+                    $scope.bookings[$scope.editIndex] = data.Booking;
+
+                    checkBookingVacationDay();
+
+                    // update Remainng Days Off
+                    BookingService.GetRemaingDaysOff(userId, year).then(function (data) {
+                        $rootScope.$authService.UpdateRemainingDaysOff(userId, data);
+                    });
+                }
+            });
+        };
     }
 })();

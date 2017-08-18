@@ -71,19 +71,30 @@ namespace VacationServer.Controllers
             return await _vacationService.GetAllByUserIdAsync(userId);
         }
 
-        [HttpPut, Route("booking")]
-        public async Task<Booking> Update([FromBody]BookingBindingModel bookingBindingModel)
+        [HttpPut, Route("booking/{email}")]
+        public async Task<ActionResult> Update([FromBody]BookingBindingModel bookingBindingModel, string email)
         {
-            if (bookingBindingModel == null || !ModelState.IsValid)
+            try
             {
-                throw new CustomException(Error.INVALID_REQUEST, Error.INVALID_REQUEST_MSG);
+                if (bookingBindingModel == null || !ModelState.IsValid)
+                {
+                    throw new CustomException(Error.INVALID_REQUEST, Error.INVALID_REQUEST_MSG);
+                }
+
+                var bookingModel = bookingBindingModel.ToModel();
+
+                var updatedBookingModel = await _vacationService.UpdateAsync(bookingModel);
+
+                var bookingViewModel = updatedBookingModel.ToViewMode();
+
+                // Send mail
+                //await _vacationService.SendMailEditBooking(_configSendEmail, email, updatedBookingModel);
+
+                return Json(new { Booking = bookingViewModel });
+            } catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
             }
-
-            var bookingModel = bookingBindingModel.ToModel();
-
-            var updatedBookingModel = await _vacationService.UpdateAsync(bookingModel);
-
-            return updatedBookingModel;
         }
 
         [HttpDelete, Route("booking/{id:int}/{email}")]

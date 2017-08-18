@@ -31,5 +31,7 @@ namespace VacationServer.ServiceInterfaces
         Task SendMailBooking(ConfigSendEmail configSendEmail, string email, Booking booking);
 
         Task SendMailCancelBooking(ConfigSendEmail configSendEmail, string email, Booking booking);
+
+        Task SendMailEditBooking(ConfigSendEmail configSendEmail, string email, Booking booking);
     }
 }
