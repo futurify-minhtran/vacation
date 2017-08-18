@@ -56,5 +56,11 @@ namespace AuthenticationServer.ServicesInterfaces
 
         Task UpdateRemainingDaysOffAsync(int userId, double remainingDaysOff);
 
+        Task<AccountPermission> GetAccountPermissionAsync(int userId, string permissionId);
+
+        Task<AccountPermission> CreateAccountPermission(int userId, string permissionId);
+
+        Task DeleteAccountPermission(int userId, string permissionId);
+
     }
 }

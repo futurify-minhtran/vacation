@@ -22,18 +22,25 @@ namespace VacationServer.Controllers
         public async Task<ActionResult> GetAll(){
             var bookings = await _reportService.GetAllAsync();
 
-            double totalHours = 0;
 
-            foreach(var booking in bookings)
+            var result = new List<Object>();
+
+            foreach(var bookingsPerUserId in bookings)
             {
-                totalHours += booking.TotalHours;
+                double totalHours = 0;
+
+                foreach (var booking in bookingsPerUserId)
+                {
+                    totalHours += booking.TotalHours;
+                }
+                result.Add(new
+                {
+                    Bookings = bookingsPerUserId,
+                    TotalHours = totalHours
+                });
             }
 
-            return Json(new
-            {
-                Bookings = bookings,
-                TotalHours = totalHours
-            });
+            return Json(result);
         }
 
         [HttpGet, Route("{userId}")]
@@ -60,18 +67,25 @@ namespace VacationServer.Controllers
         {
             var bookings = await _reportService.GetAllAsync(year, month + 1);
 
-            double totalHours = 0;
 
-            foreach (var booking in bookings)
+            var result = new List<Object>();
+
+            foreach (var bookingsPerUserId in bookings)
             {
-                totalHours += booking.TotalHours;
+                double totalHours = 0;
+
+                foreach (var booking in bookingsPerUserId)
+                {
+                    totalHours += booking.TotalHours;
+                }
+                result.Add(new
+                {
+                    Bookings = bookingsPerUserId,
+                    TotalHours = totalHours
+                });
             }
 
-            return Json(new
-            {
-                Bookings = bookings,
-                TotalHours = totalHours
-            });
+            return Json(result);
         }
 
         [HttpGet, Route("{userId:int}/{year:int}/{month:int}")]

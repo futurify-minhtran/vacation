@@ -4,11 +4,19 @@
             > tfoot {
                 > tr {
                     > td {
-                        font-weight:bold;
-                        color:deepskyblue;
+                        font-weight: bold;
+                        color: deepskyblue;
                     }
                 }
             }
         }
     }
+}
+
+.user {
+    background-color: aliceblue !important;
+}
+
+.cornflowerblue {
+    color: cornflowerblue;
 }

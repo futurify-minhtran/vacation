@@ -17,22 +17,42 @@ namespace VacationServer.Services
             _context = context;
         }
 
-        public async Task<List<Booking>> GetAllAsync()
+        public async Task<List<List<Booking>>> GetAllAsync()
         {
-            return await _context.Bookings.ToListAsync();
+            var userIds = _context.Bookings.Select(b => b.UserId).Distinct();
+
+            var bookings = new List<List<Booking>>();
+
+            foreach(var userId in userIds)
+            {
+                var bookingsPerUserId = await this.GetAllAsync(userId);
+                bookings.Add(bookingsPerUserId);
+            }
+
+            return bookings;
         }
         public async Task<List<Booking>> GetAllAsync(int userId)
         {
-            return await _context.Bookings.Where(b => b.UserId == userId).ToListAsync();
+            return await _context.Bookings.Where(b => b.UserId == userId).OrderBy(b => b.StartDate).ToListAsync();
         }
 
-        public async Task<List<Booking>> GetAllAsync(int year, int month)
+        public async Task<List<List<Booking>>> GetAllAsync(int year, int month)
         {
-            return await _context.Bookings.Where(b => b.EndDate.Year == year && b.EndDate.Month == month).ToListAsync();
+            var userIds = _context.Bookings.Select(b => b.UserId).Distinct();
+
+            var bookings = new List<List<Booking>>();
+
+            foreach (var userId in userIds)
+            {
+                var bookingsPerUserId = await this.GetAllAsync(userId,year,month);
+                bookings.Add(bookingsPerUserId);
+            }
+
+            return bookings;
         }
         public async Task<List<Booking>> GetAllAsync(int userId, int year, int month)
         {
-            return await _context.Bookings.Where(b => b.UserId == userId && b.EndDate.Year == year && b.EndDate.Month == month).ToListAsync();
+            return await _context.Bookings.Where(b => b.UserId == userId && b.EndDate.Year == year && b.EndDate.Month == month).OrderBy(b => b.StartDate).ToListAsync();
         }
     }
 }
