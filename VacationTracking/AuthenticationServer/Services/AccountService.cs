@@ -526,7 +526,7 @@ namespace AuthenticationServer.Services
             await _context.SaveChangesAsync();
         }
 
-        private static string GenerateSecurityStamp()
+        public static string GenerateSecurityStamp()
         {
             return Guid.NewGuid().ToString("D");
         }

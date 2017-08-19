@@ -97,7 +97,7 @@ namespace AuthenticationServer.Controllers
             }
         }
 
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpPut, Route("update-user")]
         public async Task<ActionResult> UpdateUser([FromBody]UserBindingModel userBindingModel)
         {

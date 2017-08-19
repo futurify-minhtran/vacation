@@ -16,6 +16,7 @@
             GetUsersPaging: GetUsersPaging,
             Create: Create,
             Update: Update,
+            UpdateUser: UpdateUser,
             Delete: Delete,
             Detail: Detail,
             SetStatus: SetStatus
@@ -66,6 +67,19 @@
             var deferer = $q.defer();
 
             $http.put(authServer + '/api/account/update-account', model)
+                .then(function (response) {
+                    deferer.resolve(response.data);
+                }, function (responseErrors) {
+                    deferer.reject(responseErrors.data);
+                });
+
+            return deferer.promise;
+        }
+
+        function UpdateUser(model) {
+            var deferer = $q.defer();
+
+            $http.put(authServer + '/api/account/update-user', model)
                 .then(function (response) {
                     deferer.resolve(response.data);
                 }, function (responseErrors) {

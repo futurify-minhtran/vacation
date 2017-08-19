@@ -1,0 +1,81 @@
+﻿<h2>User Profile</h2>
+<div class="row">
+    <div class="col-lg-5">
+        <form name="UserProfileForm" ng-submit="updateUser();" class="user-profile">
+            <div class="form-group input-group">
+                <span class="input-group-addon">
+                    <span style="width:100px">Username:</span>
+                </span>
+                <input type="text" class="form-control" name="Email" ng-model="user.Email" ng-required="true" placeholder="Email" disabled>
+            </div>
+            <div ng-messages="UserProfileForm.FirstName.$error" style="color:red">
+                <div ng-message="required" ng-if="UserProfileForm.FirstName.$touched">Please input your First Name</div>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">First name:</span>
+                <input type="text" class="form-control" name="FirstName" ng-model="user.FirstName" ng-required="true" placeholder="First Name">
+            </div>
+            <div ng-messages="UserProfileForm.LastName.$error" style="color:red">
+                <div ng-message="required" ng-if="UserProfileForm.LastName.$touched">Please input your Last Name</div>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Last name:</span>
+                <input type="text" class="form-control" name="LastName" ng-model="user.LastName" ng-required="true" placeholder="Last Name">
+            </div>
+            <div ng-messages="UserProfileForm.Gender.$error" style="color:red">
+                <div ng-message="required" ng-if="UserProfileForm.Gender.$touched">Please choose your Gender</div>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Gender:</span>
+                <select ng-model="user.Gender"
+                        ng-options="value.id as value.name for (key, value) in genders" class="form-control"></select>
+            </div>
+            <div ng-messages="UserProfileForm.PhoneNumber.$error" style="color:red">
+                <div ng-message="required" ng-if="UserProfileForm.PhoneNumber.$touched">Please input your Phone Number</div>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Phone:</span>
+                <input type="text" class="form-control" name="PhoneNumber" ng-model="user.PhoneNumber" ng-required="true" placeholder="Phone Number">
+            </div>
+            <div ng-messages="UserProfileForm.DateOfBirth.$error" style="color:red">
+                <div ng-message="required" ng-if="UserProfileForm.DateOfBirth.$touched">Please choose your Date Of Birth</div>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Date of birth:</span>
+                <input type="text" class="form-control" name="DateOfBirth" ng-required="true" close-text="Close"
+                        uib-datepicker-popup="dd/MM/yyyy" ng-model="user.DateOfBirth"
+                        is-open="dateOfBirthPopup.opened" datepicker-options="dateOptions" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openDateOfBirthPopup();">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                </span>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Position:</span>
+                <input type="text" class="form-control" placeholder="Position" value="{{positions[user.Position].name}}" disabled>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Department:</span>
+                <input type="text" class="form-control" placeholder="Department" value="{{departments[user.Department].name}}" disabled>
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Remaining days off:</span>
+                <input type="text" class="form-control" placeholder="Remaining Days Off" value="{{user.RemainingDaysOff}}" disabled>
+            </div>
+            <div class="form-group text-align-center">
+                <button type="submit" class="btn btn-default">Update</button>
+                <br /><br />
+                
+            </div>
+        </form>
+    </div>
+</div>
+<div class="alert alert-success" ng-if="success">
+    <a class="close" ng-click="clearMessage()" aria-label="close">×</a>
+    <strong>Success! </strong><br />{{success}}
+</div>
+<div class="alert alert-danger" ng-if="error">
+    <a class="close" ng-click="clearMessage()" aria-label="close">×</a>
+    <strong>Error! </strong><br />{{error}}
+</div>

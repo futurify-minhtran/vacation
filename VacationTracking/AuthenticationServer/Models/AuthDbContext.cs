@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using AuthenticationServer.Services;
+using AuthenticationServer.Setup;
 
 namespace AuthenticationServer.Models
 {
@@ -61,6 +64,42 @@ namespace AuthenticationServer.Models
         private static void Seed(AuthDbContext context)
         {
             //seed code
+            if (!context.Accounts.Any())
+            {
+                var now = DateTime.Now;
+
+                var account = new Account()
+                {
+                    Email = "tranquocminh1112@gmail.com",
+                    FirstName = "Quoc Minh",
+                    LastName = "Tran",
+                    Gender = Gender.Male,
+                    IsSystemAdmin = true,
+                    PhoneNumber = "0906901112",
+                    DateOfBirth = new DateTime(1990, 12, 11),
+                    Position = Position.Development,
+                    Department = Department.Outsource,
+                    Status = true,
+                    Password = "123",
+                    SecurityStamp = AccountService.GenerateSecurityStamp(),
+                    CreatedAt = now,
+                    ModifiedAt = now
+                };
+
+                account.Password = (new PasswordHasher<Account>()).HashPassword(account, account.Password);
+
+                account.AccountPermissions = new List<AccountPermission>()
+                {
+                    new AccountPermission()
+                    {
+                        PermissionId = PermissionsList.ADMIN_PERMISSION
+                    }
+                };
+
+                context.Accounts.Add(account);
+
+                context.SaveChanges();
+            }
         }
     }
 }

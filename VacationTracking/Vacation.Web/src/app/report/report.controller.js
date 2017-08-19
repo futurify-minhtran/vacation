@@ -46,14 +46,14 @@
                 // Get by userId & all month
                 if (!$scope.month) {
                     ReportService.GetAllByUserId($scope.user).then(function (data) {
-                        $scope.bookings = { data };
+                        $scope.bookings =  [data];
                     });
                 }
 
                 // Get by userId & by month
                 else {
                     ReportService.GetAllByUserIdWithMonth($scope.user, $scope.year, $scope.month).then(function (data) {
-                        $scope.bookings = { data };
+                        $scope.bookings = [data];
                     });
                 }
                 BookingService.GetRemaingDaysOff($scope.user, $scope.year).then(function (data) {

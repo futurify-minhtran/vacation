@@ -25,6 +25,21 @@
                 },
                 protect: true,
                 permissions: ['ADMIN']
+            })
+            .state('app.user-profile', {
+                url: '/user-profile',
+                views: {
+                    'main@': {
+                        templateUrl: 'app/core/layouts/layout.html',
+                        controller: 'IndexController as vm'
+                    },
+                    'content@app.user-profile': {
+                        templateUrl: 'app/admin/user-profile.html',
+                        controller: 'UserProfileController as vm'
+                    }
+                },
+                protect: true,
+                permissions: ['ADMIN','USER']
             });
     }
 })();

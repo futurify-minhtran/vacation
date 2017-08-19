@@ -49,28 +49,6 @@ namespace AuthenticationServer.Setup
                             new Permission(USER_PERMISSION, "User")
                         }
                 }
-                //new PermissionsGroup
-                //{
-                //    Name = "Manage Roles",
-                //    Permissions =
-                //        new Permission[]
-                //            {
-                //                new Permission("VIEW_ROLES", "View roles"),
-                //                new Permission("CREATE_ROLE", "Create role"),
-                //                new Permission("EDIT_ROLE", "Edit role"),
-                //                new Permission("DELETE_ROLE", "Delete role")
-                //            }
-                //},
-                //new PermissionsGroup
-                //{
-                //    Name= "Manage data",
-                //    Permissions =
-                //    new Permission[]
-                //    {
-                //        new Permission("UPDATE_DATA", "Update data")
-                //    }
-
-                //}
            };
         }
 
