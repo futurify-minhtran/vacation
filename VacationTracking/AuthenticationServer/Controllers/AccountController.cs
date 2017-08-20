@@ -118,6 +118,7 @@ namespace AuthenticationServer.Controllers
             }
         }
 
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpGet, Route("{id:int}")]
         public async Task<AccountViewModel> Get(int id)
         {
@@ -126,12 +127,14 @@ namespace AuthenticationServer.Controllers
             return account.ToAccountViewModel();
         }
 
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpGet , Route("count-all")]
         public async Task<int> CountAll([FromQuery] string filter)
         {
             return await _accountService.CountAllAsync(filter);
         }
 
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpGet, Route("get-all/paging/{pageSize:int}/{page:int}")]
         public async Task<List<AccountViewModel>> GellAllPaging(int pageSize, int page, [FromQuery] string filter, [FromQuery] string sort, [FromQuery] string sortType)
         {
@@ -139,6 +142,7 @@ namespace AuthenticationServer.Controllers
             return accounts.Select(a => a.ToAccountViewModel()).ToList();
         }
 
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpGet, Route("me")]
         public async Task<AccountViewModel> MyAccount()
         {
@@ -149,7 +153,7 @@ namespace AuthenticationServer.Controllers
             return account.ToAccountViewModel();
         }
 
-        [Authorize]
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpPut, Route("me/password")]
         public async Task<ActionResult> ChangePassword([FromBody]ChangePasswordModel model)
         {
@@ -169,6 +173,7 @@ namespace AuthenticationServer.Controllers
             }
         }
 
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpGet, Route("me/permissions")]
         public IEnumerable<string> MyPermissions()
         {
@@ -181,6 +186,7 @@ namespace AuthenticationServer.Controllers
             return User.Identity.IsAuthenticated;
         }
 
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpDelete,Route("{id:int}")]
         public async Task Delete(int id)
         {
@@ -252,7 +258,7 @@ namespace AuthenticationServer.Controllers
             }
         }
 
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "ADMIN")]
         [HttpGet, Route("{id:int}/{status:bool}")]
         public async Task<AccountViewModel> SetStatusAccountAsync(int id, bool status)
         {
@@ -268,7 +274,7 @@ namespace AuthenticationServer.Controllers
             return result.ToAccountViewModel();
         }
 
-        [Authorize]
+        [Authorize(Roles = "ADMIN, USER")]
         [HttpGet, Route("update-remaining-days-off/{userId:int}/{remainingDaysOff}")]
         public async Task UpdateRemainingDaysOff(int userId, double remainingDaysOff)
         {

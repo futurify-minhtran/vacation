@@ -15,6 +15,10 @@
             AuthenticationService.ResetPassword(email, token, $scope.newPassword).then(function (data) {
                 if (data.Error) {
                     $scope.error = data.Error;
+                    $scope.message = "You must request a new reset password! Redirectly to reset password page...";
+                    $timeout(function () {
+                        $state.go('app.auth_forgot-password');
+                    }, 3000);
                 }
                 else {
                     $scope.message = "Password reset successfully! Redirectly to login page...";

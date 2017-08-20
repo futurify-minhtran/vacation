@@ -76,13 +76,15 @@ namespace VacationServer.Models
                             Name = "VacationDurationWeek",
                             Value = "1",
                             Status = true,
-                            CreatedAt = now
+                            CreatedAt = now,
+                            ModifiedAt = now
                         },
                         new VacationConfig {
                             Name = "VacationDurationMonth",
                             Value = "5",
                             Status = true,
-                            CreatedAt = now
+                            CreatedAt = now,
+                            ModifiedAt = now
                         },
                     }
                 );
