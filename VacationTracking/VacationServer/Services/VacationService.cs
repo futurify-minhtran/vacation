@@ -100,13 +100,6 @@ namespace VacationServer.Services
                 throw new CustomException(Error.INVALID_BOOKING, Error.INVALID_BOOKING_MSG);
             }
 
-            // Check conflict
-            var checkBooking = await this.CheckBookingAsync(booking.UserId, booking.StartDate, booking.EndDate, booking.AllDay);
-            if (!checkBooking)
-            {
-                throw new CustomException(Error.CONFLICT_BOOKING, Error.CONFLICT_BOOKING_MSG);
-            }
-
             var _workingTime = _vacationConfig.GetSection("WorkingTime");
             var _lunchBreak = _vacationConfig.GetSection("LunchBreak");
 
@@ -121,6 +114,19 @@ namespace VacationServer.Services
 
             var startTimeOfBooking = booking.StartDate.TimeOfDay;
             var endTimeOfBooking = booking.EndDate.TimeOfDay;
+
+            if (booking.AllDay)
+            {
+                booking.StartDate = booking.StartDate.Date + startTimeOfWorkingTime;
+                booking.EndDate = booking.EndDate.Date + endTimeOfWorkingTime;
+            }
+
+            // Check conflict
+            var checkBooking = await this.CheckBookingAsync(booking.UserId, booking.StartDate, booking.EndDate, booking.AllDay);
+            if (!checkBooking)
+            {
+                throw new CustomException(Error.CONFLICT_BOOKING, Error.CONFLICT_BOOKING_MSG);
+            }
 
             double totalHours = 0;
             var countWeekEnd = 0;
@@ -159,9 +165,6 @@ namespace VacationServer.Services
                     }
                     totalHours = (totalDays - countWeekEnd) * workingTime;
                 }
-                // Remove time in datetime
-                booking.StartDate = booking.StartDate.Date;
-                booking.EndDate = booking.EndDate.Date;
             }
             // Calculate by hours
             else
@@ -301,12 +304,7 @@ namespace VacationServer.Services
                 throw new CustomException(Error.INVALID_BOOKING, Error.INVALID_BOOKING_MSG);
             }
 
-            // Check conflict
-            var checkBooking = await this.CheckBookingAsync(existingBooking.UserId, booking.StartDate, booking.EndDate, booking.AllDay, existingBooking.Id);
-            if (!checkBooking)
-            {
-                throw new CustomException(Error.CONFLICT_BOOKING, Error.CONFLICT_BOOKING_MSG);
-            }
+            
 
             var _workingTime = _vacationConfig.GetSection("WorkingTime");
             var _lunchBreak = _vacationConfig.GetSection("LunchBreak");
@@ -322,6 +320,19 @@ namespace VacationServer.Services
 
             var startTimeOfBooking = booking.StartDate.TimeOfDay;
             var endTimeOfBooking = booking.EndDate.TimeOfDay;
+
+            if (booking.AllDay)
+            {
+                booking.StartDate = booking.StartDate.Date + startTimeOfWorkingTime;
+                booking.EndDate = booking.EndDate.Date + endTimeOfWorkingTime;
+            }
+
+            // Check conflict
+            var checkBooking = await this.CheckBookingAsync(existingBooking.UserId, booking.StartDate, booking.EndDate, booking.AllDay, existingBooking.Id);
+            if (!checkBooking)
+            {
+                throw new CustomException(Error.CONFLICT_BOOKING, Error.CONFLICT_BOOKING_MSG);
+            }
 
             double totalHours = 0;
             var countWeekEnd = 0;
@@ -360,9 +371,6 @@ namespace VacationServer.Services
                     }
                     totalHours = (totalDays - countWeekEnd) * workingTime;
                 }
-                // Remove time in datetime
-                booking.StartDate = booking.StartDate.Date;
-                booking.EndDate = booking.EndDate.Date;
             }
             // Calculate by hours
             else
