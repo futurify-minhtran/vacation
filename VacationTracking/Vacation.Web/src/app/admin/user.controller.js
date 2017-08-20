@@ -103,8 +103,11 @@
                 email: null,
                 password: null
             };
-            $scope.UserForm.$setPristine();
-            $scope.UserForm.$setUntouched();
+            $scope.AddUserForm.$setPristine();
+            $scope.AddUserForm.$setUntouched();
+            $scope.EditUserForm.$setPristine();
+            $scope.EditUserForm.$setUntouched();
+
             $scope.user = null;
             $scope.error = null;
         };

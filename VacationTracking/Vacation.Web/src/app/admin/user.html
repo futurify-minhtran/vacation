@@ -103,7 +103,7 @@
     <div class="modal-dialog modal-sm">
         <!-- Modal content-->
         <div class="modal-content">
-            <form name="UserForm" ng-submit="addUser();">
+            <form name="AddUserForm" ng-submit="addUser();">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">New User</h4>
@@ -111,60 +111,62 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" name="FirstName" ng-model="user.FirstName" ng-required="true" placeholder="First Name">
-                        <div ng-messages="UserForm.FirstName.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.FirstName.$touched">Please input your First Name</div>
+                        <div ng-messages="AddUserForm.FirstName.$error" style="color:red">
+                            <div ng-message="required" ng-if="AddUserForm.FirstName.$touched">Please input your First Name</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="LastName" ng-model="user.LastName" ng-required="true" placeholder="Last Name">
-                        <div ng-messages="UserForm.LastName.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.LastName.$touched">Please input your Last Name</div>
+                        <div ng-messages="AddUserForm.LastName.$error" style="color:red">
+                            <div ng-message="required" ng-if="AddUserForm.LastName.$touched">Please input your Last Name</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Position:</label>
-                        <select name="Position" ng-model="user.Position" ng-required="true">
-                            <!--<option ng-value="position" ng-repeat="position in positions">{{position}}</option>-->
-                            <option value="0">Staff</option>
-                        </select>
-                        <div ng-messages="UserForm.Position.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Position.$touched">Please choose your Position</div>
+                        <div class="input-group">
+                            <span class="input-group-addon">Position:</span>
+                            <select ng-model="user.Position" class="form-control" name="Position" ng-required="true" required
+                                    ng-options="value.id as value.name for (key, value) in positions">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div ng-messages="AddUserForm.Position.$error" style="color:red">
+                            <div ng-message="required" ng-if="AddUserForm.Position.$touched">Please choose your Position</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Gender:</label>
-                        <select name="Gender" ng-model="user.Gender" ng-required="true">
-                            <!--<option ng-value="gender" ng-repeat="gender in genders">{{gender}}</option>-->
-                            <option value="0">Undefine</option>
-                            <option value="1">Male</option>
-                            <option value="2">Female</option>
-                        </select>
-                        <div ng-messages="UserForm.Gender.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Gender.$touched">Please choose your Gender</div>
+                        <div class="input-group">
+                            <span class="input-group-addon">Gender:</span>
+                            <select ng-model="user.Gender" class="form-control" ng-required="true" name="Gender"
+                                    ng-options="value.id as value.name for (key, value) in genders">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div ng-messages="AddUserForm.Gender.$error" style="color:red">
+                            <div ng-message="required" ng-if="AddUserForm.Gender.$touched">Please choose your Gender</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="PhoneNumber" ng-model="user.PhoneNumber" ng-required="true" placeholder="Phone Number">
-                        <div ng-messages="UserForm.PhoneNumber.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.PhoneNumber.$touched">Please input your Phone Number</div>
+                        <div ng-messages="AddUserForm.PhoneNumber.$error" style="color:red">
+                            <div ng-message="required" ng-if="AddUserForm.PhoneNumber.$touched">Please input your Phone Number</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="email" class="form-control" name="Email" ng-model="user.Email" ng-required="true" placeholder="Email">
-                        <div ng-messages="UserForm.Email.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Email.$touched">Please input your Email</div>
+                        <div ng-messages="AddUserForm.Email.$error" style="color:red">
+                            <div ng-message="required" ng-if="AddUserForm.Email.$touched">Please input your Email</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="Password" ng-model="user.Password" ng-required="true" placeholder="Password">
-                        <div ng-messages="UserForm.Password.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Password.$touched">Please input your Password</div>
+                        <div ng-messages="AddUserForm.Password.$error" style="color:red">
+                            <div ng-message="required" ng-if="AddUserForm.Password.$touched">Please input your Password</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="ConfirmPassword" ng-model="user.ConfirmPassword" ng-required="true" placeholder="Re-type password">
-                        <div ng-messages="UserForm.ConfirmPassword.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Password.$touched">Please input your Confirm Password</div>
+                        <div ng-messages="AddUserForm.ConfirmPassword.$error" style="color:red">
+                            <div ng-message="required" ng-if="AddUserForm.Password.$touched">Please input your Confirm Password</div>
                             <div ng-if="user.Password !== user.ConfirmPassword">Password mismatch</div>
                         </div>
                     </div>
@@ -257,7 +259,7 @@
     <div class="modal-dialog modal-sm">
         <!-- Modal content-->
         <div class="modal-content">
-            <form name="UserForm" ng-submit="updateUser();">
+            <form name="EditUserForm" ng-submit="updateUser();">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Edit User</h4>
@@ -269,44 +271,44 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="FirstName" ng-model="user.FirstName" ng-required="true" placeholder="First Name">
-                        <div ng-messages="UserForm.FirstName.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.FirstName.$touched">Please input your First Name</div>
+                        <div ng-messages="EditUserForm.FirstName.$error" style="color:red">
+                            <div ng-message="required" ng-if="EditUserForm.FirstName.$touched">Please input your First Name</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="LastName" ng-model="user.LastName" ng-required="true" placeholder="Last Name">
-                        <div ng-messages="UserForm.LastName.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.LastName.$touched">Please input your Last Name</div>
+                        <div ng-messages="EditUserForm.LastName.$error" style="color:red">
+                            <div ng-message="required" ng-if="EditUserForm.LastName.$touched">Please input your Last Name</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Position:</label>
                         <select ng-model="user.Position"
                                 ng-options="value.id as value.name for (key, value) in positions"></select>
-                        <div ng-messages="UserForm.Position.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Position.$touched">Please choose your Position</div>
+                        <div ng-messages="EditUserForm.Position.$error" style="color:red">
+                            <div ng-message="required" ng-if="EditUserForm.Position.$touched">Please choose your Position</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Department:</label>
                         <select ng-model="user.Department"
                                 ng-options="value.id as value.name for (key, value) in departments"></select>
-                        <div ng-messages="UserForm.Department.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Department.$touched">Please choose your Department</div>
+                        <div ng-messages="EditUserForm.Department.$error" style="color:red">
+                            <div ng-message="required" ng-if="EditUserForm.Department.$touched">Please choose your Department</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Gender:</label>
                         <select ng-model="user.Gender"
                                 ng-options="value.id as value.name for (key, value) in genders"></select>
-                        <div ng-messages="UserForm.Gender.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.Gender.$touched">Please choose your Gender</div>
+                        <div ng-messages="EditUserForm.Gender.$error" style="color:red">
+                            <div ng-message="required" ng-if="EditUserForm.Gender.$touched">Please choose your Gender</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="PhoneNumber" ng-model="user.PhoneNumber" ng-required="true" placeholder="Phone Number">
-                        <div ng-messages="UserForm.PhoneNumber.$error" style="color:red">
-                            <div ng-message="required" ng-if="UserForm.PhoneNumber.$touched">Please input your Phone Number</div>
+                        <div ng-messages="EditUserForm.PhoneNumber.$error" style="color:red">
+                            <div ng-message="required" ng-if="EditUserForm.PhoneNumber.$touched">Please input your Phone Number</div>
                         </div>
                     </div>
                     <div class="form-group">
